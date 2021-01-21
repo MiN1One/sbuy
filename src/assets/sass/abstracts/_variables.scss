@@ -1,0 +1,47 @@
+:root {
+    --color-primary: #0652DD;
+    --color-primary-opaque: rgba(55,66,250, .4);
+    --color-primary-dark: #0549c6;
+    --color-secondary: #7fdf11;
+    --color-secondary-opaque:  rgba(127,223,17, .55);
+    --color-secondary-dark: #72c80f;
+    --color-tertiary: #FF3270;
+    --color-tertiary-opaque: rgba(255,50,112, .45);
+    --color-tertiary-dark: #fe135a;
+    --color-red: #e55039;
+    --color-red-opaque: rgb(247, 170, 158);
+    --color-black: #444;
+    --color-grey-dark: #616161;
+    --color-grey-7: #777;
+    --color-grey-a5: #a5a5a5;
+    --color-white-bg: #fff;
+    --color-light-5: #f3f3f3;
+    --color-light-7: #f5f5f5;
+    --color-light-5-opaque: rgba(245,245,245, .75);
+    --color-white-opaque-5: rgba(255,255,255, .5);
+    --color-white-opaque-7: rgba(255,255,255, .7);
+    // --color-white-bg-secondary: #fbfbfb;
+    --color-white-bg-secondary: #f6f9f5;
+    --color-yellow: #fff200;
+  
+    // Change view 
+    --flex-dir: row;
+    --flex-basis: ;
+    --mr-card: 5rem;
+    --mb-card: 5rem;
+    --height-card: 32rem;
+    --wrap-card-flex-dir: column;
+    --wrap-card-flex-just: space-evenly;
+    --wrap-card-align: initial;
+    --wrap-card-width: 100%;
+    --fav-card-pos: absolute;
+    --card-list-mr: 0;
+    --card-list-just: initial;
+
+
+    // -----------------------
+    --cat-item-transition: all .3s ease;
+    --cat-item-transition-real: all .1s;
+}
+
+$row-width: 114rem;

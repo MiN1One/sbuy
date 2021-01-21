@@ -1,0 +1,25 @@
+.logo {
+
+    &__heading {
+        font-size: 1.9rem;
+        color: var(--color-primary) !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+    }
+
+    &__link {
+    }
+    
+    &__figure {
+        width: 15rem;
+        height: auto;
+        overflow: hidden;
+
+        &--nav { width: 8rem; }
+    }
+    
+    &__img {
+        width: 100%;
+        height: auto;
+    }
+}

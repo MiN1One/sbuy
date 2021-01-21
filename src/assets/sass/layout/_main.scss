@@ -1,0 +1,116 @@
+.main {
+    background: var(--color-white-bg-secondary);
+    position: relative;
+
+    &__wrapper {
+        padding: 4rem 0 7.5rem 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__link {
+        font-size: 1.45rem;
+        padding: .6rem .8rem;
+    }
+
+    &__heading {
+        align-self: flex-start;
+        font-size: 3rem;
+    }
+    
+    &__head {
+        width: 100%;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+
+        &--pagination {
+            justify-content: center;
+            width: 26.5rem;
+        }
+    }
+
+    &__pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #fff;
+        width: 100%;
+        border-radius: 1rem;
+        box-shadow: 0 0 1.5rem rgba(#000, .03);
+        padding: 2.5rem 3rem;
+        border: 2.5px solid rgba(#000, .095);
+    }
+
+    &__page-item {
+        width: 3.5rem;
+        height: 3.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6rem;
+        border: 2px solid var(--color-primary-opaque);
+        border-radius: 50%;
+        cursor: pointer;
+        margin-bottom: 1rem;
+
+        &:not(:last-child) { margin-right: .7rem; }
+
+        &:hover:not(.main__page-item--active),
+        &:focus:not(.main__page-item--active) { color: var(--color-primary); }
+
+        &--active {
+            background: var(--color-primary);
+            color: #fff;
+            cursor: initial;
+        }
+
+        &--btn {
+            margin-right: 0 !important;
+            
+            &:hover {
+                background: var(--color-primary);
+
+                .icon { fill: #fff !important; }
+            }
+        }
+    }
+    
+    &__group {
+        display: flex;
+        align-items: center;
+    }
+
+    &__subhead {
+        font-size: 1.6rem;
+        color: var(--color-grey-7)
+    }
+
+    &__btn {
+        &:hover .Main__icon, 
+        &:active .Main__icon, 
+        &:focus .Main__icon {
+            fill: #fff;
+        }
+
+        &--green {
+            font-size: 1.2rem;
+            border-width: 1.5px !important;
+            border-radius: 0 !important;
+        }
+    }
+
+    &__icon {
+        width: 1.8rem;
+        height: 1.8rem;
+        fill: var(--color-primary);
+        margin-left: .5rem;
+    }
+}

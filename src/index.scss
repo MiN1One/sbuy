@@ -1,0 +1,50 @@
+// ---------- ABSTRACTS ----------
+
+@import './assets/sass/abstracts/variables';
+@import './assets/sass/abstracts/base';
+@import './assets/sass/abstracts/animations';
+@import './assets/sass/abstracts/typography';
+@import './assets/sass/abstracts/mixins';
+
+// ---------- VENDORS ----------
+
+@import './assets/sass/vendor/css-dots';
+@import './assets/sass/vendor/loading-sub';
+
+// ---------- CUSTOM ----------
+
+@import './assets/sass/custom/styles';
+
+// ---------- UI ----------
+
+@import './assets/sass/UI/backdrop';
+@import './assets/sass/UI/button';
+@import './assets/sass/UI/loadingScreen';
+@import './assets/sass/UI/tooltip';
+
+// ---------- COMPONENTS ----------
+
+@import './assets/sass/components/adview';
+@import './assets/sass/components/language';
+@import './assets/sass/components/card';
+@import './assets/sass/components/categories';
+@import './assets/sass/components/dropdown';
+@import './assets/sass/components/filter';
+@import './assets/sass/components/logo';
+@import './assets/sass/components/pagination';
+@import './assets/sass/components/profile';
+@import './assets/sass/components/searchbar';
+
+// ---------- LAYOUT ----------
+
+@import './assets/sass/layout/navigation';
+@import './assets/sass/layout/header';
+@import './assets/sass/layout/main';
+@import './assets/sass/layout/authorization';
+@import './assets/sass/layout/post';
+@import './assets/sass/layout/footer';
+
+
+@import './assets/sass/abstracts/utilities';
+
+

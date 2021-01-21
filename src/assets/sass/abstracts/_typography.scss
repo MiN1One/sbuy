@@ -1,0 +1,44 @@
+body {
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-white-bg);
+    text-rendering: antialiased;
+}
+
+.heading {
+    font-weight: 500;
+    color: var(--color-grey-dark);
+    
+    &__1 {
+        display: flex;
+        align-items: center;
+        font-size: 4rem;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+    
+    &__2 {
+        font-size: 3.5rem;
+        font-weight: 400;
+        color: var(--color-black);
+    }
+
+    &__3 {
+        font-size: 2.3rem;
+    }
+
+    &__4 {
+        font-size: 2rem;
+    }
+
+    &__5 {
+        font-size: 1.7rem;
+        font-weight: 300;
+        color: var(--color-black);
+    }
+
+    &__6 {
+        font-size: 2.5rem;
+    }
+}
+
