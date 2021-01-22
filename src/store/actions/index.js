@@ -6,7 +6,9 @@ export {
 
 export {
     changeSearchInput,
-    fetchForMainPage,
     setLoadingForLazy,
-    handleError
+    setLoading,
+    handleError,
+    filterByOptions,
+    filterByCounters
 } from './actions_data';

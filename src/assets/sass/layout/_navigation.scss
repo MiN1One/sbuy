@@ -35,10 +35,10 @@
         cursor: pointer;
         
         &:not(:last-child) {
-            margin-right: 2rem;
+            margin-right: 1.5rem;
         }
 
-        &--h:hover {
+        &--hoverable:hover {
             .navigation__icon--arrow {
                 transform: rotate(180deg);
             }
@@ -181,8 +181,8 @@
     }
 
     &__input {
-        padding: 1.2rem 2rem;
-        width: 21rem;
+        padding: 1rem 1.7rem;
+        width: 20rem;
         font-size: 1.3rem;
         border-radius: .5rem;
         border: 1px solid rgba(#000, .07);

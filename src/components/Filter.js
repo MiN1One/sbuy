@@ -7,6 +7,7 @@ import Dropdown from './Dropdown';
 import * as actions from '../store/actions';
 import * as utils from '../utilities/utilities';
 import axios from 'axios';
+import Searchbar from './Searchbar';
 
 class Filter extends PureComponent {
     constructor(props) {
@@ -14,14 +15,11 @@ class Filter extends PureComponent {
         this.state = {
             filterConfig: {},
 
-            sort: {
-                val: 'date',
-                items: [
-                    { title: 'Most expensive', val: 'exp' },
-                    { title: 'Cheapest', val: 'cheap' },
-                    { title: 'Date', val: 'date' }
-                ]
-            },
+            sort: [
+                { title: 'Most expensive', val: 'exp' },
+                { title: 'Cheapest', val: 'cheap' },
+                { title: 'Date', val: 'date' }
+            ],
             // -------------------------
             condition: 'all',
             size: ['', ''],
@@ -53,49 +51,16 @@ class Filter extends PureComponent {
     }
 
     onFilterByCounter = (param, subParam, val) => {
-        if (utils.isNum(parseInt(val)) || val === '') {
-            this.setState((prevState) => {
-                const newValueArr = prevState[param].map((el, i) => {
-                    let element = el;
-                    if (subParam === i) element = val;
-                    return element;
-                })
-                return { [param]: newValueArr };
-            }, () => {
-                console.log(this.state[param]);
-            
-                // ------------------
-                
-                // .....
-            });
-        }
+        if (utils.isNum(parseInt(val)) || val === '') this.props.onFilterByCountersDispatch(param, subParam, val)
     }
 
-    onSort = (type) => {
-        if (type !== this.state.sort) this.setState(prevState => {
-            return {
-                sort: {
-                    ...prevState.sort,
-                    val: type
-                }
-            }
-        });
-    }
-
-    onClearFilter = () => {
-
+    onClearFilters = () => {
+        
     }
 
     onFilterByOptions = (param, val) => {
-        if (this.state[param] !== val) {
-            this.setState({ [param]: val }, () => {
-                console.log(`${param}: ${this.state[param]}`)
-            
-                // ------------------
-        
-                // .....
-            });
-        }
+        if (this.props[param] !== val) this.props.onFilterByOptionsDispatch(param, val);
+        console.log(this.props[param])
     }
 
     render() {
@@ -103,7 +68,7 @@ class Filter extends PureComponent {
         const category = this.props.match.params.category;
         const subcategory = this.props.match.params.subcategory;
         
-        const sortTitle = this.state.sort.items.find(el => el.val === this.state.sort.val).title; 
+        const sortTitle = this.state.sort.find(el => el.val === this.props.sort).title; 
         let catTitle = null;
         let subCatTitle = null;
 
@@ -123,7 +88,7 @@ class Filter extends PureComponent {
                     );
                 });
 
-                const defaultTitle = obj.items.find(el => el.val === this.state[obj.val]).title;
+                const defaultTitle = obj.items.find(el => el.val === this.props[obj.val]).title;
 
                 return (
                     <li className="filter__item" key={index}>
@@ -152,7 +117,7 @@ class Filter extends PureComponent {
                                     className="filter__input filter__input--small input" 
                                     placeholder="from" 
                                     onChange={(e) => this.onFilterByCounter(el.val, el.start, e.target.value)} 
-                                    value={this.state[el.val][el.start]} />
+                                    value={this.props[el.val][el.start]} />
                                 <button className="filter__btn filter__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
                                     <svg className="filter__icon filter__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
                                 </button>
@@ -163,7 +128,7 @@ class Filter extends PureComponent {
                                     className="filter__input filter__input--small filter__input--border input" 
                                     placeholder="to" 
                                     onChange={(e) => this.onFilterByCounter(el.val, el.end, e.target.value)} 
-                                    value={this.state[el.val][el.end]} />
+                                    value={this.props[el.val][el.end]} />
                                 <button className="filter__btn filter__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
                                     <svg className="filter__icon filter__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
                                 </button>
@@ -176,7 +141,7 @@ class Filter extends PureComponent {
             catTitle = filter.title;
             subCatTitle = filter.items[subcategory].title;
 
-            sortItems = this.state.sort.items.map((el, i) => <div className="filter__dropitem" key={i} onClick={() => this.onSort(el.val)}>{el.title}</div>);
+            sortItems = this.state.sort.map((el, i) => <div className="filter__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
             
         } else return <h1>404 Not found!</h1>;
         console.log(this.props.history);
@@ -191,7 +156,7 @@ class Filter extends PureComponent {
                             <div className="filter__list filter__list--headline">
                                 <h3 className="heading heading__3 filter__heading">Filters</h3>
                                 <div className="filter__group">
-                                    <button className="filter__btn filter__btn--close" onClick={() => this.onClearFilter()}>
+                                    <button className="filter__btn filter__btn--close" onClick={() => this.onClearFilters()}>
                                         Clear
                                         <svg className="filter__icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
                                     </button>
@@ -253,13 +218,19 @@ class Filter extends PureComponent {
 
 const mapStateToProps = state => {
     return {
-        lang: state.localization.lang
+        lang: state.localization.lang,
+        condition: state.data.filters.condition,
+        size: state.data.filters.size,
+        price: state.data.filters.price,
+        type: state.data.filters.type,
+        sort: state.data.filters.sort
     }
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-
+        onFilterByCountersDispatch: (name, index, val) => dispatch(actions.filterByCounters(name, index, val)),
+        onFilterByOptionsDispatch: (name, val) => dispatch(actions.filterByOptions(name, val))
     }
 }
 

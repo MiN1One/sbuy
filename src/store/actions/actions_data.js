@@ -15,7 +15,7 @@ export const handleError = (e) => {
     }
 };
 
-const setLoading = (val) => {
+export const setLoading = (val) => {
     return { type: actionTypes.ON_SET_LOADING }
 }; 
 
@@ -24,38 +24,22 @@ export const setLoadingForLazy = (val) => {
         type: actionTypes.ON_SET_LOADING_LAZY,
         val
     }
-}
+};
 
-const fetchSuccess = (data) => {
+export const filterByCounters = (name, index, val) => {
     return {
-        type: actionTypes.FETCH_DATA_SUCCESS,
-        
-    };
+        type: actionTypes.ON_FILTER_BY_COUNTERS,
+        name,
+        val,
+        index
+    }
 };
 
-export const fetchForHomePage = () => {
-    return (dispatch) => {
-
-    };
+export const filterByOptions = (name, val) => {
+    return {
+        type: actionTypes.ON_FILTER_BY_OPTIONS,
+        name,
+        val
+    }
 };
 
-export const fetchForMainPage = () => {
-    return (dispatch) => {
-        dispatch(setLoading());
-        axios('https://jsonplaceholder.typicode.com/todos')
-            .then((res) => {
-                console.log(res);
-                dispatch(fetchSuccess(res));
-            })
-            .catch(er => {
-                console.log(er);
-                dispatch(handleError(er));
-            });
-    };
-};
-
-export const performSearch = () => {
-    return (dispatch) => {
-
-    };
-};

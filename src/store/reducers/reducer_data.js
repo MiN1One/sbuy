@@ -17,6 +17,13 @@ import int from '../../assets/images/jonathan-wolf-7sKmRRNH_1Y-unsplash-compress
 import int2 from '../../assets/images/taisiia-shestopal-wXwZyBhGSAc-unsplash-compressed.jpg';
 
 const initialState = {
+    filters: {
+        condition: 'all',
+        size: ['', ''],
+        price: ['', ''],
+        type: 'all',
+        sort: 'date'
+    },
     vendorAds: [
         { title: 'Discover Everything', img: car },
         { title: 'Discover Everything', img: int },
@@ -131,6 +138,28 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ON_SET_LOADING: return { ...state, loading: true }
 
         case actionTypes.ON_SET_LOADING_LAZY: return { ...state, loadingLazy: action.val }
+
+        case actionTypes.ON_FILTER_BY_OPTIONS: return {
+            ...state, 
+            filters: {
+                ...state.filters,
+                [action.name]: action.val
+            }
+        }
+
+        case actionTypes.ON_FILTER_BY_COUNTERS: 
+            const newArr = state.filters[action.name].map((el, i) => {
+                if (i === action.index) el = action.val;
+                return el;
+            });
+
+            return {
+                ...state,
+                filters: {
+                    ...state.filters,
+                    [action.name]: newArr
+                }
+            }
 
         default: return state;
     }

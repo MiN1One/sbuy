@@ -20,6 +20,7 @@ class AuthSignin extends Component {
 
         this.checkboxRef = React.createRef();
         this.passRef = React.createRef();
+        this.loginRef = React.createRef();
     }
 
     clearErrorHighlight = () => {
@@ -87,7 +88,8 @@ class AuthSignin extends Component {
                             <input 
                                 className="authorization__input input" 
                                 type="text" 
-                                placeholder="Your phone number"
+                                placeholder="Your phone number" 
+                                ref={this.loginRef}
                                 value={this.state.number} 
                                 onChange={(e) => this.onInputNumber(e.target.value)} />
                             <p className="authorization__label authorization__label--abs">Your number or email</p>

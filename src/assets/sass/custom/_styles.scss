@@ -82,14 +82,16 @@
 .badge {
     display: none;
     padding: .5rem 1rem;
-    background: var(--color-secondary);
     border-radius: 3.5px;
     color: #fff;
     font-size: 1.1rem;
     font-weight: 500;
     box-shadow: 1px 1px 4px rgba(#000, .1);
     user-select: none;
-
+    background: rgb(6,82,221);
+    transition: all .3s ease;
+    background: linear-gradient(120deg, rgba(6,82,221,1) 0%, rgba(255,50,112,1) 47%);
+    
     &__bull {
         display: none;
         margin: 0 .7rem;

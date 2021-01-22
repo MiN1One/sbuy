@@ -7,6 +7,7 @@ import Logo from '../components/Logo';
 import Dropdown from '../components/Dropdown';
 import Categories from '../components/Categories';
 import Backdrop from '../UI/Backdrop';
+import Searchbar from '../components/Searchbar';
 
 class Navigation extends PureComponent {
     state = {
@@ -35,7 +36,7 @@ class Navigation extends PureComponent {
     onCloseCategories = () => this.setState({ showCat: false });
 
     render() {
-        const signClass = ['navigation__item navigation__item--h'];
+        const signClass = ['navigation__item navigation__item--hoverable'];
         if (this.state.inputFocused) signClass.push('navigation__item--keep');
 
         const pathname = this.props.location.pathname;

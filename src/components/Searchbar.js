@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as actions from '../store/actions';
 import Logo from '../components/Logo';
 import * as utils from '../utilities/utilities';
-import Dropdown from './Dropdown';
 import Backdrop from '../UI/Backdrop';
 import RegionsDropdown from './RegionsDropdown';
 

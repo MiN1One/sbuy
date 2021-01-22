@@ -23,4 +23,4 @@ const mapStateToProps = state => {
     }
 };
 
-export default connect(mapStateToProps)(Layout);
+export default connect(mapStateToProps)(React.memo(Layout));
