@@ -47,7 +47,9 @@ class Main extends PureComponent {
 
         // ---------------
         this.setState({ loading: true });
-        setTimeout(() => this.setState({ loading: false }, () => this.setState({ contactEditMode: false })), 2000);
+        setTimeout(() => {
+            this.setState({ loading: false }, () => this.setState({ contactEditMode: false }));
+        }, 50000000);
         // ....
     }
     
@@ -229,7 +231,7 @@ class Main extends PureComponent {
                 </div>
                 {this.state.contactEditMode && 
                     <div className="profile__footer mt-15">
-                        {this.state.loading && <LoadingSub />}
+                        {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
                         <button className="ml-2 btn btn__primary" onClick={() => this.onSaveContactData()}>
                             Save
                             <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />

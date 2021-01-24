@@ -47,15 +47,20 @@ export const limitStrLength = (str, limitLength) => {
     } else return str;
 };
 
-export const limitStrAny = (str, limitLength) => {
+export const limitStrAny = (str, limitLength, space) => {
     if (str.length > limitLength) {
-        // const charArr = [];
-        // for (let i = 0; i < limitLength; i++) {
-        //     charArr.push(str[i]);
-        // }
         const charArr = str.split('');
-        console.log(charArr);
-        return `${charArr.splice(0, limitLength).join('')}...`;
+        return `${charArr.splice(0, limitLength).join('')}${space ? ' ' : ''}...`;
     }
     return str;
+};
+
+export const getQueryParamValue = (name) => {
+    const queries = window.location.search.substring(1).split('&');
+    let value = null;
+    queries.forEach(el => {
+        const query = el.split('=');
+        if (decodeURIComponent(query[0]) === name) value = query[1];
+    });
+    return value;
 };

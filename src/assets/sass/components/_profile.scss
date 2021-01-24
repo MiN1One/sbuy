@@ -44,7 +44,6 @@
     &__header {
         width: calc(100% - 25rem);
         border-top: none;
-        // height: 50rem;
     }
     
     &__list {
@@ -128,23 +127,17 @@
         font-size: 1.5rem;
         
         &--control {
-            padding: 1rem 1.7rem;
-            border: 1px solid rgba(#000, .07);
+            padding: 1rem;
             justify-content: flex-start;
             font-size: 1.3rem;
             color: initial;
-            background: var(--color-light-7);
+            border-bottom: 1px solid rgba(#000, .1);
 
             &:not(.profile__btn--red):hover,
             &:not(.profile__btn--red):focus {
                 color: var(--color-primary);
                 border-color: var(--color-primary-opaque);
             }
-
-            &:hover,
-            &:focus { background: #fff; }
-
-            &:not(:last-child) { margin-right: 1.5rem; }
         }
         
         &--red:hover,
@@ -373,6 +366,7 @@
         height: 100%;
         margin-right: 2rem;
         position: relative;
+        border-radius: .7rem;
     }
 
     &__ad-left {
@@ -402,7 +396,7 @@
         font-size: 2.3rem;
 
         &--price-tag {
-            font-size: 1.8rem;
+            font-size: 1.65rem;
             width: max-content;
             color: var(--color-black);
         }
@@ -411,6 +405,13 @@
     &__ad-group {
         display: flex;
         align-items: center;
+
+        &--details {
+            background: var(--color-white-bg-secondary);
+            padding: .5rem 2rem;
+            border-radius: 2rem;
+            width: max-content;
+        }
     }
 
     &__ad-details {
@@ -429,10 +430,7 @@
         color: var(--color-grey-7);
     }
 
-    &__ad-badge {
-        box-shadow: none;
-        border-radius: 0;
-    }
+    &__ad-badge { box-shadow: none; }
 
     &__fav-tag {
         font-size: 1.15rem;
@@ -441,9 +439,7 @@
         &:not(:last-child) { margin-right: .7rem; }
     }
 
-    &__pass-placeholder {
-        font-size: 1.4rem;
-    }
+    &__pass-placeholder { font-size: 1.4rem; }
 
     &__reg-dropdown {
         width: 40rem;
@@ -451,7 +447,5 @@
         z-index: 2;
     }
 
-    &__main-text { 
-        color: initial;
-    }
+    &__main-text { color: initial; }
 }

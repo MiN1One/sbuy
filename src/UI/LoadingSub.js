@@ -1,4 +1,4 @@
 
-const LoadingSub = () => <div class="lds-ring"><div></div><div></div><div></div><div></div></div>;
+const LoadingSub = (props) => <div class={`loader ${props.class ? props.class : ''}`}>Loading...</div>;
 
 export default LoadingSub;

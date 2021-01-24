@@ -72,6 +72,18 @@ class adview extends PureComponent {
         document.body.style.overflow = 'initial';
     }
 
+    onLikeAd = (id) => {
+        let newList = null;
+        
+        const list = localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [];
+
+        const exists = list.find(el => el === id);
+        if (exists) newList = list.filter(el => el !== id);
+        else newList = [...list, id];
+        localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
+        this.props.onSetFavorites(newList);
+    }
+
     onNextImage = (img) => {
         if (this.state.activeSwiperImage < img.length - 1) {
             this.setState((prevState) => {
@@ -170,7 +182,6 @@ class adview extends PureComponent {
     render() {
         const category = `/${this.props.match.params.category}`;
         const subcategory = this.props.match.params.subcategory;
-        console.log(subcategory, category);
 
         let rotateDegClass = '';
         if (this.state.rotate) rotateDegClass = `adview__rotate--${this.state.rotate}`;
@@ -179,10 +190,10 @@ class adview extends PureComponent {
         const bottomGradientClass = ['adview__gradient'];
         if (this.state.swiperEnd) topGradientClass.push('adview__gradient--show');
         if (this.state.swiperBegin) bottomGradientClass.push('adview__gradient--show');
-        
+
         const ad = this.props.data[this.state.index];
         if (!ad) return null;
-
+                
         const images = ad.img.map((el, i) => (
             <SwiperSlide className={`adview__figmain ${rotateDegClass}`} key={i}>
                 <LazyLoadImage 
@@ -207,7 +218,7 @@ class adview extends PureComponent {
                             />
                     </figure>
                     <div className="adview__group adview__group--col w-max afs">
-                        <span className="adview__subheading adview__subheading--card mb-1">{el.title}</span>
+                        <span className="adview__subheading adview__subheading--card mb-1">{utils.limitStrAny(el.title, 15, true)}</span>
                         <span className="adview__title mb-5">{el.date}</span>
                         <span className="adview__title mb-5">{el.location}</span>
                         <span className="price-tag">{el.price}</span>
@@ -215,6 +226,8 @@ class adview extends PureComponent {
                 </Link>
             )
         });
+
+        const isFavorite = this.props.favorites.findIndex(el => el === ad.id) > -1;
         
         return (
             <React.Fragment>
@@ -328,9 +341,12 @@ class adview extends PureComponent {
                                                                 <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('share')}} />
                                                                 <Tooltip>Share</Tooltip>
                                                             </button>
-                                                            <button className="adview__btn adview__btn--rel DTool pos-rel no-transition" data-favorite={ad.favorite}>
-                                                                <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
-                                                                <Tooltip>{!ad.favorite ? 'Add to favourites' : 'Remove from favorites'}</Tooltip>
+                                                            <button 
+                                                                className="adview__btn adview__btn--rel DTool pos-rel no-transition" 
+                                                                data-favorite={isFavorite} 
+                                                                onClick={() => this.onLikeAd(ad.id)}>
+                                                                    <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
+                                                                    <Tooltip>{!isFavorite ? 'Add to favourites' : 'Remove from favorites'}</Tooltip>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -460,53 +476,3 @@ class adview extends PureComponent {
 }
 
 export default withRouter(adview);
-
-
-// var rgb = getAverageRGB(document.getElementById('i'));
-// document.body.style.backgroundColor = 'rgb('+rgb.r+','+rgb.g+','+rgb.b+')';
-
-// function getAverageRGB(imgEl) {
-
-// var blockSize = 5, // only visit every 5 pixels
-//     defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
-//     canvas = document.createElement('canvas'),
-//     context = canvas.getContext && canvas.getContext('2d'),
-//     data, width, height,
-//     i = -4,
-//     length,
-//     rgb = {r:0,g:0,b:0},
-//     count = 0;
-    
-// if (!context) {
-//     return defaultRGB;
-// }
-
-// height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-// width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-
-// context.drawImage(imgEl, 0, 0);
-
-// try {
-//     data = context.getImageData(0, 0, width, height);
-// } catch(e) {
-//     /* security error, img on diff domain */alert('x');
-//     return defaultRGB;
-// }
-
-// length = data.data.length;
-
-// while ( (i += blockSize * 4) < length ) {
-//     ++count;
-//     rgb.r += data.data[i];
-//     rgb.g += data.data[i+1];
-//     rgb.b += data.data[i+2];
-// }
-
-// // ~~ used to floor values
-// rgb.r = ~~(rgb.r/count);
-// rgb.g = ~~(rgb.g/count);
-// rgb.b = ~~(rgb.b/count);
-
-// return rgb;
-
-// }

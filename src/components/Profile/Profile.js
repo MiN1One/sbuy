@@ -6,7 +6,7 @@ import $ from 'jquery';
 import Main from './Main';
 import * as utils from '../../utilities/utilities';
 import { ActiveAds, InactiveAds, PromotedAds } from './Ads/Ads';
-import { FavAds, FavSearches } from './Favourites';
+import Favorites from './Favourites';
 import Settings from './Settings';
 import Payments from './Payments';
 import Promotions from './Promotions';
@@ -30,10 +30,9 @@ class Profile extends PureComponent {
     slideSubLists() {
         if (this.props.match.params.section === 'ads') $(this.subAdsList.current).slideDown({ duration: 300 });
         else $(this.subAdsList.current).slideUp({ duration: 300 });
+
         if (this.props.match.params.section === 'messages') $(this.subMessagesList.current).slideDown({ duration: 300 });
         else $(this.subMessagesList.current).slideUp({ duration: 300 });
-        if (this.props.match.params.section === 'favourites') $(this.subFavouritesList.current).slideDown({ duration: 300 });
-        else $(this.subFavouritesList.current).slideUp({ duration: 300 });
     }
 
     componentDidMount() {
@@ -51,13 +50,6 @@ class Profile extends PureComponent {
                 <ActiveAds {...this.props} />
                 <InactiveAds {...this.props} />
                 <PromotedAds {...this.props} />
-            </React.Fragment>
-        );
-
-        const Favourites = (
-            <React.Fragment>
-                <FavAds {...this.props} />
-                <FavSearches {...this.props} />
             </React.Fragment>
         );
 
@@ -105,17 +97,17 @@ class Profile extends PureComponent {
                                             <NavLink to="/user/ads/active" activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                 <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('message-square')}} />
                                                 Active
-                                                {activeAdsCount !== 0 && <span className="message-badge__counter profile__mes-badge">{activeAdsCount}</span>}
+                                                {activeAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{activeAdsCount}</span>}
                                             </NavLink>
                                             <NavLink to="/user/ads/inactive" activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                 <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('archive')}} />
                                                 Inactive
-                                                {inactiveAdsCount !== 0 && <span className="message-badge__counter profile__mes-badge">{inactiveAdsCount}</span>}
+                                                {inactiveAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{inactiveAdsCount}</span>}
                                             </NavLink>
                                             <NavLink to="/user/ads/promoted" activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                 <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('corner-right-up')}} />
                                                 Promoted
-                                                {promotedAdsCount !== 0 && <span className="message-badge__counter profile__mes-badge">{promotedAdsCount}</span>}
+                                                {promotedAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{promotedAdsCount}</span>}
                                             </NavLink>
                                         </div>
                                     </li>
@@ -140,22 +132,10 @@ class Profile extends PureComponent {
                                         </div>
                                     </li>
                                     <li className="profile__item">
-                                        <NavLink to="/user/favourites" activeClassName="profile__link--active-cursored" className="profile__link">
+                                        <NavLink to="/user/favorites" activeClassName="profile__link--active-cursored" className="profile__link">
                                             <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
-                                            Favourites
+                                            Favorites
                                         </NavLink>
-                                        <div className="profile__item profile__item--sub" ref={this.subFavouritesList}>
-                                            <NavLink to="/user/favourites/ads" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('layout')}} />
-                                                Ads
-                                                {favAdsCount !== 0 && <span className="message-badge__counter profile__mes-badge">{favAdsCount}</span>}
-                                            </NavLink>
-                                            <NavLink to="/user/favourites/searches" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('search')}} />
-                                                Searches
-                                                {favSearchesCount !== 0 && <span className="message-badge__counter profile__mes-badge">{favSearchesCount}</span>}
-                                            </NavLink>
-                                        </div>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/settings" activeClassName="profile__link--active" className="profile__link">
@@ -188,9 +168,7 @@ class Profile extends PureComponent {
                                     <Route path="/user/messages/inbox" exact render={() => <Inbox {...this.props} />}/>
                                     <Route path="/user/messages/sentbox" render={() => <Sentbox {...this.props} />}/>
                                     <Route path="/user/messages/spam" render={() => <Spam {...this.props} />}/>
-                                    <Route path="/user/favourites" exact render={() => Favourites}/>
-                                    <Route path="/user/favourites/ads" render={() => <FavAds {...this.props} />}/>
-                                    <Route path="/user/favourites/searches" render={() => <FavSearches {...this.props} />}/>
+                                    <Route path="/user/favorites" exact render={() => <Favorites {...this.props} />}/>
                                     <Route path="/user/settings" render={() => <Settings {...this.props} />}/>
                                     <Route path="/user/payments" render={() => <Payments {...this.props} />}/>
                                     <Route path="/user/promotions" render={() => <Promotions {...this.props} />}/>

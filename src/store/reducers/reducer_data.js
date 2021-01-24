@@ -22,8 +22,9 @@ const initialState = {
         size: ['', ''],
         price: ['', ''],
         type: 'all',
-        sort: 'date'
+        sort: 'date',
     },
+    favoriteAds: localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [],
     vendorAds: [
         { title: 'Discover Everything', img: car },
         { title: 'Discover Everything', img: int },
@@ -41,7 +42,6 @@ const initialState = {
             date: 'February 20',
             img: [scan],
             location: 'Berlin, 20',
-            favorite: false,
             category: '',
             premium: false,
             mileage: '1,006,286',
@@ -53,18 +53,16 @@ const initialState = {
             date: 'February 20',
             img: [iphone8_2, iphone8],
             location: 'Some location',
-            favorite: false,
             category: '',
             premium: true,
         },
         {
             id: 'someId_6',
-            title: 'Cobalt 2019',
+            title: 'Cobalt 2019 dfgndlkfnbdk; knglreg kerjgn kerjg',
             price: '$8,000,00',
             date: 'February 16',
             img: [cobalt],
             location: 'Some location',
-            favorite: false,
             category: '',
             premium: true,
         },
@@ -75,7 +73,6 @@ const initialState = {
             date: 'February 19',
             img: [nexoa],
             location: 'Some location',
-            favorite: false,
             category: '',
             premium: false,
         },
@@ -86,7 +83,6 @@ const initialState = {
             date: 'February 18',
             img: [galax10],
             location: 'Some location',
-            favorite: true,
             category: '',
             premium: false,            
         },
@@ -97,7 +93,6 @@ const initialState = {
             date: 'February 17',
             img: [lenovo, lenovo_2],
             location: 'Some location',
-            favorite: true,
             category: '',
             premium: false,            
         },
@@ -108,7 +103,6 @@ const initialState = {
             date: 'February 15',
             img: [cat_tuti],
             location: 'Some location',
-            favorite: true,
             category: '',
             premium: false,            
         },
@@ -119,7 +113,6 @@ const initialState = {
             date: 'February 14',
             img: [galax20, galax20_2],
             location: 'Some location',
-            favorite: false,
             category: '',
             premium: false,
         }
@@ -138,6 +131,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ON_SET_LOADING: return { ...state, loading: true }
 
         case actionTypes.ON_SET_LOADING_LAZY: return { ...state, loadingLazy: action.val }
+
+        case actionTypes.ON_SET_FAVORITES: return { ...state, favoriteAds: action.list }
 
         case actionTypes.ON_FILTER_BY_OPTIONS: return {
             ...state, 
@@ -160,7 +155,7 @@ const reducer = (state = initialState, action) => {
                     [action.name]: newArr
                 }
             }
-
+        
         default: return state;
     }
 };

@@ -8,6 +8,7 @@ export {
     changeSearchInput,
     setLoadingForLazy,
     setLoading,
+    setFavorites,
     handleError,
     filterByOptions,
     filterByCounters

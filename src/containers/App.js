@@ -15,8 +15,6 @@ const AsyncPost = asyncComponent(() => import('./Post'));
 const AsyncProfile = asyncComponent(() => import('../components/Profile/Profile'));
 
 function App(props) {
-  const [loading, setLoading] = useState(true);
-  
   const header = (
     <Layout>
       <Header />
@@ -49,9 +47,8 @@ function App(props) {
   
   return (
     <div className="App">
-      {props.loaingLazy && <LoadingScreen class="loadingScreen--abs" /> }
+      {props.lodaingLazy && <LoadingScreen class="loadingScreen--abs" /> }
       <Switch>
-        <Route path="/" exact render={() => header} />
         <Route path="/signin" exact component={AsyncAuthSignin} />
         <Route path="/password-reset" exact component={AsyncResetPass} />
         <Route path="/signup" exact component={AsyncAuthSignup} />
@@ -59,6 +56,7 @@ function App(props) {
         <Route path="/post-new" exact render={() => post} />
         <Route path="/all/:category" exact render={() => singleCategory} />
         <Route path="/:category/:subcategory" render={() => main} />
+        <Route path="/" render={() => header} />
         <Route path="*" render={() => <h1>404 Not Found</h1>} />
       </Switch>
     </div>

@@ -238,4 +238,4 @@
     &--red { fill: var(--color-red-opaque) !important; }
 }
 
-.link-underline { text-decoration: underline; }
+.link-underline { border-bottom: 1.5px solid rgba(#000, .1); }

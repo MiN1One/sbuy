@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Language from '../components/Language';
 import * as utils from '../utilities/utilities';
@@ -7,22 +8,17 @@ import Logo from '../components/Logo';
 import Dropdown from '../components/Dropdown';
 import Categories from '../components/Categories';
 import Backdrop from '../UI/Backdrop';
-import Searchbar from '../components/Searchbar';
 
 class Navigation extends PureComponent {
     state = {
         toggleLogo: false,
-        signedIn: false,
+        signedIn: true,
         inputFocused: false,
         showCat: false
     }
 
     componentDidMount() {
-        // document.addEventListener('scroll', () => {
-        //     const scrollTop = document.documentElement.scrollTop;
 
-        //     // if (scrollTop )
-        // });
     }
 
     componentDidUpdate(prevProps) {
@@ -48,8 +44,14 @@ class Navigation extends PureComponent {
                 <p className="dropdown__title">Profile:</p>
                 <ul className="dropdown__list">
                     <li className="dropdown__item">
+                        <Link to="/user/profile" className="dropdown__link message-badge">
+                            My profile
+                            {/* <span className="message-badge__counter"></span> */}
+                        </Link>
+                    </li>
+                    <li className="dropdown__item">
                         <Link to="/user/ads" className="dropdown__link message-badge">
-                            Ads
+                            My Ads
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
@@ -71,18 +73,15 @@ class Navigation extends PureComponent {
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
-                </ul>
-                <p className="dropdown__title">Favourites:</p>
-                <ul className="dropdown__list">
                     <li className="dropdown__item">
-                        <Link to="/user/favourites/ads" className="dropdown__link message-badge">
-                            Ads
-                            <span className="message-badge__counter">2</span>
+                        <Link to="/user/favorites" className="dropdown__link message-badge">
+                            Favorites
+                            {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
-                        <Link to="/user/favourites/searches" className="dropdown__link message-badge">
-                            Searches
+                        <Link to="/user/promotions" className="dropdown__link message-badge">
+                            Promotions
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
@@ -122,10 +121,19 @@ class Navigation extends PureComponent {
                                 <Language dropClass="dropdown--close dropdown--left-fix" />
                             </div>
                             <div className="navigation__list">
+                                <div className="navigation__item">
+                                    <Link to="/user/favorites" className="navigation__link">
+                                        <span className="navigation__title navigation__title--user">Favorites</span>
+                                        <div className="d-flex ac jc">
+                                            <svg className="navigation__icon m-0" dangerouslySetInnerHTML={{__html: utils.use('folder')}} />
+                                            {this.props.favorites.length > 0 && <div className="ml-1">{this.props.favorites.length}</div>}
+                                        </div>
+                                    </Link>
+                                </div>
                                 <div className={signClass.join(' ')}>
                                     <Link to={this.state.signedIn ? '/user/profile' : '/signin'} className="navigation__link">
                                         <svg className="navigation__icon navigation__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
-                                        <span className="navigation__title  navigation__title--user">{this.state.signedIn ? 'My profile' : 'Sign in'}</span>
+                                        <span className="navigation__title navigation__title--user">{this.state.signedIn ? 'My profile' : 'Sign in'}</span>
                                         <div className="navigation__iconbox">
                                             <svg className="navigation__icon navigation__icon--abs navigation__icon--white" dangerouslySetInnerHTML={{__html: utils.use('user')}} />
                                             {this.state.signedIn && <span className="message-badge__empty"></span>}
@@ -133,7 +141,6 @@ class Navigation extends PureComponent {
                                     </Link>
                                     {userDrop}
                                 </div>
-                                {/* {!this.state.signedIn && <Link to="/signup" className="btn btn__secondary btn__secondary--outline navigation__btn">Sign up</Link>} */}
                                 
                                 {isNotPost && 
                                     <Link to="/post-new" className="btn btn__primary navigation__btn">
@@ -156,4 +163,13 @@ class Navigation extends PureComponent {
     }
 }
 
-export default withRouter(React.memo(Navigation));
+const mapStateToProps = (state) => ({
+    lang: state.localization.lang,
+    favorites: state.data.favoriteAds
+});
+
+const mapDispatchToProps = (dispatch) => ({
+
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(Navigation)));

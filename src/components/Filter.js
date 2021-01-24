@@ -8,11 +8,13 @@ import * as actions from '../store/actions';
 import * as utils from '../utilities/utilities';
 import axios from 'axios';
 import Searchbar from './Searchbar';
+import LoadingSub from '../UI/LoadingSub';
 
 class Filter extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             filterConfig: {},
 
             sort: [
@@ -29,15 +31,13 @@ class Filter extends PureComponent {
     }
 
     importFilter =  () => {
+        this.setState({ loading: true })
         import(`../store/Filters/${this.props.lang.val}/${this.props.match.params.category}`)
             .then(filter => {
-                this.setState({ filterConfig: filter.default }, () => console.log(this.state.filterConfig));
-
-                console.log(filter.default[this.props.match.params.category].items[this.props.match.params.subcategory]);
-                console.log(this.props.match.params.category, this.props.match.params.subcategory);
+                this.setState({ filterConfig: filter.default, loading: false });
             })
             .catch(er => {
-                this.setState({ filterConfig: {} });
+                this.setState({ filterConfig: {}, loading: false });
                 console.log(er);
             });
     }
@@ -51,7 +51,9 @@ class Filter extends PureComponent {
     }
 
     onFilterByCounter = (param, subParam, val) => {
-        if (utils.isNum(parseInt(val)) || val === '') this.props.onFilterByCountersDispatch(param, subParam, val)
+        if (utils.isNum(parseInt(val)) || val === '') {
+            this.props.onFilterByCountersDispatch(param, subParam, val);
+        }
     }
 
     onClearFilters = () => {
@@ -60,7 +62,7 @@ class Filter extends PureComponent {
 
     onFilterByOptions = (param, val) => {
         if (this.props[param] !== val) this.props.onFilterByOptionsDispatch(param, val);
-        console.log(this.props[param])
+        console.log(this.props[param]);
     }
 
     render() {
@@ -143,10 +145,15 @@ class Filter extends PureComponent {
 
             sortItems = this.state.sort.map((el, i) => <div className="filter__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
             
-        } else return <h1>404 Not found!</h1>;
+        } else if (this.state.loading)
+            return (
+                <div className="loading-center w-100 filter__loading">
+                    <LoadingSub />
+                </div>
+            );
         console.log(this.props.history);
         console.log(this.props.match);
-        console.log(this.props.location)
+        console.log(this.props.location);
 
         return (
             <React.Fragment>

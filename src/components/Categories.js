@@ -8,12 +8,14 @@ import 'swiper/components/scrollbar/scrollbar.scss';
 import * as utils from '../utilities/utilities';
 
 import Backdrop from '../UI/Backdrop';
+import LoadingSub from '../UI/LoadingSub';
 
 
 class Categories extends PureComponent {
     state = {
         categories: null,
         activeCat: null,
+        loading: false
     }
 
     componentDidMount() {
@@ -21,11 +23,15 @@ class Categories extends PureComponent {
     }
     
     importCategories = () => {
+        this.setState({ loading: true });
         import(`../store/Categories/categories_${this.props.lang.val}`)
             .then(res => {
-                this.setState({ categories: res.default });
+                this.setState({ categories: res.default, loading: false });
             })
-            .catch(er => console.log(er));
+            .catch(er => {
+                console.log(er);
+                this.setState({ loading: false });
+            });
     }
 
     componentDidUpdate(prevProps) {
@@ -40,10 +46,12 @@ class Categories extends PureComponent {
     } 
 
     render() {
+
         const catItemsArr = [];
         for (let key in this.state.categories) {
             catItemsArr.push({
                 id: key,
+                val: this.state.categories[key].val,
                 title: this.state.categories[key].title,
                 icon: this.state.categories[key].icon
             });
@@ -71,7 +79,7 @@ class Categories extends PureComponent {
             subItems = this.state.categories[this.state.activeCat].subCategories.map((el, i) => {
                 return (
                     <li className="categories__subitem" key={i}>
-                        <Link to={`/${this.state.categories[this.state.activeCat].val}/${el.val}`} className="categories__link categories__link--sub" onClick={() => this.onClickItem()}>
+                        <Link to={`/${this.state.categories[this.state.activeCat].val}/${el.val}?page=1`} className="categories__link categories__link--sub" onClick={() => this.onClickItem()}>
                             <svg className="categories__icon categories__icon--sub" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
                             {el.title}
                         </Link>
@@ -79,6 +87,13 @@ class Categories extends PureComponent {
                 );
             });
         }
+
+        if (this.state.loading) 
+            return (
+                <div className="categories__loading loading-center">
+                    <LoadingSub />
+                </div>
+            );
         
         return (
             <React.Fragment>

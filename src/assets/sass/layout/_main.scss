@@ -30,23 +30,24 @@
     &__list {
         display: flex;
         flex-wrap: wrap;
-
-        &--pagination {
-            justify-content: center;
-            width: 26.5rem;
-        }
     }
 
     &__pagination {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         background: #fff;
         width: 100%;
         border-radius: 1rem;
+        border: 2.5px solid rgba(#000, .095);
+        display: flex;
         box-shadow: 0 0 1.5rem rgba(#000, .03);
         padding: 2.5rem 3rem;
-        border: 2.5px solid rgba(#000, .095);
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    &__page-list {
+        display: flex;
+        justify-content: center;
+        width: 30rem;
     }
 
     &__page-item {

@@ -177,8 +177,10 @@
 
         &--large {
             fill: var(--color-grey-dark);
-            width: 2.5rem;
-            height: 2.5rem;
+            // width: 3.35rem;
+            // height: 3.35rem;
+            width: 2.7rem;
+            height: 2.7rem;
             margin-left: 1.2rem;
         }
         
@@ -196,10 +198,12 @@
         }
 
         &--cat {
+            // width: 2.7rem;
+            // height: 2.7rem;
             width: 2.4rem;
             height: 2.4rem;
             margin-right: 2rem;
-            fill: var(--color-grey-dark);
+            fill: var(--color-grey-7);
         }
     }
 
@@ -298,6 +302,12 @@
         &:nth-child(2n) {
             margin-right: 0;
         }
+    }
+
+    &__loading {
+        width: 30%;
+        height: 60rem;
+        margin-top: -7.5rem;
     }
 }
 

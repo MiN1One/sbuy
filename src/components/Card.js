@@ -1,52 +1,73 @@
-import React, { useState } from 'react';
+import React, { PureComponent } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Link, withRouter } from 'react-router-dom';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
+import * as actions from '../store/actions';
 import * as utils from '../utilities/utilities';
+import { connect } from 'react-redux';
 
-const Card = (props) => {
-    const savedFavorites = JSON.parse(localStorage.getItem('favouritesSBUY'));
+class Card extends PureComponent {
 
-    const [fovorites, setFavorites] = useState(savedFavorites);
+    onLikeAd = (id) => {
+        let newList = null;
+        
+        const list = localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [];
 
-    const onLikeAd = (id) => {
+        const exists = list.find(el => el === id);
+        if (exists) newList = list.filter(el => el !== id);
+        else newList = [...list, id];
+        localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
+        this.props.onSetFavorites(newList);
+    }
 
-    };
-    // const isFavorite = props.data.find(el => el.favorite)
-    const pathname = props.match.url === '/' ? '/' : `${props.match.url}/`;
-
-    return (
-        <div className="card" tabIndex={0}>
-            <Link to={`${pathname}${props.data.id}`} className="card__wrapper">
-                <figure className="card__figure">
-                    <LazyLoadImage 
-                        src={props.data.img[0]} 
-                        effect="opacity" 
-                        alt={props.data.title} 
-                        className="card__img" 
-                        height="100%"
-                        width="100%" />
-                    <span className="card__heading card__heading--hidden">{props.data.title}</span>
-                </figure>
-                <div className="card__list">
-                    <div className="card__item card__item--group" data-premium={props.data.premium}>
-                        <span className="card__heading">
-                            {utils.limitStrAny(props.data.title, 15)}
-                        </span>
-                        <span className="badge">TOP</span>
+    render() {
+        const pathname = this.props.match.url === '/' ? '/' : `${this.props.match.url}/`;
+    
+        let title = utils.limitStrAny(this.props.data.title, 15, false);
+        if (this.props.data.premium) title = utils.limitStrAny(this.props.data.title, 12, true);
+    
+        const isFavorite = this.props.favorites.findIndex(el => el === this.props.data.id) > -1;
+    
+        return (
+            <div className="card" tabIndex={0}>
+                <Link to={`${pathname}${this.props.data.id}`} className="card__wrapper">
+                    <figure className="card__figure">
+                        <LazyLoadImage 
+                            src={this.props.data.img[0]} 
+                            effect="opacity" 
+                            alt={this.props.data.title} 
+                            className="card__img" 
+                            height="100%"
+                            width="100%" />
+                        <span className="card__heading card__heading--hidden">{this.props.data.title}</span>
+                    </figure>
+                    <div className="card__list">
+                        <div className="card__item card__item--group" data-premium={this.props.data.premium}>
+                            <span className="card__heading">{title}</span>
+                            <span className="badge">TOP</span>
+                        </div>
+                        <span className="card__item">{this.props.data.date}</span>
+                        <p className="card__item card__item--location">{this.props.data.location}</p>
+                        <div className="card__item card__item--space">
+                            <span className="price-tag">{this.props.data.price}</span>
+                        </div>
                     </div>
-                    <span className="card__item">{props.data.date}</span>
-                    <p className="card__item card__item--location">{props.data.location}</p>
-                    <div className="card__item card__item--space">
-                        <span className="price-tag">{props.data.price}</span>
-                    </div>
-                </div>
-            </Link>
-            <button className="card__btn" data-favorite={props.data.favorite} onClick={() => onLikeAd(props.data.id)}>
-                <svg className="card__icon icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
-            </button>
-        </div>
-    );
+                </Link>
+                <button className="card__btn" data-favorite={isFavorite ? true : false} onClick={() => this.onLikeAd(this.props.data.id)}>
+                    {isFavorite ? <FaHeart className="card__icon icon" /> : <FaRegHeart className="card__icon icon" />}
+                </button>
+            </div>
+        );
+    }
 }
 
-export default React.memo(withRouter(Card));
+const mapStateToProps = (state) => ({
+    favorites: state.data.favoriteAds
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    onSetFavorites: (list) => dispatch(actions.setFavorites(list))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(withRouter(Card)));

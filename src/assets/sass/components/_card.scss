@@ -156,8 +156,6 @@
         right: 1.5rem;
         padding: .7rem 0;
 
-        &:hover .card__icon,
-        &:focus .card__icon,
-        &:active .card__icon { fill: var(--color-red); }
+        &:hover .card__icon { fill: var(--color-red); }
     }
 }
