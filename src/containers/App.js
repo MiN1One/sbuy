@@ -49,6 +49,8 @@ function App(props) {
     <div className="App">
       {props.lodaingLazy && <LoadingScreen class="loadingScreen--abs" /> }
       <Switch>
+        <Route path="/exchange" exact component={() => main} />
+        <Route path="/give_away" exact component={() => main} />
         <Route path="/signin" exact component={AsyncAuthSignin} />
         <Route path="/password-reset" exact component={AsyncResetPass} />
         <Route path="/signup" exact component={AsyncAuthSignup} />

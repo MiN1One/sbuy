@@ -99,7 +99,7 @@ class AuthSignup extends Component {
                 const data = {
                     phone: number,
                     password: password.value,
-                    email: 'test@mail.eu',
+                    // email: 'test@mail.eu',
                     firstname: name.value,
                     lastname: lastName.value
                 };

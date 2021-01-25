@@ -134,7 +134,7 @@
         height: 4.5rem;
         border: 1px solid transparent !important;
         background: var(--color-light-7);
-        color: var(--color-grey-dark);
+        color: var(--color-black);
 
         &--d {
             cursor: pointer;
@@ -230,7 +230,5 @@
         box-shadow: 0 .5rem 2rem rgba(#000, .04);
     }
 
-    &__loading {
-        height: 24.05rem;
-    }
+    &__loading { height: 24.05rem; }
 }

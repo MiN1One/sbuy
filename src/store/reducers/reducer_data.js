@@ -24,7 +24,6 @@ const initialState = {
         type: 'all',
         sort: 'date',
     },
-    favoriteAds: localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [],
     vendorAds: [
         { title: 'Discover Everything', img: car },
         { title: 'Discover Everything', img: int },
@@ -132,7 +131,6 @@ const reducer = (state = initialState, action) => {
 
         case actionTypes.ON_SET_LOADING_LAZY: return { ...state, loadingLazy: action.val }
 
-        case actionTypes.ON_SET_FAVORITES: return { ...state, favoriteAds: action.list }
 
         case actionTypes.ON_FILTER_BY_OPTIONS: return {
             ...state, 

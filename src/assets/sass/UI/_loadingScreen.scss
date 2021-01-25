@@ -5,18 +5,31 @@
     background: var(--color-white-bg-secondary);
     animation: fadeIn 1s ease;
     animation-fill-mode: backwards;
-
+    
     & > div {
         position: absolute;
         top: 20%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
-
+    
     &--abs {
         position: fixed;
         z-index: 99;
-        top: 0;
+        top: 7rem;
         left: 0;
+        height: 100vh;
+        animation: fadeIn .5s ease;
+        background: rgba(#f6f9f5, .75);
+        
+        & > div { top: 30%; }
+    }
+    
+    &--profile {
+        background: #fff;
+        border-top: 1px solid rgba(#000, .1);
+        height: 55rem;
+
+        & > div { top: 35%; }
     }
 }

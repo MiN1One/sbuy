@@ -28,9 +28,6 @@ export const filterByOptions = (name, val) => ({
     type: actionTypes.ON_FILTER_BY_OPTIONS,
     name,
     val
-})
-
-export const setFavorites = (list) => ({
-    type: actionTypes.ON_SET_FAVORITES,
-    list 
 });
+
+

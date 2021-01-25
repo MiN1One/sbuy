@@ -1,67 +1,61 @@
+import axios from 'axios';
 import React, { PureComponent } from 'react';
 
 import avatar from '../../assets/images/32.jpg';
 import company from '../../assets/images/intech-2.jpg';
+import LoadingScreen from '../../UI/LoadingScreen';
 import LoadingSub from '../../UI/LoadingSub';
 import * as utils from '../../utilities/utilities';
 
-class Main extends PureComponent {
+export class User extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            contactEditMode: false,
-            companyEditMode: false,
+            editMode: false,
+            image: company,
             loading: false,
-            loadingCompany: false,
-            imageAppended: false
+            data: {
+                name: '',
+                email: '',
+                number: '',
+                company: ''
+            }
         }
 
-        this.contactFigRef = React.createRef();
-        this.companyFigRef = React.createRef();
-
+        this.figureRef = React.createRef();
         this.imgRef = React.createRef();
-        this.companyRef = React.createRef();
-
-        this.nameInputRef = React.createRef();
-        this.emailInputRef = React.createRef();
-        this.numberInputRef = React.createRef();
-        this.companyInputRef = React.createRef();
-        
-        this.emailCompanyInputRef = React.createRef();
-        this.numberCompanyInputRef = React.createRef();
-        this.nameCompanyInputRef = React.createRef();
     }
 
-    onToggleContactEditMode = () => this.setState(prevState => {
-        return { contactEditMode: !prevState.contactEditMode }
-    });
-    onToggleCompanyEditMode = () => this.setState(prevState => {
-        return { companyEditMode: !prevState.companyEditMode }
+    fetchData = () => {
+        this.setState({ loading: true });
+        axios('https://jsonplaceholder.typicode.com/todos')
+            .then(res => {
+                setTimeout(() => {
+                    
+                    this.setState({ loading: false });
+                }, 2000);
+            })
+            .catch(er => {
+                
+                this.setState({ loading: false });
+            });
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    onToggleEditMode = () => this.setState(prevState => {
+        return { editMode: !prevState.editMode, loading: false }
     });
 
-    onSaveContactData = () => {
-        const name = this.nameInputRef.current.value;
-        const email = this.emailInputRef.current.value;
-        const number = this.numberInputRef.current.value;
-        const company = this.companyInputRef.current.value;
+    onSaveData = () => {
 
         // ---------------
         this.setState({ loading: true });
         setTimeout(() => {
-            this.setState({ loading: false }, () => this.setState({ contactEditMode: false }));
-        }, 50000000);
-        // ....
-    }
-    
-    onSaveCompanyData = () => {
-        const nameCompany = this.nameCompanyInputRef.current.value;
-        const emailCompany = this.emailCompanyInputRef.current.value;
-        const numberCompany = this.numberCompanyInputRef.current.value;
-        
-        // ---------------
-        this.setState({ loadingCompany: true });
-        setTimeout(() => this.setState({ loadingCompany: false }, () => this.setState({ companyEditMode: false })), 2000);
-
+            this.setState({ loading: false }, () => this.setState({ editMode: false }));
+        }, 2000);
         // ....
     }
 
@@ -78,27 +72,19 @@ class Main extends PureComponent {
             }
             image.src = reader.result;
         };
-    };
+    }
 
-    removeContactImage = () => {
-        this.contactFigRef.current.querySelector('.profile__img').remove();
+    removeImage = () => {
+        this.figureRef.current.querySelector('.profile__img').remove();
 
         // -----------------
 
         // ....
     }
 
-    removeComapnyImage = () => {
-        this.companyFigRef.current.querySelector('.profile__img').remove();
-
-        // -----------------
-
-        // ....
-    }
-
-    appendContactImg = () => {
+    selectImage = () => {
         if (this.imgRef.current.files.length) {
-            this.appendImage(this.contactFigRef.current, this.imgRef.current.files[0]);
+            this.appendImage(this.figureRef.current, this.imgRef.current.files[0]);
             
             const formData = new FormData();
             formData.append('profileImage[]', this.imgRef.current.files[0]);
@@ -109,21 +95,8 @@ class Main extends PureComponent {
         }
     }
     
-    appendCompanyImg = () => {
-        if (this.companyRef.current.files.length) {
-            this.appendImage(this.companyFigRef.current, this.companyRef.current.files[0]);
-            
-            const formData = new FormData();
-            formData.append('profileImage[]', this.companyRef.current.files[0]);
-            
-            // -------------------
-            
-            // .....
-        }
-    }
-    
     render() {
-        let contactView = (
+        let view = (
             <div className="profile__details">
                 <div className="profile__text profile__text--name">
                     <p className="profile__title">Name</p>
@@ -143,82 +116,73 @@ class Main extends PureComponent {
                 </div>
             </div>
         );
-        if (this.state.contactEditMode) {
-            contactView = (
+        if (this.state.editMode) {
+            view = (
                 <div className="profile__details">
                     <div className="profile__text">
                         <label className="profile__title">Name</label>
-                        <input className="profile__input input" type="text" placeholder="Your name" ref={this.nameInputRef} />
+                        <input 
+                            className="profile__input input" 
+                            type="text" 
+                            placeholder="Your name" 
+                            value={this.state.data.name} 
+                            onChange={(e) => this.setState({ name: e.target.value })} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Email</label>
-                        <input className="profile__input input" type="text" placeholder="Your email" ref={this.emailInputRef} />
+                        <input 
+                            className="profile__input input" 
+                            type="email" 
+                            placeholder="Your email" 
+                            value={this.state.data.email} 
+                            onChange={(e) => this.setState({ email: e.target.value })} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Company</label>
-                        <input className="profile__input input" type="text" placeholder="Company name" ref={this.companyInputRef} />
+                        <input 
+                            className="profile__input input" 
+                            type="text" 
+                            placeholder="Company name" 
+                            value={this.state.data.company} 
+                            onChange={(e) => this.setState({ company: e.target.value })} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Phone number</label>
-                        <input className="profile__input input" type="text" placeholder="Your number" ref={this.numberInputRef} />
-                    </div>
-                </div>
-            );
-        }
-        let companyView = (
-            <div className="profile__details">
-                <div className="profile__text">
-                    <p className="profile__title">Company Name</p>
-                    Intech Ltd.
-                </div>
-                <div className="profile__text">
-                    <p className="profile__title">Email</p>
-                    intech@enterprise.eu
-                </div>
-                <div className="profile__text">
-                    <p className="profile__title">Phone number</p>
-                    +651651 65165165 65
-                </div>
-            </div>
-        );
-        if (this.state.companyEditMode) {
-            companyView = (
-                <div className="profile__details">
-                    <div className="profile__text">
-                        <label className="profile__title">Company Name</label>
-                        <input className="profile__input input" type="text" placeholder="Company name" ref={this.nameCompanyInputRef} />
-                    </div>
-                    <div className="profile__text">
-                        <label className="profile__title">Email</label>
-                        <input className="profile__input input" type="text" placeholder="Company email" ref={this.emailCompanyInputRef} />
-                    </div>
-                    <div className="profile__text">
-                        <label className="profile__title">Phone number</label>
-                        <input className="profile__input input" type="text" placeholder="Company number" ref={this.numberCompanyInputRef} />
+                        <input 
+                            className="profile__input input" 
+                            type="text" 
+                            placeholder="Your number" 
+                            value={this.state.data.number} 
+                            onChange={(e) => {
+                                if (utils.isNum(parseInt(e.target.value)) || e.target.value === '')
+                                    this.setState({ number: e.target.value });
+                                }} />
                     </div>
                 </div>
             );
         }
 
+        if (this.state.loading) return <LoadingScreen class="loadingScreen--profile" />;
+
         return (
             <React.Fragment>
                 <div className="profile__titlebar">
                     <h2 className="heading heading__2 profile__heading">Contact details</h2>
-                    <button className="profile__btn profile__btn--rounded" onClick={() => this.onToggleContactEditMode()}>
-                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use(this.state.contactEditMode ? 'x' : 'edit-2')}} />
+                    <button className="profile__btn profile__btn--rounded" onClick={() => this.onToggleEditMode()}>
+                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use(this.state.editMode ? 'x' : 'edit-2')}} />
                     </button>
                 </div>
                 <div className="profile__content">
-                    {contactView}
+                    {view}
                     <div>
                         <div className="pos-rel d-inline mb-1">
-                            <figure className="profile__figure" ref={this.contactFigRef}>
+                            <figure className="profile__figure" ref={this.figureRef}>
                                 <img className="profile__img" alt="user" src={avatar} />
                                 <svg className="profile__icon profile__icon--big" dangerouslySetInnerHTML={{__html: utils.use('user')}} />
                             </figure>
-                            <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.appendContactImg()} />
+                            <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />
                             <div className="profile__btn--img">
-                                {this.state.contactEditMode && <button className="mr-5 profile__btn profile__btn--rounded" onClick={() => this.removeContactImage()}>
+                                {this.state.editMode && <button className="mr-5 profile__btn profile__btn--rounded" onClick={() => this.removeImage()}>
                                     <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
                                 </button>}
                                 <button className="profile__btn profile__btn--rounded" onClick={() => this.imgRef.current.click()}>
@@ -229,47 +193,10 @@ class Main extends PureComponent {
                         <p className="profile__hint tc">Image size and resolution<br/>should not exceed<br/>1MB and 500x500px</p>
                     </div>
                 </div>
-                {this.state.contactEditMode && 
+                {this.state.editMode && 
                     <div className="profile__footer mt-15">
                         {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
-                        <button className="ml-2 btn btn__primary" onClick={() => this.onSaveContactData()}>
-                            Save
-                            <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />
-                        </button>
-                    </div>
-                }
-                <div className="profile__titlebar">
-                    <h2 className="heading heading__2 profile__heading">Company details</h2>
-                    <button className="profile__btn profile__btn--rounded" onClick={() => this.onToggleCompanyEditMode()}>
-                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use(this.state.companyEditMode ? 'x' : 'edit-2')}} />
-                    </button>
-                </div>
-                <div className="profile__content">
-                    {companyView}
-                    <div>
-                        <div className="pos-rel d-inline mb-1">
-                            <figure className="profile__figure" ref={this.companyFigRef}>
-                                <img className="profile__img" alt="user" src={company} />
-                                <svg className="profile__icon profile__icon--big" dangerouslySetInnerHTML={{__html: utils.use('image')}} />
-                            </figure>
-                            <input className="d-none" type="file" ref={this.companyRef} onChange={() => this.appendCompanyImg()} />
-                            
-                            <div className="profile__btn--img">
-                                {this.state.companyEditMode && <button className="mr-5 profile__btn profile__btn--rounded" onClick={() => this.removeComapnyImage()}>
-                                    <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
-                                </button>}
-                                <button className="profile__btn profile__btn--rounded" onClick={() => this.companyRef.current.click()}>
-                                    <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('camera')}} />
-                                </button>
-                            </div>
-                        </div>
-                        <p className="profile__hint tc">Image size and resolution<br/>should not exceed<br/>1MB and 500x500px</p>
-                    </div>
-                </div>
-                {this.state.companyEditMode && 
-                    <div className="profile__footer mt-15">
-                        {this.state.loadingCompany && <LoadingSub />}
-                        <button className="ml-2 btn btn__primary" onClick={() => this.onSaveCompanyData()}>
+                        <button className="ml-2 btn btn__primary" onClick={() => this.onSaveData()}>
                             Save
                             <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />
                         </button>
@@ -280,4 +207,193 @@ class Main extends PureComponent {
     }
 }
 
-export default Main;
+
+
+
+
+
+
+
+export class Company extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = {
+            editMode: false,
+            loading: false,
+            data: {
+                image: company,
+                email: '',
+                number: '',
+                name: ''
+            }
+        }
+
+        this.figureRef = React.createRef();
+        this.imgRef = React.createRef();
+    }
+    
+    fetchData = () => {
+        this.setState({ loading: true });
+        axios('https://jsonplaceholder.typicode.com/todos')
+            .then(res => {
+                setTimeout(() => {
+                    
+                    this.setState({ loading: false });
+                }, 2000);
+            })
+            .catch(er => {
+                
+                this.setState({ loading: false });
+            });
+    }
+
+    componentDidMount() {
+        this.fetchData();
+    }
+
+    onToggleEditMode = () => this.setState(prevState => {
+        return { editMode: !prevState.editMode, loading: false }
+    });
+
+    appendImage = (el, file) => {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            let image = el.querySelector('.profile__img');
+            if (!image) {
+                image = document.createElement('img');
+                image.classList.add('profile__img');
+                el.appendChild(image);
+            }
+            image.src = reader.result;
+        };
+    }
+
+    selectImage = () => {
+        if (this.imgRef.current.files.length) {
+            this.appendImage(this.figureRef.current, this.imgRef.current.files[0]);
+            
+            const formData = new FormData();
+            formData.append('profileImage[]', this.imgRef.current.files[0]);
+            
+            // -------------------
+            
+            // .....
+        }
+    }
+
+    removeImage = () => {
+        this.figureRef.current.querySelector('.profile__img').remove();
+
+        // -----------------
+
+        // ....
+    }
+
+    onSaveData = () => {
+        
+        // ---------------
+        this.setState({ loading: true });
+        setTimeout(() => this.setState({ loading: false }, () => this.setState({ editMode: false })), 2000);
+
+        // ....
+    }
+
+    render() {
+        let view = (
+            <div className="profile__details">
+                <div className="profile__text">
+                    <p className="profile__title">Company Name</p>
+                    Intech Ltd.
+                </div>
+                <div className="profile__text">
+                    <p className="profile__title">Email</p>
+                    intech@enterprise.eu
+                </div>
+                <div className="profile__text">
+                    <p className="profile__title">Contact number</p>
+                    +651651 65165165 65
+                </div>
+            </div>
+        );
+        if (this.state.editMode) {
+            view = (
+                <div className="profile__details">
+                    <div className="profile__text">
+                        <label className="profile__title">Company Name</label>
+                        <input 
+                            className="profile__input input" 
+                            type="text" 
+                            placeholder="Company name" 
+                            value={this.state.data.name} 
+                            onChange={(e) => this.setState({ name: e.target.value })} />
+                    </div>
+                    <div className="profile__text">
+                        <label className="profile__title">Email</label>
+                        <input 
+                            className="profile__input input" 
+                            type="email" 
+                            placeholder="Company email" 
+                            value={this.state.data.email} 
+                            onChange={(e) => this.setState({ email: e.target.value })} />
+                    </div>
+                    <div className="profile__text">
+                        <label className="profile__title">Contact number</label>
+                        <input className="profile__input input" type="text" placeholder="Company number" 
+                            value={this.state.data.number} 
+                            onChange={(e) => {
+                                if (utils.isNum(parseInt(e.target.value)) || e.target.value === '')
+                                    this.setState({ number: e.target.value });
+                                }} />
+                    </div>
+                </div>
+            );
+        }
+
+        if (this.state.loading) return <LoadingScreen class="loadingScreen--profile" />;
+
+        return (
+            <React.Fragment>
+
+                <div className="profile__titlebar">
+                        <h2 className="heading heading__2 profile__heading">Company details</h2>
+                        <button className="profile__btn profile__btn--rounded" onClick={() => this.onToggleEditMode()}>
+                            <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use(this.state.editMode ? 'x' : 'edit-2')}} />
+                        </button>
+                    </div>
+                    <div className="profile__content">
+                        {view}
+                        <div>
+                            <div className="pos-rel d-inline mb-1">
+                                <figure className="profile__figure" ref={this.figureRef}>
+                                    <img className="profile__img" alt="user" src={company} />
+                                    <svg className="profile__icon profile__icon--big" dangerouslySetInnerHTML={{__html: utils.use('image')}} />
+                                </figure>
+                                <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />
+                                
+                                <div className="profile__btn--img">
+                                    {this.state.editMode && <button className="mr-5 profile__btn profile__btn--rounded" onClick={() => this.removeImage()}>
+                                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                    </button>}
+                                    <button className="profile__btn profile__btn--rounded" onClick={() => this.imgRef.current.click()}>
+                                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('camera')}} />
+                                    </button>
+                                </div>
+                            </div>
+                            <p className="profile__hint tc">Image size and resolution<br/>should not exceed<br/>1MB and 500x500px</p>
+                        </div>
+                    </div>
+                    {this.state.editMode && 
+                        <div className="profile__footer mt-15">
+                            {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
+                            <button className="ml-2 btn btn__primary" onClick={() => this.onSaveData()}>
+                                Save
+                                <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />
+                            </button>
+                        </div>
+                        }
+            </React.Fragment>
+        )
+    }
+}

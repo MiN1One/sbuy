@@ -15,6 +15,7 @@ import Card from '../components/Card';
 import LoadingScreen from '../UI/LoadingScreen';
 import LoadingSub from '../UI/LoadingSub';
 import Adview from '../components/Adview';
+import * as actions from '../store/actions';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -48,7 +49,6 @@ class Header extends Component {
     }
 
     render() {
-        // alert(this.props.match.params.id)
         const vendorAds = this.props.vendorAds.map((el, i) => {
             return (
                 <SwiperSlide className="header__item" key={i}>
@@ -63,22 +63,33 @@ class Header extends Component {
         const premiumArr = this.props.data.filter(el => el.premium === true);
         const premium = premiumArr.map((el, i) => <Card data={el} key={i} />);
 
+        const autoplay = this.state.adviewMounted ? false : { delay: 3000, waitForTransition: true };
+
         return (
             <React.Fragment>
-                <Route path="/:id" render={() => <Adview {...this.props} />} />
+                <Route 
+                    path="/:id" 
+                    render={() => 
+                        <Adview 
+                            data={premiumArr} 
+                            favorites={this.props.favorites} 
+                            lang={this.props.lang} 
+                            onSetFavorites={this.props.onSetFavorites} />
+                        } 
+                    />
                 <Searchbar />
                 <header className="header">
                     <div className="header__main">
                         <div className="container">
                             <div className="header__mainwrap">
                                 <Categories />
-                                {this.state.loadingVendor ? 
-                                    <div className="header__list header__loading loading-center">
-                                        <LoadingSub />
-                                    </div> 
+                                {this.state.loadingVendor 
+                                    ? <div className="header__list header__loading loading-center">
+                                            <LoadingSub />
+                                        </div> 
                                     : <Swiper 
                                         className="header__list gradient gradient--right"
-                                        autoplay={{ delay: 3000, disableOnInteraction: false, waitForTransition: true }}
+                                        autoplay={autoplay}
                                         navigation={{ prevEl: '.btn__rounded--left', nextEl: '.btn__rounded--right', disabledClass: 'btn__rounded--disabled' }}
                                         pagination={{el: '.swiper-pagination', clickable: true}}
                                         preloadImages
@@ -126,7 +137,11 @@ const mapStateToProps = state => ({
     vendorAds: state.data.vendorAds,
     data: state.data.data,
     lang: state.localization.lang,
-    favorites: state.data.favoriteAds
+    favorites: state.user.favorites
 });
 
-export default connect(mapStateToProps)(withRouter(Header));
+const mapDispatchToProps = (dispatch) => ({
+    onSetFavorites: (list) => dispatch(actions.setFavorites(list))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

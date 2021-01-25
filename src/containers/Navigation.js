@@ -8,6 +8,7 @@ import Logo from '../components/Logo';
 import Dropdown from '../components/Dropdown';
 import Categories from '../components/Categories';
 import Backdrop from '../UI/Backdrop';
+import * as actions from '../store/actions';
 
 class Navigation extends PureComponent {
     state = {
@@ -86,10 +87,10 @@ class Navigation extends PureComponent {
                         </Link>
                     </li>
                 </ul>
-                <button className="dropdown__btn dropdown__btn--grey">Log out</button>
+                <button className="dropdown__btn dropdown__btn--grey" onClick={() => this.props.onLogOut()}>Log out</button>
             </Dropdown>
         );
-        if (!this.state.signedIn) {
+        if (!this.props.token) {
             userDrop = (
                 <Dropdown class="dropdown--w-auto">
                     <div className="dropdown__link dropdown__link--col">
@@ -165,11 +166,13 @@ class Navigation extends PureComponent {
 
 const mapStateToProps = (state) => ({
     lang: state.localization.lang,
-    favorites: state.data.favoriteAds
+    favorites: state.user.favorites,
+    token: state.user.token
 });
 
 const mapDispatchToProps = (dispatch) => ({
-
+    onLogOut: () => dispatch(actions.logOut()),
+    onLogin: () => dispatch(actions.logIn())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(Navigation)));

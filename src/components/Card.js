@@ -11,12 +11,9 @@ class Card extends PureComponent {
 
     onLikeAd = (id) => {
         let newList = null;
-        
-        const list = localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [];
-
-        const exists = list.find(el => el === id);
-        if (exists) newList = list.filter(el => el !== id);
-        else newList = [...list, id];
+        const exists = this.props.favorites.find(el => el === id);
+        if (exists) newList = this.props.favorites.filter(el => el !== id);
+        else newList = [...this.props.favorites, id];
         localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
         this.props.onSetFavorites(newList);
     }
@@ -63,7 +60,7 @@ class Card extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-    favorites: state.data.favoriteAds
+    favorites: state.user.favorites
 });
 
 const mapDispatchToProps = (dispatch) => ({

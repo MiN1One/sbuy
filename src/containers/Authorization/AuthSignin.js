@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import * as emailValidator from 'email-validator';
 import axios from 'axios';
+import { connect } from 'react-redux';
+
+import * as actions from '../../store/actions';
 
 import Backdrop from '../../UI/Backdrop';
 import Language from '../../components/Language';
@@ -42,7 +45,20 @@ class AuthSignin extends Component {
             console.log(remember);
 
             // --------------------------------------------
-            
+            const data = {
+                phone: mainInput,
+                password: password.value,
+                // email: 'test@mail.eu',
+            };
+            axios.post('http://api.soybaliq.uz/api/auth/login', data)
+                .then(res => {
+                    res.config = null;
+                    const token = res.data.access_token;
+                    this.props.onLogin(token);
+                }).catch(er => {
+                    console.log(er);
+                    this.setState({ error: er.message });
+                });
             // ..........
         } else {
             this.loginRef.current.setCustomValidity('Empty');
@@ -125,4 +141,12 @@ class AuthSignin extends Component {
     }
 }
 
-export default AuthSignin;
+const mapStateToProps = state => ({
+    lang: state.localization.lang
+});
+
+const mapDispatchToProps = dispatch => ({
+    onLogin: (token) => dispatch(actions.logIn(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AuthSignin);

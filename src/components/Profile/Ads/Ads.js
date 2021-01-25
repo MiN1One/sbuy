@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
+import LoadingScreen from '../../../UI/LoadingScreen';
 import { AdsCard } from './AdCard';
 
 const ActiveAds = React.memo((props) => {
+
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        setLoading(true);
+        axios('https://jsonplaceholder.typicode.com/todos')
+            .then(res => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 2000);
+            })
+            .catch(er => {
+                
+                setLoading(false);
+            });
+    }, []);
 
     const onDeactivate = (id) => {
 
@@ -12,6 +31,8 @@ const ActiveAds = React.memo((props) => {
     }
 
     const ads = props.data.map((el, i) => <AdsCard el={el} view="active" key={el.id} />);
+
+    if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     return (
         <React.Fragment>
@@ -34,6 +55,23 @@ const ActiveAds = React.memo((props) => {
 
 const InactiveAds = React.memo((props) => {
 
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        setLoading(true);
+        axios('https://jsonplaceholder.typicode.com/todos')
+            .then(res => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 2000);
+            })
+            .catch(er => {
+                
+                setLoading(false);
+            });
+    }, []);
+
     const onActivate = (id) => {
 
         // ----------------------
@@ -49,6 +87,8 @@ const InactiveAds = React.memo((props) => {
     };
 
     const ads = props.data.map((el, i) => <AdsCard el={el} view="inactive" key={el.id} />);
+
+    if (loading) return <LoadingScreen class="loadingScreen--profile" />;
     
     return (
         <React.Fragment>
@@ -63,6 +103,23 @@ const InactiveAds = React.memo((props) => {
 });
 
 const PromotedAds = React.memo((props) => {
+
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        setLoading(true);
+        axios('https://jsonplaceholder.typicode.com/todos')
+            .then(res => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 2000);
+            })
+            .catch(er => {
+                
+                setLoading(false);
+            });
+    }, []);
 
     const onDeactivate = (id) => {
 
@@ -79,6 +136,8 @@ const PromotedAds = React.memo((props) => {
     };
 
     const ads = props.data.filter(el => el.premium === true).map(el => <AdsCard el={el} view="active" key={el.id} />);
+    
+    if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     return (
         <React.Fragment>

@@ -116,7 +116,7 @@ class Main extends PureComponent {
         if (!this.state.loading) {
             view = (
                 <React.Fragment>
-                    <Route path="/:category/:subcategory/:id" exact render={() => <Adview {...this.props} data={this.props.data} />} />
+                    <Route path="/:category/:subcategory/:id" exact render={() => <Adview {...this.props} />} />
                     <main className="main">
                         <div className="container">
                             <div className="main__wrapper">
@@ -173,7 +173,7 @@ class Main extends PureComponent {
 const mapStateToProps = (state) => ({
     data: state.data.data,
     filters: state.data.filters,
-    favorites: state.data.favoriteAds
+    favorites: state.user.favorites
 });
 
 const mapDispatchToProps = (dispatch) => ({

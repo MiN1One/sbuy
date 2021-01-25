@@ -99,6 +99,9 @@ export const AdsCard = (props) => {
 
 export const AdFull = (props) => {
 
+    const onRemoveFromFavorites = (id) => {
+        
+    };
 
     return (
         <div className="profile__ad" tabIndex="0" key={props.el.id}>

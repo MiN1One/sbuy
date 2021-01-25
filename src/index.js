@@ -8,16 +8,14 @@ import reduxThunk from 'redux-thunk';
 
 import localization from './store/reducers/reducer_localization';
 import data from './store/reducers/reducer_data';
+import user from './store/reducers/reducer_user';
 
 import App from './containers/App';
 import './index.scss';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const rootReducer = combineReducers({
-  localization,
-  data
-});
+const rootReducer = combineReducers({ localization, data, user });
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(reduxThunk)));
 

@@ -3,7 +3,7 @@ import { withRouter, Route, Switch, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-import Main from './Main';
+import { User, Company } from './Main';
 import * as utils from '../../utilities/utilities';
 import { ActiveAds, InactiveAds, PromotedAds } from './Ads/Ads';
 import Favorites from './Favourites';
@@ -12,6 +12,7 @@ import Payments from './Payments';
 import Promotions from './Promotions';
 import { Inbox, Sentbox, Spam } from './Messages';
 import * as actions from '../../store/actions';
+import LoadingScreen from '../../UI/LoadingScreen';
 
 class Profile extends PureComponent {
     constructor(props) {
@@ -19,7 +20,7 @@ class Profile extends PureComponent {
 
         this.subAdsList = React.createRef();
         this.subMessagesList = React.createRef();
-        this.subFavouritesList = React.createRef();
+        this.subProfileList = React.createRef();
 
         this.slideSubLists = this.slideSubLists.bind(this);
         this.scrollToTop = this.scrollToTop.bind(this);
@@ -30,6 +31,9 @@ class Profile extends PureComponent {
     slideSubLists() {
         if (this.props.match.params.section === 'ads') $(this.subAdsList.current).slideDown({ duration: 300 });
         else $(this.subAdsList.current).slideUp({ duration: 300 });
+        
+        if (this.props.match.params.section === 'profile') $(this.subProfileList.current).slideDown({ duration: 300 });
+        else $(this.subProfileList.current).slideUp({ duration: 300 });
 
         if (this.props.match.params.section === 'messages') $(this.subMessagesList.current).slideDown({ duration: 300 });
         else $(this.subMessagesList.current).slideUp({ duration: 300 });
@@ -45,28 +49,32 @@ class Profile extends PureComponent {
     }
 
     render() {
+        const Profile = (
+            <React.Fragment>
+                <User {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
+                <Company {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
+            </React.Fragment>
+        );
+
         const Ads = (
             <React.Fragment>
-                <ActiveAds {...this.props} />
-                <InactiveAds {...this.props} />
-                <PromotedAds {...this.props} />
+                <ActiveAds {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
+                <InactiveAds {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
+                <PromotedAds {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
             </React.Fragment>
         );
 
         const Messages = (
             <React.Fragment>
-                <Inbox {...this.props} />
-                <Sentbox {...this.props} />
-                <Spam {...this.props} />
+                <Inbox {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
+                <Sentbox {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
+                <Spam {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />
             </React.Fragment>
         );
 
         const activeAdsCount = this.props.data.length;
         const promotedAdsCount = this.props.data.filter(el => el.premium === true).length;
         const inactiveAdsCount = this.props.data.length;
-
-        const favAdsCount = this.props.data.filter(el => el.favorite === true).length;
-        const favSearchesCount = 0;
 
         return (
             <div className="profile">
@@ -83,10 +91,20 @@ class Profile extends PureComponent {
                                 <h5 className="profile__link profile__link--heading">{this.props.match.params.section}</h5>
                                 <ul className="profile__list">
                                     <li className="profile__item">
-                                        <NavLink to="/user/profile" className="profile__link" activeClassName="profile__link--active">
+                                        <NavLink to="/user/profile" className="profile__link" activeClassName="profile__link--active-cursored">
                                             <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('user')}} />
                                             Profile
                                         </NavLink>
+                                        <div className="profile__item profile__item--sub" ref={this.subProfileList}>
+                                            <NavLink to="/user/profile/main" activeClassName="profile__link--sub-active" className="profile__link message-badge">
+                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('file-text')}} />
+                                                Main
+                                            </NavLink>
+                                            <NavLink to="/user/profile/company" activeClassName="profile__link--sub-active" className="profile__link message-badge">
+                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('briefcase')}} />
+                                                Company
+                                            </NavLink>
+                                        </div>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/ads" activeClassName="profile__link--active-cursored" className="profile__link">
@@ -159,19 +177,22 @@ class Profile extends PureComponent {
                             </div>
                             <div className="profile__group profile__header">
                                 <Switch>
-                                    <Route path="/user/profile" render={() => <Main />}/>
+                                    <Route path="/user/profile" exact render={() => Profile}/>
+                                    <Route path="/user/profile/main" exact render={() => <User {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/profile/company" exact render={() => <Company {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/profile" exact render={() => Profile}/>
                                     <Route path="/user/ads" exact render={() => Ads} />
-                                    <Route path="/user/ads/active" render={() => <ActiveAds {...this.props} />} />
-                                    <Route path="/user/ads/inactive" render={() => <InactiveAds {...this.props} />} />
-                                    <Route path="/user/ads/promoted" render={() => <PromotedAds {...this.props} />} />
+                                    <Route path="/user/ads/active" exact render={() => <ActiveAds {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />} />
+                                    <Route path="/user/ads/inactive" exact render={() => <InactiveAds {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />} />
+                                    <Route path="/user/ads/promoted" exact render={() => <PromotedAds {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />} />
                                     <Route path="/user/messages" exact render={() => Messages}/>
-                                    <Route path="/user/messages/inbox" exact render={() => <Inbox {...this.props} />}/>
-                                    <Route path="/user/messages/sentbox" render={() => <Sentbox {...this.props} />}/>
-                                    <Route path="/user/messages/spam" render={() => <Spam {...this.props} />}/>
-                                    <Route path="/user/favorites" exact render={() => <Favorites {...this.props} />}/>
-                                    <Route path="/user/settings" render={() => <Settings {...this.props} />}/>
-                                    <Route path="/user/payments" render={() => <Payments {...this.props} />}/>
-                                    <Route path="/user/promotions" render={() => <Promotions {...this.props} />}/>
+                                    <Route path="/user/messages/inbox" exact render={() => <Inbox {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/messages/sentbox" exact render={() => <Sentbox {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/messages/spam" exact render={() => <Spam {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/favorites" exact render={() => <Favorites {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/settings" exact render={() => <Settings {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/payments" exact render={() => <Payments {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
+                                    <Route path="/user/promotions" exact render={() => <Promotions {...this.props} setLoading={this.setLoading} setData={this.setData} setError={this.setError} />}/>
                                     <Route path="*" render={() => <h1>404 Not Found</h1>} />
                                 </Switch>
                             </div>
@@ -183,12 +204,11 @@ class Profile extends PureComponent {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        data: state.data.data,
-        searchLocation: state.localization.searchLocation
-    };
-};
+const mapStateToProps = state => ({
+    data: state.data.data,
+    searchLocation: state.localization.searchLocation,
+    favorites: state.data.favoriteAds
+});
 
 const mapDispatchToProps = dispatch => {
     return {

@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import SwiperCore, { Scrollbar, Mousewheel, Pagination, Navigation } from 'swiper';
@@ -14,6 +14,9 @@ import * as utils from '../utilities/utilities';
 import avatar from '../assets/images/32.jpg';
 import Backdrop from '../UI/Backdrop';
 import Tooltip from '../UI/Tooltip';
+import LoadingSub from '../UI/LoadingSub';
+import LoadingScreen from '../UI/LoadingScreen';
+import axios from 'axios';
 
 SwiperCore.use([Scrollbar, Mousewheel, Pagination, Navigation]);
 
@@ -21,6 +24,7 @@ class adview extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             index: null,
             rating: 4.5,
             showNum: false,
@@ -32,6 +36,7 @@ class adview extends PureComponent {
             swiperEnd: false,
             activeSwiperImage: 0
         }
+
         this.categoryPath = `${this.props.match.params.category}/${this.props.match.params.subcategory}`;
         this.id = this.props.match.params.id;
 
@@ -39,8 +44,23 @@ class adview extends PureComponent {
         this.mesTitleRef = React.createRef();
     }
 
+    fetchData = async () => {
+        try {
+            this.setState({ loading: true });
+            const data = await axios('https://jsonplaceholder.typicode.com/todos/');
+            setTimeout(() => {
+                
+                this.setState({ loading: false });
+            }, 1500);
+        } catch(er) {
+            this.setState({ loading: false });
+        }
+        
+    }
+
     componentDidMount() {
-        console.log('Initial id: ' + this.id);
+        this.fetchData();
+
         const index = this.props.data.findIndex(el => el.id === this.id);
         if (index === -1) {
             console.log('No such ad exists');
@@ -54,16 +74,16 @@ class adview extends PureComponent {
     }
     
     componentDidUpdate(prevProps, prevState) {
-        this.swiper.update();
-        
-        if (prevProps !== this.props) {
+        if (prevProps.match.params.id !== this.props.match.params.id) {
+            this.fetchData();
+            this.swiper.update();
             const index = this.props.data.findIndex(el => el.id === this.props.match.params.id);
             this.setState({ index });
         }
     }
     
     componentWillUnmount() {
-        this.swiper.destroy();
+        if (this.swiper) this.swiper.destroy();
         
         const root = document.documentElement;
         root.style.setProperty('--cat-item-transition', 'all .3s ease');
@@ -74,12 +94,9 @@ class adview extends PureComponent {
 
     onLikeAd = (id) => {
         let newList = null;
-        
-        const list = localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [];
-
-        const exists = list.find(el => el === id);
-        if (exists) newList = list.filter(el => el !== id);
-        else newList = [...list, id];
+        const exists = this.props.favorites.find(el => el === id);
+        if (exists) newList = this.props.favorites.filter(el => el !== id);
+        else newList = [...this.props.favorites, id];
         localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
         this.props.onSetFavorites(newList);
     }
@@ -114,11 +131,7 @@ class adview extends PureComponent {
         }
         if (i > degrees.length - 1) i = 0;
         this.setState({ rotate: degrees[i] }, () => console.log(this.state.rotate));
-    }
-
-    onEnterMessage = (e) => {
-        this.setState({ message: e.target.value });
-    }
+    } 
 
     onSendMessage = (e) => {
         e.preventDefault();
@@ -130,12 +143,9 @@ class adview extends PureComponent {
         }
     }
 
-    onShowNumber = () => {
-        this.setState({ showNum: true });
-    }
-
     closePopup = () => {
-        this.props.history.replace('/' + this.categoryPath);
+        if (!this.props.match.params.category && !this.props.match.params.subcategory) this.props.history.replace('/');
+        else this.props.history.replace('/' + this.categoryPath);
     }
 
     onShowMessageBar = () => this.setState({ showMessageBar: true });
@@ -180,8 +190,18 @@ class adview extends PureComponent {
     }
 
     render() {
-        const category = `/${this.props.match.params.category}`;
-        const subcategory = this.props.match.params.subcategory;
+        let category = `/${this.props.match.params.category}`;
+        let subcategory = this.props.match.params.subcategory;
+        
+        let routes = null;
+        if (this.props.match.params.category && this.props.match.params.subcategory) {
+            routes = (
+                <React.Fragment>
+                    <Link to={category} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.capitalize(utils.parseUrl(utils.formatRouteString(category)))}</Link>
+                    <Link to={`${category}/${subcategory}`} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.capitalize(utils.parseUrl(utils.formatRouteString(subcategory)))}</Link>
+                </React.Fragment>
+            );
+        }
 
         let rotateDegClass = '';
         if (this.state.rotate) rotateDegClass = `adview__rotate--${this.state.rotate}`;
@@ -205,29 +225,36 @@ class adview extends PureComponent {
                     />
             </SwiperSlide>
         ));
-
-        const adsFrom = this.props.data.map((el, i) => {
-            return (
-                <Link to={`${category}/${subcategory}/${el.id}`} className="adview__card adview__box adview__box--card" key={i}>
-                    <figure className="adview__figure adview__figure--card mr-2">
-                        <LazyLoadImage 
-                            className="adview__img adview__img--card"
-                            src={el.img[0]}
-                            width="100%"
-                            height="100%"
-                            />
-                    </figure>
-                    <div className="adview__group adview__group--col w-max afs">
-                        <span className="adview__subheading adview__subheading--card mb-1">{utils.limitStrAny(el.title, 15, true)}</span>
-                        <span className="adview__title mb-5">{el.date}</span>
-                        <span className="adview__title mb-5">{el.location}</span>
-                        <span className="price-tag">{el.price}</span>
-                    </div>
-                </Link>
-            )
-        });
+        
+        let adsFrom = (
+            <React.Fragment>
+                {this.props.data.map((el, i) => {
+                    return (
+                        <Link to={`${category}/${subcategory}/${el.id}`} className="adview__card adview__box adview__box--card" key={i}>
+                            <figure className="adview__figure adview__figure--card mr-2">
+                                <LazyLoadImage 
+                                    className="adview__img adview__img--card"
+                                    src={el.img[0]}
+                                    width="100%"
+                                    height="100%"
+                                    />
+                            </figure>
+                            <div className="adview__group adview__group--col w-max afs">
+                                <span className="adview__subheading adview__subheading--card mb-1">{utils.limitStrAny(el.title, 15, true)}</span>
+                                <span className="adview__title mb-5">{el.date}</span>
+                                <span className="adview__title mb-5">{el.location}</span>
+                                <span className="price-tag">{el.price}</span>
+                            </div>
+                        </Link>
+                    )
+                })}
+                <button className="adview__card adview__card--btn">See all</button>
+            </React.Fragment>
+        );
 
         const isFavorite = this.props.favorites.findIndex(el => el === ad.id) > -1;
+
+        if (this.state.loading) return <LoadingScreen class="loadingScreen--abs" />
         
         return (
             <React.Fragment>
@@ -265,9 +292,8 @@ class adview extends PureComponent {
                                     <div className="adview__head">
                                         <div className="adview__group">
                                             <Link to="/" className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">Home</Link>
-                                            <Link to={category} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.capitalize(utils.parseUrl(utils.formatRouteString(category)))}</Link>
-                                            <Link to={`${category}/${subcategory}`} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.capitalize(utils.parseUrl(utils.formatRouteString(subcategory)))}</Link>
-                                            <span className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{ad.title}</span>
+                                            {routes}
+                                            <span className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.limitStrAny(ad.title, 15, true)}</span>
                                         </div>
                                         <div className="adview__group">
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto afs" onClick={() => this.onClickPrev()}>
@@ -404,7 +430,7 @@ class adview extends PureComponent {
                                                     </span>
                                                 </span>
                                                 <div className="adview__item pos-rel no-transition">
-                                                    <button className="adview__btn--main btn btn__primary" onClick={() => this.onShowNumber()}>
+                                                    <button className="adview__btn--main btn btn__primary" onClick={() => this.setState({ showNum: true })}>
                                                         Phone number
                                                         <svg className="adview__icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('phone-outgoing')}} />
                                                     </button>
@@ -428,13 +454,16 @@ class adview extends PureComponent {
                                             {this.state.showMessageBar && 
                                                 <div className="adview__box adview__box--message">
                                                     <div className="adview__group adview__group--sb mb-1">
-                                                        <p className="adview__title adview__title--big" ref={this.mesTitleRef}>Write your message:</p>
+                                                        <p className="adview__title" ref={this.mesTitleRef}>Write your message:</p>
                                                         <button className="adview__btn adview__btn--sm adview__btn--rel pos-rel" onClick={() => this.onHideMessageBar()}>
                                                             <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
                                                         </button>
                                                     </div>
                                                     <form className="adview__form" onSubmit={(e) => this.onSendMessage(e)}>
-                                                        <textarea autoFocus required className="adview__input mr-5" placeholder="Message..." type="text" onChange={(e) => this.onEnterMessage(e)} value={this.state.message} />
+                                                        <div className="adview__input-box">
+                                                            <textarea autoFocus required className="adview__input mr-5" placeholder="Message..." type="text" onChange={(e) => this.setState({ message: e.target.value })} value={this.state.message} />
+                                                            {this.state.message !== '' && <span className="adview__title mt-1">{300 - this.state.message.length} characters left</span>}
+                                                        </div>
                                                         <button className="wh-auto btn btn__primary btn__primary--outline">
                                                             Send
                                                             <svg className="adview__icon icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('send')}} />
@@ -459,7 +488,7 @@ class adview extends PureComponent {
                                                 <span className={bottomGradientClass.join(' ')}></span>
                                                 <SwiperSlide className="adview__cards">
                                                     {adsFrom}
-                                                    <button className="adview__card adview__card--btn">See all</button>
+                                                    
                                                 </SwiperSlide>
                                                 <div className="swiper-scrollbar" id="scrollbar-2"></div>
                                             </Swiper>
@@ -475,4 +504,4 @@ class adview extends PureComponent {
     }
 }
 
-export default withRouter(adview);
+export default withRouter(React.memo(adview));

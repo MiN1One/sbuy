@@ -448,4 +448,10 @@
     }
 
     &__main-text { color: initial; }
+
+    &__loading {
+        background: #fff;
+        border-top: 1px solid rgba(#000, .1);
+        height: 55rem;
+    }
 }

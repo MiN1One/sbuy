@@ -8,8 +8,13 @@ export {
     changeSearchInput,
     setLoadingForLazy,
     setLoading,
-    setFavorites,
     handleError,
     filterByOptions,
     filterByCounters
 } from './actions_data';
+
+export {
+    setFavorites,
+    logIn,
+    logOut
+} from './actions_user';
