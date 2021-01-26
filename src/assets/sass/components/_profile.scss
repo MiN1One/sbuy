@@ -216,7 +216,10 @@
             fill: var(--color-primary-opaque);
         }
 
-        &--det { fill: var(--color-grey-7); }
+        &--det {
+            fill: var(--color-grey-7);
+            margin-right: .5rem;
+        }
     }
 
     &__titlebar {

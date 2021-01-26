@@ -1,9 +1,11 @@
 import React, { PureComponent } from "react";
 import { connect } from 'react-redux';
+import imageCompression from 'browser-image-compression';
 
 import * as utils from '../utilities/utilities';
 import Backdrop from '../UI/Backdrop';
 import Dropdown from "../components/Dropdown";
+import LoadingScreen from "../UI/LoadingScreen";
 
 class Publish extends PureComponent {
     constructor(props) {
@@ -45,6 +47,7 @@ class Publish extends PureComponent {
 
             categories: {},
             filterObj: null,
+            loading: false
         };
 
         this.fileRef = React.createRef();
@@ -167,21 +170,41 @@ class Publish extends PureComponent {
         if (files.length && this.state.images.length < 7) {
             let photos = Array.from(files).slice(0, 7);
 
-            const largeFile = photos.find(el => el.size > 2000000);
+            const largeFile = photos.find(el => el.size > 3500000);
 
             const fileTypeArr = photos.map(el => el.type.startsWith('image/'));
             const typeOk = !fileTypeArr.some(el => el === false);
-
+            
             if (typeOk) {
                 if (!largeFile) {
-                    this.setState(prevState => {
-                        return { images: [...prevState.images, ...photos] };
-                    }, () => {
-                        const photoContainers = Array.from(document.querySelectorAll('.post__figure'));
-    
-                        this.state.images.forEach((el, i) => this.appendImage(photoContainers[i], el));
+
+                    const options = {
+                        maxSizeMB: 1,
+                        maxWidthOrHeight: 1920,
+                        useWebWorker: true
+                    }
+                    
+                    this.setState({ loading: true }, () => {
+                        for (let i = 0; i < photos.length; i++) {
+                            imageCompression(photos[i], options)
+                                .then(cimage => {
+                                    const file = new File([cimage], cimage.name);
+
+                                    this.setState(prevState => {
+                                        return { images: [...prevState.images, file] };
+                                    }, () => {
+                                        const photoContainers = Array.from(document.querySelectorAll('.post__figure'));
+                                        
+                                        this.state.images.forEach((el, i) => this.appendImage(photoContainers[i], el));
+                                        this.setState({ error: null, loading: false });
+                                    });
+                                })
+                                .catch(er => {
+                                    this.setState({ error: er, loading: false });
+                                });
+                        }
                     });
-                } else this.setState({ error: `File "${largeFile.name}" exceeded maximum size of 2MB` });
+                } else this.setState({ error: `File "${largeFile.name}" exceeded maximum size of 3.5MB` });
             } else this.setState({ error: 'Only image files are allowed' });
         }
     }
@@ -254,7 +277,7 @@ class Publish extends PureComponent {
                         <div className="post__box">
                             <div className="post__input post__input--cat" tabIndex="0">
                                 {defaultTitle}
-                                <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+                                <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
                             </div>
                             <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                 {dropItems}
@@ -290,15 +313,15 @@ class Publish extends PureComponent {
             catItems = catItemsArr.map((el) => {
                 return (
                     <li 
-                        className="categories__item"
+                        className="cat__item"
                         key={el.id}
                         onClick={() => this.setActiveCat(el.id)}>
-                        <div className="categories__link">
-                            <div className="categories__group">
-                                <svg className="categories__icon categories__icon--cat" dangerouslySetInnerHTML={{__html: utils.useCat(el.icon)}} />
+                        <div className="cat__link">
+                            <div className="cat__group">
+                                <utils.useCat styleClass="cat__i cat__i--cat" svg={el.icon} />
                                 {el.title}
                             </div>
-                            <svg className="categories__icon categories__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                            <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
                         </div>
                     </li>
                 );
@@ -307,9 +330,9 @@ class Publish extends PureComponent {
             if (this.state.activeCat) {
                 subItems = this.state.categories[this.state.activeCat].subCategories.map((el, i) => {
                     return (
-                        <li className="categories__subitem" key={i}>
-                            <div className="categories__link categories__link--sub" onClick={() => this.onSelectSubCat(el.val)}>
-                                <svg className="categories__icon categories__icon--sub" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                        <li className="cat__subitem" key={i}>
+                            <div className="cat__link cat__link--sub" onClick={() => this.onSelectSubCat(el.val)}>
+                                <utils.use styleClass="cat__i cat__i--sub" svg="chevron-right" />
                                 {el.title}
                             </div>
                         </li>
@@ -338,6 +361,7 @@ class Publish extends PureComponent {
 
         return (
             <React.Fragment>
+                {this.state.loading && <LoadingScreen class="loadingScreen--abs" />}
                 <section className="post">
                     <div className="container">
                         <div className="post__wrapper">
@@ -356,77 +380,78 @@ class Publish extends PureComponent {
                                             className="post__input d-none" 
                                             type="file" 
                                             multiple 
+                                            accept="image/*"
                                             ref={this.fileRef} 
                                             onChange={() => this.onImageUpload()} />
                                         <div className="post__imagebox  post__imagebox--main">
                                             <figure className="post__figure post__figure--main" onClick={() => this.fileRef.current.click()}>
-                                                <svg className="post__icon post__icon--main mb-1" dangerouslySetInnerHTML={{__html: utils.use('image')}} />
+                                                <utils.use styleClass="post__icon post__icon--main mb-1" svg="image" />
                                                 <span className="post__prompt">Click here to uload main photo</span>
                                             </figure>
                                             {this.state.images[0] && <div className="post__overlay">
                                                 <button className="post__btn post__btn--delete" onClick={() => this.onDeleteImage(0)}>
-                                                    <svg className="post__icon post__icon--cat" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                    <utils.use styleClass="post__icon post__icon--cat" svg="trash-2" />
                                                 </button>
                                             </div>}
                                         </div>
                                         <div className="post__row">
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
-                                                    <svg className="post__icon" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                                    <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
                                                 {this.state.images[1] && <div className="post__overlay">
                                                     <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(1)}>
-                                                        <svg className="post__icon post__icon--cat post__icon--sm" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
                                                     </button>
                                                 </div>}
                                             </div>
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
-                                                    <svg className="post__icon" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                                    <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
                                                 {this.state.images[2] && <div className="post__overlay">
                                                     <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(2)}>
-                                                        <svg className="post__icon post__icon--cat post__icon--sm" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
                                                     </button>
                                                 </div>}
                                             </div>
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
-                                                    <svg className="post__icon" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                                    <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
                                                 {this.state.images[3] && <div className="post__overlay">
                                                     <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(3)}>
-                                                        <svg className="post__icon post__icon--cat post__icon--sm" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
                                                     </button>
                                                 </div>}
                                             </div>
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
-                                                    <svg className="post__icon" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                                    <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
                                                 {this.state.images[4] && <div className="post__overlay">
                                                     <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(4)}>
-                                                        <svg className="post__icon post__icon--cat post__icon--sm" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
                                                     </button>
                                                 </div>}
                                             </div>
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
-                                                    <svg className="post__icon" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                                    <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
                                                 {this.state.images[5] && <div className="post__overlay">
                                                     <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(5)}>
-                                                        <svg className="post__icon post__icon--cat post__icon--sm" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
                                                     </button>
                                                 </div>}
                                             </div>
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
-                                                    <svg className="post__icon" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                                    <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
                                                 {this.state.images[6] && <div className="post__overlay">
                                                     <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(6)}>
-                                                        <svg className="post__icon post__icon--cat post__icon--sm" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
                                                     </button>
                                                 </div>}
                                             </div>
@@ -457,10 +482,10 @@ class Publish extends PureComponent {
                                     <p className="post__title mb-1">Category</p>
                                     <button className="post__input post__input--cat post__input--cat-main" onClick={() => this.onOpenCatPop()}>
                                         <span className="post__val">
-                                            {this.state.activeAfter && <svg className="post__icon post__icon--cat icon__dark mr-1" dangerouslySetInnerHTML={{__html: utils.useCat(this.state.categories[this.state.activeAfter].icon)}} />}
+                                            {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.state.categories[this.state.activeAfter].icon} />}
                                             {title ? title : 'Select category'}
                                         </span>
-                                        <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                                        <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-right" />
                                     </button>
                                     {this.state.activeAfter &&
                                         <React.Fragment>
@@ -470,7 +495,7 @@ class Publish extends PureComponent {
                                                     <li className="post__item">{title}</li>
                                                 </ul>
                                                 <button className="post__btn post__btn--catitems">
-                                                    <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('chevrons-right')}} />
+                                                    <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-right" />
                                                 </button>
                                             </div>
                                         </React.Fragment>
@@ -486,7 +511,7 @@ class Publish extends PureComponent {
                                             <div className="post__box">
                                                 <div className="post__input post__input--cat" tabIndex="0">
                                                     {this.state.types[this.state.adType]}
-                                                    <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+                                                    <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
                                                 </div>
                                                 <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                     {types}
@@ -498,7 +523,7 @@ class Publish extends PureComponent {
                                                     <div className="post__box">
                                                         <div className="post__input post__input--cat post__input--cur" tabIndex="0">
                                                             {this.state.currency.toUpperCase()}
-                                                            <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+                                                            <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
                                                         </div>
                                                         <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                             <div className="dropdown__item" onClick={() => this.onChangeCurrency('usd')}>
@@ -516,7 +541,7 @@ class Publish extends PureComponent {
                                         <div className="post__box">
                                             <div className="post__input post__input--cat" tabIndex="0">
                                                 {utils.capitalize(this.state.business_type)}
-                                                <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+                                                <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
                                             </div>
                                             <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                 <div className="dropdown__item" onClick={() => this.onChangeBusinessType('individual')}>
@@ -567,7 +592,7 @@ class Publish extends PureComponent {
                                             maxLength={15} />
                                         <button className="post__input post__input--btn post__input--cat" onClick={() => this.onAddNumber()}>
                                             Add
-                                            <svg className="post__icon post__icon--cat-arrow" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                            <utils.use styleClass="post__icon post__icon--cat-arrow" svg="plus" />
                                         </button>
                                     </div>
                                     {numbers}
@@ -593,7 +618,7 @@ class Publish extends PureComponent {
                                 <div className="post__footwrap">
                                     <button className="btn post__btn-main btn__primary" onClick={() => this.onSubmitPost()}>
                                         Post
-                                        <svg className="icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('check-circle')}} />
+                                        <utils.use styleClass="icon ml-5" svg="check-circle" />
                                     </button>
                                 </div>
                             </div>
@@ -602,23 +627,23 @@ class Publish extends PureComponent {
                 </section>
 
                 {this.state.showCat &&
-                    <div className="categories__container">
+                    <div className="cat__container">
                         <Backdrop z={96} click={this.onCloseCatPop} />
                         {this.state.activeCat && <Backdrop z={9} click={this.unsetActiveCat} />}
-                        <div className="categories categories--fix">
-                            <ul className="categories__list categories__list--select">{catItems}</ul>
+                        <div className="cat cat--fix">
+                            <ul className="cat__list cat__list--select">{catItems}</ul>
                             {this.state.activeCat && 
-                                <div className="categories__panel">
-                                    <div className="categories__subhead">
-                                        <h2 className="categories__heading categories__heading--sub">
+                                <div className="cat__panel">
+                                    <div className="cat__subhead">
+                                        <h2 className="cat__heading cat__heading--sub">
                                             {this.state.categories[this.state.activeCat].title}
-                                            <svg className="categories__icon--large" dangerouslySetInnerHTML={{__html: utils.useCat(this.state.categories[this.state.activeCat].icon)}} />
+                                            <utils.useCat styleClass="cat__i--large" svg={this.state.categories[this.state.activeCat].icon} />
                                         </h2>
-                                        <button className="categories__btn categories__btn--sub" onClick={() => this.unsetActiveCat()}>
-                                            <svg className="categories__icon categories__icon--close" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                        <button className="cat__btn cat__btn--sub" onClick={() => this.unsetActiveCat()}>
+                                            <utils.use styleClass="cat__i cat__i--close" svg="x" />
                                         </button>
                                     </div>
-                                    <ul className="categories__sublist">
+                                    <ul className="cat__sublist">
                                         {subItems}
                                     </ul>
                                 </div>

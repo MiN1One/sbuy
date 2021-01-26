@@ -10,6 +10,9 @@ import Searchbar from '../components/Searchbar';
 import * as utils from '../utilities/utilities';
 import LoadingScreen from '../UI/LoadingScreen';
 import * as actions from '../store/actions';
+import asyncComponent from '../hoc/asyncComponent/asyncComponent';
+
+const AsyncAdview = asyncComponent(() => import('../components/Adview'));
 
 class Main extends PureComponent {
     state = {
@@ -116,7 +119,7 @@ class Main extends PureComponent {
         if (!this.state.loading) {
             view = (
                 <React.Fragment>
-                    <Route path="/:category/:subcategory/:id" exact render={() => <Adview {...this.props} />} />
+                    <Route path="/categories/:category/:subcategory/:id" exact component={AsyncAdview} />
                     <main className="main">
                         <div className="container">
                             <div className="main__wrapper">
@@ -138,19 +141,19 @@ class Main extends PureComponent {
                                         <span className="main__subhead d-flex mb-1">Page: </span>
                                         <div className="d-flex ac">
                                             <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPagePrev()}>
-                                                <svg className="icon icon--dark" dangerouslySetInnerHTML={{__html: utils.use('chevrons-left')}} />
+                                                <utils.use styleClass="icon icon--dark" svg="chevrons-left" />
                                             </button>
                                             <ul className="main__page-list">
                                                 {pagesList}
                                             </ul>
                                             <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPageNext()}>
-                                                <svg className="icon icon--dark" dangerouslySetInnerHTML={{__html: utils.use('chevrons-right')}} />
+                                                <utils.use styleClass="icon icon--dark" svg="chevrons-right" />
                                             </button>
                                         </div>
                                     </div>
                                     <button className="btn btn__primary btn__primary--outline main__btn" onClick={() => this.onLoadMore()}>
                                         Load more
-                                        <svg className="icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('chevrons-down')}} />
+                                        <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                     </button>
                                 </div>
                             </div>

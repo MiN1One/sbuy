@@ -169,7 +169,7 @@ export class User extends PureComponent {
                 <div className="profile__titlebar">
                     <h2 className="heading heading__2 profile__heading">Contact details</h2>
                     <button className="profile__btn profile__btn--rounded" onClick={() => this.onToggleEditMode()}>
-                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use(this.state.editMode ? 'x' : 'edit-2')}} />
+                        <utils.use styleClass="profile__icon profile__icon--small" svg={this.state.editMode ? 'x' : 'edit-2'} />
                     </button>
                 </div>
                 <div className="profile__content">
@@ -178,15 +178,15 @@ export class User extends PureComponent {
                         <div className="pos-rel d-inline mb-1">
                             <figure className="profile__figure" ref={this.figureRef}>
                                 <img className="profile__img" alt="user" src={avatar} />
-                                <svg className="profile__icon profile__icon--big" dangerouslySetInnerHTML={{__html: utils.use('user')}} />
+                                <utils.use styleClass="profile__icon profile__icon--big" svg="user" />
                             </figure>
                             <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />
                             <div className="profile__btn--img">
                                 {this.state.editMode && <button className="mr-5 profile__btn profile__btn--rounded" onClick={() => this.removeImage()}>
-                                    <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                    <utils.use styleClass="profile__icon profile__icon--small" svg="trash-2" />
                                 </button>}
                                 <button className="profile__btn profile__btn--rounded" onClick={() => this.imgRef.current.click()}>
-                                    <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('camera')}} />
+                                    <utils.use styleClass="profile__icon profile__icon--small" svg="camera" />
                                 </button>
                             </div>
                         </div>
@@ -196,9 +196,8 @@ export class User extends PureComponent {
                 {this.state.editMode && 
                     <div className="profile__footer mt-15">
                         {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
-                        <button className="ml-2 btn btn__primary" onClick={() => this.onSaveData()}>
+                        <button className="ml-2 btn btn__primary btn__primary--outline" onClick={() => this.onSaveData()}>
                             Save
-                            <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />
                         </button>
                     </div>
                 }
@@ -359,7 +358,7 @@ export class Company extends PureComponent {
                 <div className="profile__titlebar">
                         <h2 className="heading heading__2 profile__heading">Company details</h2>
                         <button className="profile__btn profile__btn--rounded" onClick={() => this.onToggleEditMode()}>
-                            <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use(this.state.editMode ? 'x' : 'edit-2')}} />
+                            <utils.use styleClass="profile__icon profile__icon--small" svg="edit-2" />
                         </button>
                     </div>
                     <div className="profile__content">
@@ -368,16 +367,16 @@ export class Company extends PureComponent {
                             <div className="pos-rel d-inline mb-1">
                                 <figure className="profile__figure" ref={this.figureRef}>
                                     <img className="profile__img" alt="user" src={company} />
-                                    <svg className="profile__icon profile__icon--big" dangerouslySetInnerHTML={{__html: utils.use('image')}} />
+                                    <utils.use styleClass="profile__icon profile__icon--big" svg="image" />
                                 </figure>
                                 <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />
                                 
                                 <div className="profile__btn--img">
                                     {this.state.editMode && <button className="mr-5 profile__btn profile__btn--rounded" onClick={() => this.removeImage()}>
-                                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
+                                        <utils.use styleClass="profile__icon profile__icon--small" svg="trash-2" />
                                     </button>}
                                     <button className="profile__btn profile__btn--rounded" onClick={() => this.imgRef.current.click()}>
-                                        <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('camera')}} />
+                                        <utils.use styleClass="profile__icon profile__icon--small" svg="camera" />
                                     </button>
                                 </div>
                             </div>
@@ -387,9 +386,8 @@ export class Company extends PureComponent {
                     {this.state.editMode && 
                         <div className="profile__footer mt-15">
                             {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
-                            <button className="ml-2 btn btn__primary" onClick={() => this.onSaveData()}>
+                            <button className="ml-2 btn btn__primary btn__primary--outline" onClick={() => this.onSaveData()}>
                                 Save
-                                <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />
                             </button>
                         </div>
                         }

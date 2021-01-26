@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import SwiperCore, { Scrollbar, Mousewheel, Pagination, Navigation } from 'swiper';
+import { connect } from 'react-redux';
 import Rating from 'react-rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -9,12 +10,12 @@ import 'swiper/swiper.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/navigation/navigation.scss';
-import * as utils from '../utilities/utilities';
 
+import * as actions from '../store/actions';
+import * as utils from '../utilities/utilities';
 import avatar from '../assets/images/32.jpg';
 import Backdrop from '../UI/Backdrop';
 import Tooltip from '../UI/Tooltip';
-import LoadingSub from '../UI/LoadingSub';
 import LoadingScreen from '../UI/LoadingScreen';
 import axios from 'axios';
 
@@ -55,7 +56,6 @@ class adview extends PureComponent {
         } catch(er) {
             this.setState({ loading: false });
         }
-        
     }
 
     componentDidMount() {
@@ -145,7 +145,7 @@ class adview extends PureComponent {
 
     closePopup = () => {
         if (!this.props.match.params.category && !this.props.match.params.subcategory) this.props.history.replace('/');
-        else this.props.history.replace('/' + this.categoryPath);
+        else this.props.history.replace('/categories/' + this.categoryPath);
     }
 
     onShowMessageBar = () => this.setState({ showMessageBar: true });
@@ -170,10 +170,10 @@ class adview extends PureComponent {
             this.setState(prevState => {
                 return { index: prevState.index + 1 }
             }, () => {
-                this.props.history.replace(`/${this.categoryPath}/${this.props.data[this.state.index].id}`);
+                this.props.history.replace(`/categories/${this.categoryPath}/${this.props.data[this.state.index].id}`);
             });
         }
-        else this.props.history.replace(`/${this.categoryPath}`);
+        else this.props.history.replace(`/categories/${this.categoryPath}`);
         if (this.state.activeSwiperImage > 0) this.setState({ activeSwiperImage: 0 });
     }
     
@@ -259,34 +259,33 @@ class adview extends PureComponent {
         return (
             <React.Fragment>
                 <header className="adview">
-                    {/* <Backdrop click={this.closePopup} z={14}/> */}
-                        {this.state.fullScreen && 
-                            <div className="adview__fullscreen">
-                                <div className="container">
-                                    <Backdrop z={1} click={this.onCloseFullScreen} />
-                                    <div className="adview__fullscreenwrap">
-                                        <figure className="adview__figure adview__figure--full">
-                                            <img src={ad.img[this.state.activeSwiperImage]} alt={ad.title} className="adview__img adview__img--full" />
-                                        </figure>
-                                    </div>
+                    {this.state.fullScreen && 
+                        <div className="adview__fullscreen">
+                            <div className="container">
+                                <Backdrop z={1} click={this.onCloseFullScreen} />
+                                <div className="adview__fullscreenwrap">
+                                    <figure className="adview__figure adview__figure--full">
+                                        <img src={ad.img[this.state.activeSwiperImage]} alt={ad.title} className="adview__img adview__img--full" />
+                                    </figure>
                                 </div>
-                                <button className="adview__btn adview__btn--abs adview__btn--grey adview__btn--left" onClick={() => this.onPrevImage()}>
-                                    <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('chevron-left')}} />
-                                </button>
-                                <button className="adview__btn adview__btn--abs adview__btn--grey adview__btn--right" onClick={() => this.onNextImage(ad.img)}>
-                                    <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
-                                </button>
                             </div>
-                        }
-                        <Swiper 
-                            className="adview__wrapper"
-                            direction="vertical"
-                            slidesPerView="auto"
-                            freeMode
-                            scrollbar={{ el: '#scrollbar', draggable: true, snapOnRelease: false }}
-                            mousewheel
-                            simulateTouch={false}
-                            keyboard={{ enabled: true, onlyInViewport: true }}>
+                            <button className="adview__btn adview__btn--abs adview__btn--grey adview__btn--left" onClick={() => this.onPrevImage()}>
+                                <utils.use styleClass="icon--7" svg="chevron-left" />
+                            </button>
+                            <button className="adview__btn adview__btn--abs adview__btn--grey adview__btn--right" onClick={() => this.onNextImage(ad.img)}>
+                                <utils.use styleClass="icon--7" svg="chevron-right" />
+                            </button>
+                        </div>
+                    }
+                    <Swiper 
+                        className="adview__wrapper"
+                        direction="vertical"
+                        slidesPerView="auto"
+                        freeMode
+                        scrollbar={{ el: '#scrollbar', draggable: true, snapOnRelease: false }}
+                        mousewheel
+                        simulateTouch={false}
+                        keyboard={{ enabled: true, onlyInViewport: true }}>
                             <SwiperSlide className="adview__content">
                                 <div className="container">
                                     <div className="adview__head">
@@ -297,15 +296,15 @@ class adview extends PureComponent {
                                         </div>
                                         <div className="adview__group">
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto afs" onClick={() => this.onClickPrev()}>
-                                                <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('chevron-left')}} />
+                                                <utils.use styleClass="icon--7" svg="chevron-left" />
                                                 Previous Ad
                                             </button>
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto afs" onClick={() => this.onClickNext()}>
                                                 Next Ad
-                                                <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                                                <utils.use styleClass="icon--7" svg="chevron-right" />
                                             </button>
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey DTool pos-rel DTool DTool--bottom no-transition" onClick={() => this.closePopup()}>
-                                                <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                                <utils.use styleClass="icon--7" svg="x" />
                                                 <Tooltip>Close</Tooltip>
                                             </button>
                                         </div>
@@ -327,18 +326,18 @@ class adview extends PureComponent {
                                                     preventInteractionOnTransition={true}>
                                                     {images}
                                                     <button className="adview__btn adview__btn--abs adview__btn--left" id="left">
-                                                        <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('chevron-left')}} />
+                                                        <utils.use styleClass="icon--7" svg="chevron-left" />
                                                     </button>
                                                     <button className="adview__btn adview__btn--abs adview__btn--right" id="right">
-                                                        <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                                                        <utils.use styleClass="icon--7" svg="chevron-right" />
                                                     </button>
                                                     <div className="adview__group adview__group--abs">
                                                         <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner mr-2 pos-rel no-transition" onClick={() => this.onRotate()}>
-                                                            <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('rotate-cw')}} />
+                                                            <utils.use styleClass="icon--7" svg="rotate-cw" />
                                                             <Tooltip>Rotate the photo</Tooltip>
                                                         </button>
                                                         <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner pos-rel no-transition" onClick={() => this.onGoFullScreen()}>
-                                                            <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('maximize')}} />
+                                                            <utils.use styleClass="icon--7" svg="maximize" />
                                                             <Tooltip>Full Screen</Tooltip>
                                                         </button>
                                                     </div>
@@ -364,14 +363,14 @@ class adview extends PureComponent {
                                                         </div>
                                                         <div className="adview__group">
                                                             <button className="adview__btn adview__btn--rel DTool pos-rel no-transition">
-                                                                <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('share')}} />
+                                                                <utils.use styleClass="icon--7" svg="share" />
                                                                 <Tooltip>Share</Tooltip>
                                                             </button>
                                                             <button 
                                                                 className="adview__btn adview__btn--rel DTool pos-rel no-transition" 
                                                                 data-favorite={isFavorite} 
                                                                 onClick={() => this.onLikeAd(ad.id)}>
-                                                                    <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
+                                                                    <utils.use styleClass="icon--7" svg="heart" />
                                                                     <Tooltip>{!isFavorite ? 'Add to favourites' : 'Remove from favorites'}</Tooltip>
                                                             </button>
                                                         </div>
@@ -422,8 +421,8 @@ class adview extends PureComponent {
                                                             className="adview__item--ratingbar"
                                                             initialRating={this.state.rating} 
                                                             fractions={2} 
-                                                            emptySymbol={ <svg className="rating" dangerouslySetInnerHTML={{__html: utils.useStars('star-empty')}} /> }
-                                                            fullSymbol={ <svg className="rating rating--fill" dangerouslySetInnerHTML={{__html: utils.useStars('star-full')}} /> }
+                                                            emptySymbol={<utils.useStars styleClass="rating" svg="star-empty" />}
+                                                            fullSymbol={<utils.useStars styleClass="rating rating--fill" svg="star-full" />}
                                                             onChange={(r) => this.setState({ rating: r })}
                                                             />
                                                         <span>{(Math.round(this.state.rating * 100) / 100).toFixed(1)}</span>
@@ -432,7 +431,7 @@ class adview extends PureComponent {
                                                 <div className="adview__item pos-rel no-transition">
                                                     <button className="adview__btn--main btn btn__primary" onClick={() => this.setState({ showNum: true })}>
                                                         Phone number
-                                                        <svg className="adview__icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('phone-outgoing')}} />
+                                                        <utils.use styleClass="icon--7 ml-5" svg="phone-outgoing" />
                                                     </button>
                                                     {this.state.showNum && 
                                                         <React.Fragment>
@@ -440,7 +439,7 @@ class adview extends PureComponent {
                                                             <Tooltip class="adview__numbox" click={this.onHideNum}>
                                                                 <span className="adview__number">+684 655985 2656</span>
                                                                 <button className="adview__btn adview__btn--clip ml-1" onClick={() => this.onCopyNum('+684 655985 2656')} title="Copy number">
-                                                                    <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('clipboard')}} />
+                                                                    <utils.use styleClass="icon--7 ml-5" svg="clipboard" />
                                                                 </button>
                                                             </Tooltip>
                                                         </React.Fragment>
@@ -448,7 +447,7 @@ class adview extends PureComponent {
                                                 </div>
                                                 <button className="adview__btn--main adview__item btn btn__secondary" onClick={() => this.onShowMessageBar()}>
                                                     Write a message
-                                                    <svg className="adview__icon icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('edit-2')}} />
+                                                    <utils.use styleClass="icon--7 icon ml-5" svg="edit-2" />
                                                 </button>
                                             </div>
                                             {this.state.showMessageBar && 
@@ -456,7 +455,7 @@ class adview extends PureComponent {
                                                     <div className="adview__group adview__group--sb mb-1">
                                                         <p className="adview__title" ref={this.mesTitleRef}>Write your message:</p>
                                                         <button className="adview__btn adview__btn--sm adview__btn--rel pos-rel" onClick={() => this.onHideMessageBar()}>
-                                                            <svg className="adview__icon" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                                            <utils.use styleClass="icon--7" svg="x" />
                                                         </button>
                                                     </div>
                                                     <form className="adview__form" onSubmit={(e) => this.onSendMessage(e)}>
@@ -466,7 +465,7 @@ class adview extends PureComponent {
                                                         </div>
                                                         <button className="wh-auto btn btn__primary btn__primary--outline">
                                                             Send
-                                                            <svg className="adview__icon icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('send')}} />
+                                                            <utils.use styleClass="icon--7 icon" svg="send" />
                                                         </button>
                                                     </form>
                                                 </div>
@@ -504,4 +503,14 @@ class adview extends PureComponent {
     }
 }
 
-export default withRouter(React.memo(adview));
+const mapStateToProps = state => ({
+    lang: state.localization.lang,
+    favorites: state.user.favorites,
+    data: state.data.data
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    onSetFavorites: (list) => dispatch(actions.setFavorites(list))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(adview)));

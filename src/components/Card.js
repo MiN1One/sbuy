@@ -19,7 +19,7 @@ class Card extends PureComponent {
     }
 
     render() {
-        const pathname = this.props.match.url === '/' ? '/' : `${this.props.match.url}/`;
+        const pathname = this.props.match.url === '/' ? '/premium/' : `${this.props.match.url}/`;
     
         let title = utils.limitStrAny(this.props.data.title, 15, false);
         if (this.props.data.premium) title = utils.limitStrAny(this.props.data.title, 12, true);

@@ -26,6 +26,10 @@ class AuthSignin extends Component {
         this.loginRef = React.createRef();
     }
 
+    componentWillUnmount() {
+        this.setState({ error: null, number: '' });
+    }
+
     clearErrorHighlight = () => {
         this.loginRef.current.setCustomValidity('');
         this.passRef.current.setCustomValidity('');
@@ -52,9 +56,11 @@ class AuthSignin extends Component {
             };
             axios.post('http://api.soybaliq.uz/api/auth/login', data)
                 .then(res => {
-                    res.config = null;
-                    const token = res.data.access_token;
-                    this.props.onLogin(token);
+                    const { access_token } = res.data;
+                    this.props.onLogin(access_token);
+                    this.setState({ error: null });
+                    this.props.history.goBack();
+                    console.log(this.props.history);
                 }).catch(er => {
                     console.log(er);
                     this.setState({ error: er.message });
@@ -69,7 +75,8 @@ class AuthSignin extends Component {
     }
 
     onInputNumber = (val) => {
-        if (utils.isNum(parseInt(val)) || val === '+' || val === '') this.setState({ number: val });
+        this.setState({ number: val });
+        // if (utils.isNum(parseInt(val)) || val === '+' || val === '') this.setState({ number: val });
     }
 
     onTogglePass = (e) => {
@@ -83,57 +90,57 @@ class AuthSignin extends Component {
     onBlur = () => this.setState({ inputFocused: false });
 
     render() {
-        const wrapClass = ['authorization__wrapper'];
-        if (this.state.inputFocused) wrapClass.push('authorization__wrapper--animate');
+        const wrapClass = ['a__wrapper'];
+        if (this.state.inputFocused) wrapClass.push('a__wrapper--animate');
 
         return (
-            <div className="authorization">
+            <div className="a">
                 {this.state.inputFocused && <Backdrop z={1} click={this.onBlur} />}
-                <Language class="authorization__lang" dropClass="dropdown--left-fix"/>
+                <Language class="a__lang" dropClass="dropdown--left-fix"/>
                 <div className={wrapClass.join(' ')} onClick={() => this.onFocus()}>
-                    <div className="authorization__head">
+                    <div className="a__head">
                         <Logo classImg="logo__figure--nav" />
-                        <Link to="/signup" className="authorization__info authorization__info--heading">
-                            <svg className="authorization__icon" dangerouslySetInnerHTML={{__html: utils.use('user-plus')}} />
+                        <Link to="/signup" className="a__info a__info--heading">
+                            <utils.use styleClass="a__icon" svg="user-plus" />
                             Sign up
                         </Link>
                     </div>
-                    {this.state.error && <p className="authorization__error mb-1">{this.state.error}</p>}
-                    <form className="authorization__form">
-                        <label className="authorization__label">
+                    {this.state.error && <p className="a__error mb-1">{this.state.error}</p>}
+                    <form className="a__form">
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="text" 
-                                placeholder="Your phone number" 
+                                placeholder="Your phone number or email" 
                                 ref={this.loginRef}
                                 value={this.state.number} 
                                 onChange={(e) => this.onInputNumber(e.target.value)} />
-                            <p className="authorization__label authorization__label--abs">Your number or email</p>
+                            <p className="a__label a__label--abs">Your number or email</p>
                         </label>
-                        <label className="authorization__label">
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="password" 
                                 placeholder="Enter your password"
                                 ref={this.passRef} />
-                            <button type="button" className="authorization__btn--abs" onClick={(e) => this.onTogglePass(e)}>
-                                <svg className="authorization__icon" dangerouslySetInnerHTML={{__html: utils.use('eye-off')}} />
+                            <button type="button" className="a__btn--abs" onClick={(e) => this.onTogglePass(e)}>
+                                <svg className="a__icon" dangerouslySetInnerHTML={{__html: utils.use('eye-off')}} />
                             </button>
-                            <p className="authorization__label authorization__label--abs">Your password</p>
+                            <p className="a__label a__label--abs">Your password</p>
                         </label>
-                        <div className="authorization__item mb-1">
+                        <div className="a__item mb-1">
                             <input type="checkbox" id="remember" className="checkbox" ref={this.checkboxRef} />
                             <label htmlFor="remember" className="label">
                                 <span></span>
                                 Stay logged in
                             </label>
                         </div>
-                        <button className="btn btn__primary authorization__btn mb-1" onClick={(e) => this.onProceed(e)}>
+                        <button className="btn btn__primary a__btn mb-1" onClick={(e) => this.onProceed(e)}>
                             Sign in
                             <svg className="icon ml-5 icon--8" dangerouslySetInnerHTML={{__html: utils.use('log-in')}} />
                         </button>
-                        <Link to="/password-reset" className="authorization__info mb-15">Reset password</Link>
-                        <p className="authorization__info">Do not have an account? <Link to="/signup" className="authorization__info--high">Sign up</Link></p>
+                        <Link to="/password-reset" className="a__info mb-15">Reset password</Link>
+                        <p className="a__info">Do not have an account? <Link to="/signup" className="a__info--high">Sign up</Link></p>
                 </form>
                 </div>
             </div>

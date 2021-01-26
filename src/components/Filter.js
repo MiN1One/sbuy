@@ -86,21 +86,21 @@ class Filter extends PureComponent {
 
                 const innerItems = obj.items.map((el, i) => {
                     return (
-                        <div className="filter__dropitem" key={i} onClick={() => this.onFilterByOptions(obj.val, el.val)}>{el.title}</div>
+                        <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions(obj.val, el.val)}>{el.title}</div>
                     );
                 });
 
                 const defaultTitle = obj.items.find(el => el.val === this.props[obj.val]).title;
 
                 return (
-                    <li className="filter__item" key={index}>
-                        <p className="filter__title">{obj.title}</p>
+                    <li className="f__item" key={index}>
+                        <p className="f__title">{obj.title}</p>
                         <div>
-                            <div className="filter__input filter__input--d input" tabIndex="0">
+                            <div className="f__input f__input--d input" tabIndex="0">
                                 {defaultTitle}
-                                <svg className="filter__icon filter__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+                                <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-down" />
                             </div>
-                            <Dropdown class="dropdown--full dropdown--close dropdown--sm-s filter__dropdown">
+                            <Dropdown class="dropdown--full dropdown--close dropdown--sm-s f__dropdown">
                                 {innerItems}
                             </Dropdown>
                         </div>
@@ -110,29 +110,29 @@ class Filter extends PureComponent {
         
             counters = filter.items[this.props.match.params.subcategory].counters.map((el, i) => {
                 return (
-                    <li className="filter__item" key={i}>
-                        <p className="filter__title">{el.title}</p>
-                        <div className="filter__group">
-                            <label className="filter__label">
+                    <li className="f__item" key={i}>
+                        <p className="f__title">{el.title}</p>
+                        <div className="f__group">
+                            <label className="f__label">
                                 <input 
                                     type="text" 
-                                    className="filter__input filter__input--small input" 
+                                    className="f__input f__input--small input" 
                                     placeholder="from" 
                                     onChange={(e) => this.onFilterByCounter(el.val, el.start, e.target.value)} 
                                     value={this.props[el.val][el.start]} />
-                                <button className="filter__btn filter__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
-                                    <svg className="filter__icon filter__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
+                                    <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
                                 </button>
                             </label>
-                            <label className="filter__label">
+                            <label className="f__label">
                                 <input 
                                     type="text" 
-                                    className="filter__input filter__input--small filter__input--border input" 
+                                    className="f__input f__input--small f__input--border input" 
                                     placeholder="to" 
                                     onChange={(e) => this.onFilterByCounter(el.val, el.end, e.target.value)} 
                                     value={this.props[el.val][el.end]} />
-                                <button className="filter__btn filter__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
-                                    <svg className="filter__icon filter__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
+                                    <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
                                 </button>
                             </label>
                         </div>
@@ -143,11 +143,11 @@ class Filter extends PureComponent {
             catTitle = filter.title;
             subCatTitle = filter.items[subcategory].title;
 
-            sortItems = this.state.sort.map((el, i) => <div className="filter__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
+            sortItems = this.state.sort.map((el, i) => <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
             
         } else if (this.state.loading)
             return (
-                <div className="loading-center w-100 filter__loading">
+                <div className="loading-center w-100 f__loading">
                     <LoadingSub />
                 </div>
             );
@@ -157,29 +157,29 @@ class Filter extends PureComponent {
 
         return (
             <React.Fragment>
-                <div className="filter">
+                <div className="f">
                     <div className="container">
-                        <div className="filter__wrapper">
-                            <div className="filter__list filter__list--headline">
-                                <h3 className="heading heading__3 filter__heading">Filters</h3>
-                                <div className="filter__group">
-                                    <button className="filter__btn filter__btn--close" onClick={() => this.onClearFilters()}>
+                        <div className="f__wrapper">
+                            <div className="f__list f__list--headline">
+                                <h3 className="heading heading__3 f__heading">Filters</h3>
+                                <div className="f__group">
+                                    <button className="f__btn f__btn--close" onClick={() => this.onClearFilters()}>
                                         Clear
-                                        <svg className="filter__icon ml-5" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                        <utils.use styleClass="f__icon ml-5" svg="x" />
                                     </button>
                                 </div>
                             </div>
-                            <ul className="filter__list filter__list--midline">
+                            <ul className="f__list f__list--midline">
                                 {counters}
                                 {subCatItems}
-                                <li className="filter__item">
-                                    <p className="filter__title">Sort by</p>
+                                <li className="f__item">
+                                    <p className="f__title">Sort by</p>
                                     <div>
-                                        <div className="filter__input filter__input--d input" tabIndex="0">
+                                        <div className="f__input f__input--d input" tabIndex="0">
                                             {sortTitle}
-                                            <svg className="filter__icon filter__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+                                            <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-down" />
                                         </div>
-                                        <Dropdown class="dropdown--full dropdown--sm-s dropdown--close filter__dropdown">
+                                        <Dropdown class="dropdown--full dropdown--sm-s dropdown--close f__dropdown">
                                             {sortItems}
                                         </Dropdown>
                                     </div>
@@ -188,32 +188,32 @@ class Filter extends PureComponent {
                         </div>
                     </div>
                 </div>
-                <div className="filter__topline">
+                <div className="f__topline">
                     <div className="container">
-                        <div className="filter__list filter__list--headline filter__list--stickline">
-                            <ul className="filter__group">
-                                <li className="tag tag__types filter__item--tags mr-15">
-                                    <a href="#" className="filter__link filter__link--tags">Lalaku</a>
+                        <div className="f__list f__list--headline f__list--stickline">
+                            <ul className="f__group">
+                                <li className="tag tag__types f__item--tags mr-15">
+                                    <a href="#" className="f__link f__link--tags">Lalaku</a>
                                 </li>
-                                <li className="tag tag__types filter__item--tags mr-15">
-                                    <a href="#" className="filter__link filter__link--tags">Baby jackets</a>
+                                <li className="tag tag__types f__item--tags mr-15">
+                                    <a href="#" className="f__link f__link--tags">Baby jackets</a>
                                 </li>
-                                <li className="tag tag__types filter__item--tags filter__item--active mr-15">
-                                    <a href="#" className="filter__link filter__link--tags">Baby Jeans</a>
+                                <li className="tag tag__types f__item--tags f__item--active mr-15">
+                                    <a href="#" className="f__link f__link--tags">Baby Jeans</a>
                                 </li>
-                                <li className="tag tag__types filter__item--tags mr-15">
-                                    <a href="#" className="filter__link filter__link--tags">Carriages</a>
+                                <li className="tag tag__types f__item--tags mr-15">
+                                    <a href="#" className="f__link f__link--tags">Carriages</a>
                                 </li>
-                                <li className="tag tag__types filter__item--tags">
-                                    <a href="#" className="filter__link filter__link--tags">Toys</a>
+                                <li className="tag tag__types f__item--tags">
+                                    <a href="#" className="f__link f__link--tags">Toys</a>
                                 </li>
                             </ul>
-                            <div className="filter__group h-100">
-                                <Link to="/" className="filter__link filter__link--route">Home</Link>
-                                <span className="filter__link filter__link--route">&bull;</span>
-                                <Link to={'/' + category} className="filter__link filter__link--route">{catTitle}</Link>
-                                <span className="filter__link filter__link--route">&bull;</span>
-                                <span className="filter__link filter__link--route">{subCatTitle}</span>
+                            <div className="f__group h-100">
+                                <Link to="/" className="f__link f__link--route">Home</Link>
+                                <span className="f__link f__link--route">&bull;</span>
+                                <Link to={'/' + category} className="f__link f__link--route">{catTitle}</Link>
+                                <span className="f__link f__link--route">&bull;</span>
+                                <span className="f__link f__link--route">{subCatTitle}</span>
                             </div>
                         </div>
                     </div>

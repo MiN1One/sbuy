@@ -60,15 +60,15 @@ class Categories extends PureComponent {
         const catItems = catItemsArr.map((el) => {
             return (
                 <div 
-                    className="categories__item"
+                    className="cat__item"
                     key={el.id}
                     onClick={() => this.setActiveCat(el.id)}>
-                    <div className="categories__link">
-                        <div className="categories__group">
-                            <svg className="categories__icon categories__icon--cat" dangerouslySetInnerHTML={{__html: utils.useCat(el.icon)}} />
+                    <div className="cat__link">
+                        <div className="cat__group">
+                            <utils.useCat styleClass="cat__i cat__i--cat" svg={el.icon} />
                             {el.title}
                         </div>
-                        <svg className="categories__icon categories__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                        <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
                     </div>
                 </div>
             );
@@ -78,9 +78,9 @@ class Categories extends PureComponent {
         if (this.state.activeCat) {
             subItems = this.state.categories[this.state.activeCat].subCategories.map((el, i) => {
                 return (
-                    <li className="categories__subitem" key={i}>
-                        <Link to={`/${this.state.categories[this.state.activeCat].val}/${el.val}?page=1`} className="categories__link categories__link--sub" onClick={() => this.onClickItem()}>
-                            <svg className="categories__icon categories__icon--sub" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                    <li className="cat__subitem" key={i}>
+                        <Link to={`/categories/${this.state.categories[this.state.activeCat].val}/${el.val}?page=1`} className="cat__link cat__link--sub" onClick={() => this.onClickItem()}>
+                            <utils.use styleClass="cat__i cat__i--sub" svg="chevron-right" />
                             {el.title}
                         </Link>
                     </li>
@@ -90,7 +90,7 @@ class Categories extends PureComponent {
 
         if (this.state.loading) 
             return (
-                <div className="categories__loading loading-center">
+                <div className="cat__l l-center">
                     <LoadingSub />
                 </div>
             );
@@ -98,44 +98,44 @@ class Categories extends PureComponent {
         return (
             <React.Fragment>
                 {this.state.activeCat && <Backdrop z={9} click={this.unsetActiveCat} />}
-                <div className={`categories ${this.props.class ? this.props.class : ''}`}>
-                    <div className="categories__head">
-                        <h2 className="categories__heading">Categories</h2>
-                        <Link to="/cats/all" className="categories__btn">See all</Link>
+                <div className={`cat ${this.props.class ? this.props.class : ''}`}>
+                    <div className="cat__head">
+                        <h2 className="cat__heading">Categories</h2>
+                        <Link to="/cats/all" className="cat__btn">See all</Link>
                     </div>
-                    <ul className="categories__list">
+                    <ul className="cat__list">
                         {catItems}
-                        <li className="categories__item">
-                            <Link to="/exchange" className="categories__link">
-                                <div className="categories__group">
-                                    <svg className="categories__icon categories__icon--cat" dangerouslySetInnerHTML={{__html: utils.useCat('handshake-o')}} />
+                        <li className="cat__item">
+                            <Link to="/exchange" className="cat__link">
+                                <div className="cat__group">
+                                    <utils.useCat styleClass="cat__i cat__i--cat" svg="handshake-o" />
                                     Exchange
                                 </div>
-                                <svg className="categories__icon categories__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                                <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
                             </Link>
                         </li>
-                        <li className="categories__item">
-                            <Link to="/give_away" className="categories__link">
-                                <div className="categories__group">
-                                    <svg className="categories__icon categories__icon--cat" dangerouslySetInnerHTML={{__html: utils.useCat('gift2')}} />
+                        <li className="cat__item">
+                            <Link to="/giveaway" className="cat__link">
+                                <div className="cat__group">
+                                    <utils.useCat styleClass="cat__i cat__i--cat" svg="gift2" />
                                     Give away
                                 </div>
-                                <svg className="categories__icon categories__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-right')}} />
+                                <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
                             </Link>
                         </li>
                     </ul>
                     {this.state.activeCat && 
-                        <div className="categories__panel">
-                            <div className="categories__subhead">
-                                <h2 className="categories__heading categories__heading--sub">
+                        <div className="cat__panel">
+                            <div className="cat__subhead">
+                                <h2 className="cat__heading cat__heading--sub">
                                     {this.state.categories[this.state.activeCat].title}
-                                    <svg className="categories__icon--large" dangerouslySetInnerHTML={{__html: utils.useCat(this.state.categories[this.state.activeCat].icon)}} />
+                                    <utils.useCat styleClass="cat__i cat__i--large" svg={this.state.categories[this.state.activeCat].icon} />
                                 </h2>
-                                <button className="categories__btn categories__btn--sub" onClick={() => this.unsetActiveCat()}>
-                                    <svg className="categories__icon categories__icon--close" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                                <button className="cat__btn cat__btn--sub" onClick={() => this.unsetActiveCat()}>
+                                    <utils.use styleClass="cat__i cat__i--close" svg="x" />
                                 </button>
                             </div>
-                            <ul className="categories__sublist">
+                            <ul className="cat__sublist">
                                 {subItems}
                             </ul>
                         </div>

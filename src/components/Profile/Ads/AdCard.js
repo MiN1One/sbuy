@@ -21,17 +21,10 @@ export const AdsCard = (props) => {
     let btnView;
     switch (props.view) {
         case 'active': 
-            btnView = (
-                <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToDeact(props.el.id)}>Deactivate </button>
-            );
+            btnView = <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToDeact(props.el.id)}>Deactivate </button>;
             break;
         case 'remove': 
-            btnView = (
-                <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToRemove(props.el.id)}>
-                    <svg className="profile__icon profile__icon--small mr-1" dangerouslySetInnerHTML={{__html: utils.use('trash-2')}} />
-                    Remove
-                </button>
-            );
+            btnView = <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToRemove(props.el.id)}>Remove</button>;
             break;
         default:
             btnView = <button className="profile__btn profile__btn--activate profile__btn--control" onClick={() => clickToActivate(props.el.id)}>Activate</button>;
@@ -55,38 +48,38 @@ export const AdsCard = (props) => {
                 <span className="profile__ad-title--price-tag w-max">{props.el.price}</span>
                 <div className="profile__ad-group profile__ad-group--details">
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('clock')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="clock" />
                         {props.el.date}
                     </span>
                     <span className="profile__ad-separator">&bull;</span>
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('map-pin')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="map-pin" />
                         {props.el.location}
                     </span>
                     <span className="profile__ad-separator">&bull;</span>
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('eye')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="eye" />
                         167
                     </span>
                     <span className="profile__ad-separator">&bull;</span>
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('phone')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="phone" />
                         45
                     </span>
                     <span className="profile__ad-separator">&bull;</span>
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="heart" />
                         32
                     </span>
                 </div>
                 <div className="profile__ad-group sb">
                     <div className="d-flex">
                         <button className="profile__btn profile__btn--control">
-                            <svg className="profile__icon profile__icon--small mr-1" dangerouslySetInnerHTML={{__html: utils.use('edit-2')}} />
+                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="edit-2" />
                             Edit
                         </button>
                         <Link to="/" className="profile__btn profile__btn--control">
-                            <svg className="profile__icon profile__icon--small mr-1" dangerouslySetInnerHTML={{__html: utils.use('eye')}} />
+                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="eye" />
                             View
                         </Link>
                     </div>
@@ -120,17 +113,17 @@ export const AdFull = (props) => {
                 </span>
                 <div className="profile__ad-group">
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('clock')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="clock" />
                         {props.el.date}
                     </span>
                     <span className="profile__ad-separator">&bull;</span>
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('map-pin')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="map-pin" />
                         {props.el.location}
                     </span>
                     <span className="profile__ad-separator">&bull;</span>
                     <span className="profile__ad-details">
-                        <svg className="profile__icon profile__icon--det profile__icon--small mr-5" dangerouslySetInnerHTML={{__html: utils.use('eye')}} />
+                        <utils.use styleClass="profile__icon profile__icon--det profile__icon--small" svg="eye" />
                         167
                     </span>
                 </div>
@@ -143,7 +136,7 @@ export const AdFull = (props) => {
                     <div className="mt-5 d-flex sb ac">
                         <span className="price-tag mt-5 w-max">{props.el.price}</span>
                         <button className="profile__btn profile__btn--rounded DTool DTool--right-top pos-rel" data-favorite={props.el.favorite} onClick={() => props.click()}>
-                            <svg className="profile__icon profile__icon--det profile__icon--small icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
+                            <utils.use styleClass="profile__icon profile__icon--det profile__icon--small icon" svg="heart" />
                             <Tooltip>Remove from favourites</Tooltip>
                         </button>
                     </div>

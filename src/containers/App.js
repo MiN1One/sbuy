@@ -44,31 +44,47 @@ function App(props) {
       <AsyncProfile />
     </Layout>
   );
-  
-  return (
-    <div className="App">
-      {props.lodaingLazy && <LoadingScreen class="loadingScreen--abs" /> }
+
+  let routes = (
+    <Switch>
+      <Route path="/signin" exact component={AsyncAuthSignin} />
+      <Route path="/password-reset" exact component={AsyncResetPass} />
+      <Route path="/signup" exact component={AsyncAuthSignup} />
+      <Route path="/exchange" exact component={() => main} />
+      <Route path="/giveaway" exact component={() => main} />
+      <Route path="/post-new" exact render={() => post} />
+      <Route path="/all/:category" exact render={() => singleCategory} />
+      <Route path="/categories/:category/:subcategory" render={() => main} />
+      <Route path="/" render={() => header} />
+      <Route path="*" render={() => <h1>404 Not Found</h1>} />
+    </Switch>
+  );
+  if (props.token) {
+    routes = (
       <Switch>
         <Route path="/exchange" exact component={() => main} />
-        <Route path="/give_away" exact component={() => main} />
-        <Route path="/signin" exact component={AsyncAuthSignin} />
-        <Route path="/password-reset" exact component={AsyncResetPass} />
-        <Route path="/signup" exact component={AsyncAuthSignup} />
-        <Route path="/user/:section" render={() => profile} />
+        <Route path="/giveaway" exact component={() => main} />
         <Route path="/post-new" exact render={() => post} />
         <Route path="/all/:category" exact render={() => singleCategory} />
-        <Route path="/:category/:subcategory" render={() => main} />
+        <Route path="/user/:section" exact render={() => profile} />
+        <Route path="/categories/:category/:subcategory" render={() => main} />
         <Route path="/" render={() => header} />
         <Route path="*" render={() => <h1>404 Not Found</h1>} />
       </Switch>
+    );
+  }
+    
+  return (
+    <div className="App">
+      {props.lodaingLazy && <LoadingScreen class="loadingScreen--abs" /> }
+      {routes}
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    loadingLazy: state.data.loadingLazy
-  }
-};
+const mapStateToProps = (state) => ({
+  loadingLazy: state.data.loadingLazy,
+  token: state.user.token
+});
 
 export default connect(mapStateToProps)(App);

@@ -1,14 +1,27 @@
+import React from 'react';
 import slugify from 'slugify';
 
 import sprite from '../assets/icons/sprite.svg';
 import spriteCats from '../assets/icons/sprite-cat.svg';
 import spriteStars from '../assets/icons/rating-stars.svg';
 
-export const use = (svg) => `<use xlink:href="${sprite}#${svg}"></use>`;
+export const use = ({ svg, styleClass }) => (
+    <svg className={styleClass}>
+        <use xlinkHref={`${sprite}#${svg}`}></use>
+    </svg>
+)
 
-export const useCat = (svg) => `<use xlink:href="${spriteCats}#${svg}"></use>`;
+export const useCat = ({ svg, styleClass }) => (
+    <svg className={styleClass}>
+        <use xlinkHref={`${spriteCats}#${svg}`}></use>
+    </svg>
+);
 
-export const useStars = (svg) => `<use xlink:href="${spriteStars}#${svg}"></use>`;
+export const useStars = ({ svg, styleClass }) => (
+    <svg className={styleClass}>
+        <use xlinkHref={`${spriteStars}#${svg}`}></use>
+    </svg>
+);
 
 export const formatRouteString = (string) => {
     let str = string.charAt(0).toUpperCase() + string.slice(1);

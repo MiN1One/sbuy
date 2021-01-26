@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
+    "browser-image-compression": "^1.0.14",
     "compose": "^0.1.2",
     "dom-css": "^2.1.0",
     "email-validator": "^2.0.4",

@@ -1,7 +1,7 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    favorites: localStorage.getItem('favorite_ads_sbuy') ? JSON.parse(localStorage.getItem('favorite_ads_sbuy')) : [],
+    favorites: JSON.parse(localStorage.getItem('favorite_ads_sbuy')) || [],
     token: null,
 };
 

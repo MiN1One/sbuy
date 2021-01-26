@@ -107,7 +107,7 @@ const Settings = (props) => {
             <React.Fragment>
                 {error && 
                     <div className="profile__text profile__text--error fdr ac">
-                        <svg className="profile__icon icon--red mr-5" dangerouslySetInnerHTML={{__html: utils.use('alert-triangle')}} />
+                        <utils.use styleClass="profile__icon icon--red mr-5" svg="alert-triangle" />
                         {error}
                     </div>
                 }
@@ -121,7 +121,7 @@ const Settings = (props) => {
                     <label className="pos-rel">
                         <input className="profile__input input" type="password" placeholder="New password" ref={passwordInputRef} minLength="6" />
                         <button className="profile__btn profile__btn--abs" onClick={(e) => onTogglePass(e)}>
-                            <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('eye-off')}} />
+                            <utils.use styleClass="profile__icon profile__icon--small" svg="eye-off" />
                         </button>
                     </label>
                 </div>
@@ -138,10 +138,10 @@ const Settings = (props) => {
             <div className="profile__titlebar">
                 <h2 className="heading heading__2 profile__heading">Settings</h2>
                 {!editMode && <button className="profile__btn profile__btn--rounded" onClick={() => setEditMode(true)}>
-                    <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('edit-2')}} />
+                    <utils.use styleClass="profile__icon profile__icon--small" svg="edit-2" />
                 </button>}
                 {editMode && <button className="profile__btn profile__btn--rounded" onClick={() => onDiscardChanges()}>
-                    <svg className="profile__icon profile__icon--small" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                    <utils.use styleClass="profile__icon profile__icon--small" svg="x" />
                 </button>}
             </div>
             <div className="profile__content fdc">
@@ -160,9 +160,8 @@ const Settings = (props) => {
                     </div>
                     <div className="profile__footer mt-15">
                         {loading && <LoadingSub />}
-                        <button className="ml-2 btn btn__primary" onClick={() => onSaveChanges()}>
+                        <button className="ml-2 btn btn__primary btn__primary--outline" onClick={() => onSaveChanges()}>
                             Save
-                            <svg className="icon icon--8 ml-5" dangerouslySetInnerHTML={{__html: utils.use('save')}} />
                         </button>
                     </div>
                 </React.Fragment>

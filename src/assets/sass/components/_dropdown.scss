@@ -84,11 +84,11 @@
             color: var(--color-white-bg);
         }
         
-        &--float {
-            flex-basis: calc(100% / 2);
-            font-size: 1.5rem;
+        &--grid {
+            width: calc((100% - 1.5rem) / 2);
+            margin-right: 1.5rem;
+            font-size: 1.53rem;
             font-weight: 400;
-            // margin-bottom: 3rem;
             display: flex;
             align-items: center;
             padding: 1.5rem 0;
@@ -97,11 +97,9 @@
 
             &:hover {
                 background: none;
-                color: #000;
+                color: var(--color-black);
 
-                &::before {
-                    background: var(--color-red);
-                }
+                &::before { background: var(--color-red); }
             }
 
             &::before {

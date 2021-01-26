@@ -5,11 +5,11 @@ const RegionsDropdown = (props) => {
 
     const locations = locationsArr.map((el, i) => {
         return (
-            <li className="dropdown__item dropdown__item--float" key={i} onClick={() => props.click(el)}>{el}</li>
+            <li className="dropdown__item dropdown__item--grid" key={i} onClick={() => props.click(el)}>{el}</li>
         );
     });
     return (
-        <Dropdown class={`${props.class ? props.class.join(' ') : ''}`}>
+        <Dropdown class={props.class}>
             <ul className="dropdown__wrap">
                 {locations}
             </ul>

@@ -31,10 +31,10 @@ const Language = (props) => {
 
     return (
         <div className={`language ${props.class ? props.class : ''}`}>
-            <div className="navigation__item navigation__item--drop" tabIndex="0">
-                <svg className="navigation__icon" dangerouslySetInnerHTML={{__html: utils.use('globe')}} />
-                <span className="navigation__title">{props.lang.title}</span>
-                <svg className="navigation__icon navigation__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
+            <div className="nav__item nav__item--drop" tabIndex="0">
+                <utils.use styleClass="nav__icon" svg="globe" />
+                <span className="nav__title">{props.lang.title}</span>
+                <utils.use styleClass="nav__icon nav__icon--arrow" svg="chevron-down" />
             </div>
             <Dropdown class={props.dropClass}>
                 <p className="dropdown__title">Language:</p>

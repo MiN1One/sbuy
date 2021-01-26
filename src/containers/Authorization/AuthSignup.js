@@ -33,6 +33,10 @@ class AuthSignup extends Component {
         window.location.hash = '';
     }
 
+    componentWillUnmount() {
+        this.setState({ error: null, number: '' });
+    }
+
     clearErrorHighlight = () => {
         this.numInputRef.current.setCustomValidity('');
         this.nameRef.current.setCustomValidity('');
@@ -149,81 +153,81 @@ class AuthSignup extends Component {
     render() {
 
         return (
-            <div className="authorization">
+            <div className="a">
                 {this.state.inputFocused && <Backdrop z={1} click={this.onBlur} />}
-                <Language class="authorization__lang" dropClass="dropdown--left-fix" />
-                <div className="authorization__wrapper authorization__wrapper--high" onClick={() => this.onFocus()}>
-                    <div className="authorization__head">
+                <Language class="a__lang" dropClass="dropdown--left-fix" />
+                <div className="a__wrapper a__wrapper--high" onClick={() => this.onFocus()}>
+                    <div className="a__head">
                         <Logo classImg="logo__figure--nav" />
-                        <Link to="/signin" className="authorization__info authorization__info--heading">
-                            <svg className="authorization__icon" dangerouslySetInnerHTML={{__html: utils.use('log-in')}} />
+                        <Link to="/signin" className="a__info a__info--heading">
+                            <utils.use styleClass="a__icon" svg="log-in" />
                             Sign in
                         </Link>
                     </div>
-                    {this.state.error && <p className="authorization__error mb-1">{this.state.error}</p>}
-                    <form className="authorization__form" id="second-face">
-                        <p className="authorization__info authorization__info--heading mb-1">Set your password</p>
-                        <label className="authorization__label">
+                    {this.state.error && <p className="a__error mb-1">{this.state.error}</p>}
+                    <form className="a__form" id="second-face">
+                        <p className="a__info a__info--heading mb-1">Set your password</p>
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="password" 
                                 placeholder="Enter your password" 
                                 ref={this.passRef} />
-                            <p className="authorization__label authorization__label--abs">Your password</p>
+                            <p className="a__label a__label--abs">Your password</p>
                         </label>
-                        <label className="authorization__label">
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="password" 
                                 placeholder="Confirm your password"
                                 ref={this.passConfirmRef} />
-                            <p className="authorization__label authorization__label--abs mb-2">Confirm your password</p>
+                            <p className="a__label a__label--abs mb-2">Confirm your password</p>
                         </label>
-                        <button className="btn btn__primary authorization__btn mt-1 mb-1" onClick={(e) => this.onSignUp(e)}>
+                        <button className="btn btn__primary a__btn mt-1 mb-1" onClick={(e) => this.onSignUp(e)}>
                             Proceed
-                            <svg className="icon ml-5 icon--8" dangerouslySetInnerHTML={{__html: utils.use('user-plus')}} />
+                            <utils.use styleClass="icon ml-5 icon--8" svg="user-plus" />
                         </button>
                     </form>
-                    <form className="authorization__form" id="first-face">
-                        <p className="authorization__info authorization__info--heading mb-1">Sign up</p>
-                        <label className="authorization__label">
+                    <form className="a__form" id="first-face">
+                        <p className="a__info a__info--heading mb-1">Sign up</p>
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="text" 
                                 placeholder="First name"
                                 ref={this.nameRef} />
-                            <p className="authorization__label authorization__label--abs">First name</p>
+                            <p className="a__label a__label--abs">First name</p>
                         </label>
-                        <label className="authorization__label">
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="text" 
                                 placeholder="Last name"
                                 ref={this.lNameRef} />
-                            <p className="authorization__label authorization__label--abs">Last name</p>
+                            <p className="a__label a__label--abs">Last name</p>
                         </label>
-                        <label className="authorization__label">
+                        <label className="a__label">
                             <input 
-                                className="authorization__input input" 
+                                className="a__input input" 
                                 type="text" 
                                 placeholder="Your phone number" 
                                 ref={this.numInputRef}
                                 value={this.state.number} 
                                 onChange={(e) => this.onInputnumber(e.target.value)} />
-                            <p className="authorization__label authorization__label--abs">Your number or email</p>
+                            <p className="a__label a__label--abs">Your number or email</p>
                         </label>
-                        <div className="authorization__item">
+                        <div className="a__item">
                             <input type="checkbox" id="terms" className="checkbox" ref={this.checkboxRef} />
                             <label htmlFor="terms" className="label">
                                 <span></span>
                                 Agree to terms of use
                             </label>
                         </div>
-                        <button className="btn btn__primary authorization__btn mb-1" onClick={(e) => this.onProceed(e)}>
+                        <button className="btn btn__primary a__btn mb-1" onClick={(e) => this.onProceed(e)}>
                             Proceed
                             <svg className="icon ml-5 icon--8" dangerouslySetInnerHTML={{__html: utils.use('user-plus')}} />
                         </button>
-                        <p className="authorization__info">Existing user? <Link to="/signin" className="authorization__info--high">Sign in</Link></p>
+                        <p className="a__info">Existing user? <Link to="/signin" className="a__info--high">Sign in</Link></p>
                     </form>
                 </div>
             </div>

@@ -92,38 +92,38 @@ class Profile extends PureComponent {
                                 <ul className="profile__list">
                                     <li className="profile__item">
                                         <NavLink to="/user/profile" className="profile__link" activeClassName="profile__link--active-cursored">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('user')}} />
+                                            <utils.use styleClass="profile__icon" svg="user" />
                                             Profile
                                         </NavLink>
                                         <div className="profile__item profile__item--sub" ref={this.subProfileList}>
                                             <NavLink to="/user/profile/main" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('file-text')}} />
+                                                <utils.use styleClass="profile__icon" svg="file-text" />
                                                 Main
                                             </NavLink>
                                             <NavLink to="/user/profile/company" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('briefcase')}} />
+                                                <utils.use styleClass="profile__icon" svg="briefcase" />
                                                 Company
                                             </NavLink>
                                         </div>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/ads" activeClassName="profile__link--active-cursored" className="profile__link">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('layout')}} />
+                                            <utils.use styleClass="profile__icon" svg="layout" />
                                             My Ads
                                         </NavLink>
                                         <div className="profile__item profile__item--sub" ref={this.subAdsList}>
                                             <NavLink to="/user/ads/active" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('message-square')}} />
+                                                <utils.use styleClass="profile__icon" svg="message-square" />
                                                 Active
                                                 {activeAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{activeAdsCount}</span>}
                                             </NavLink>
                                             <NavLink to="/user/ads/inactive" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('archive')}} />
+                                                <utils.use styleClass="profile__icon" svg="archive" />
                                                 Inactive
                                                 {inactiveAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{inactiveAdsCount}</span>}
                                             </NavLink>
                                             <NavLink to="/user/ads/promoted" activeClassName="profile__link--sub-active" className="profile__link message-badge">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('corner-right-up')}} />
+                                                <utils.use styleClass="profile__icon" svg="corner-right-up" />
                                                 Promoted
                                                 {promotedAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{promotedAdsCount}</span>}
                                             </NavLink>
@@ -131,45 +131,45 @@ class Profile extends PureComponent {
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/messages" activeClassName="profile__link--active-cursored" className="profile__link">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('mail')}} />
+                                            <utils.use styleClass="profile__icon" svg="mail" />
                                             Messages
                                         </NavLink>
                                         <div className="profile__item profile__item--sub" ref={this.subMessagesList}>
                                             <NavLink to="/user/messages/inbox" activeClassName="profile__link--sub-active" className="profile__link">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('inbox')}} />
+                                                <utils.use styleClass="profile__icon" svg="inbox" />
                                                 Inbox
                                             </NavLink>
                                             <NavLink to="/user/messages/sentbox" activeClassName="profile__link--sub-active" className="profile__link">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('check-circle')}} />
+                                                <utils.use styleClass="profile__icon" svg="check-circle" />
                                                 Sentbox
                                             </NavLink>
                                             <NavLink to="/user/messages/spam" activeClassName="profile__link--sub-active" className="profile__link">
-                                                <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('trash')}} />
+                                                <utils.use styleClass="profile__icon" svg="trash" />
                                                 Spam
                                             </NavLink>
                                         </div>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/favorites" activeClassName="profile__link--active-cursored" className="profile__link">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('heart')}} />
+                                            <utils.use styleClass="profile__icon" svg="heart" />
                                             Favorites
                                         </NavLink>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/settings" activeClassName="profile__link--active" className="profile__link">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('settings')}} />
+                                            <utils.use styleClass="profile__icon" svg="settings" />
                                             Settings
                                         </NavLink>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/payments" activeClassName="profile__link--active" className="profile__link">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('credit-card')}} />
+                                            <utils.use styleClass="profile__icon" svg="credit-card" />
                                             Payments
                                         </NavLink>
                                     </li>
                                     <li className="profile__item">
                                         <NavLink to="/user/promotions" activeClassName="profile__link--active" className="profile__link">
-                                            <svg className="profile__icon" dangerouslySetInnerHTML={{__html: utils.use('trending-up')}} />
+                                            <utils.use styleClass="profile__icon" svg="trending-up" />
                                             Promotions
                                         </NavLink>
                                     </li>

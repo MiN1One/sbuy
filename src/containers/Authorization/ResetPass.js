@@ -24,6 +24,10 @@ class ResetPass extends Component {
         this.codeFieldRef = React.createRef();
     }
 
+    componentWillUnmount() {
+        this.setState({ error: null, number: '' });
+    }
+
     onFocus = () => this.setState({ inputFocused: true });
     onBlur = () => this.setState({ inputFocused: false });
 
@@ -94,60 +98,60 @@ class ResetPass extends Component {
     }
 
     render() {
-        const wrapClass = ['authorization__wrapper'];
-        if (this.state.inputFocused) wrapClass.push('authorization__wrapper--animate');
+        const wrapClass = ['a__wrapper'];
+        if (this.state.inputFocused) wrapClass.push('a__wrapper--animate');
 
         return (
-            <div className="authorization">
+            <div className="a">
                 {this.state.inputFocused && <Backdrop z={1} click={this.onBlur} />}
-                <Language class="authorization__lang" dropClass="dropdown--left-fix"/>
+                <Language class="a__lang" dropClass="dropdown--left-fix"/>
                 <form className={wrapClass.join(' ')} onClick={() => this.onFocus()}>
-                    <div className="authorization__head">
+                    <div className="a__head">
                         <Logo classImg="logo__figure--nav" />
-                        <Link to="/signin" className="authorization__info authorization__info--heading">
-                            <svg className="authorization__icon" dangerouslySetInnerHTML={{__html: utils.use('log-in')}} />
+                        <Link to="/signin" className="a__info a__info--heading">
+                            <utils.use styleClass="a__icon" svg="log-in" />
                             Sign in
                         </Link>
                     </div>
-                    <div className="authorization__form">
-                        <p className="authorization__info authorization__info--heading mb-1">Reset password</p>
+                    <div className="a__form">
+                        <p className="a__info a__info--heading mb-1">Reset password</p>
                         {this.state.attempted && 
-                            <p className="authorization__error authorization__error--success mb-2">
-                                <svg className="authorization__icon" dangerouslySetInnerHTML={{__html: utils.use(this.state.number ? 'phone' : 'mail')}} />
+                            <p className="a__error a__error--success mb-2">
+                                <utils.use styleClass="a__icon" svg={this.state.number ? 'phone' : 'mail'} />
                                 The code is sent to your {this.state.number ? 'phone number' : 'email'}
                             </p>
                         }
-                        {this.state.error && <p className="authorization__error mb-1">{this.state.error}</p>}
-                        <label className="authorization__label">
+                        {this.state.error && <p className="a__error mb-1">{this.state.error}</p>}
+                        <label className="a__label">
                             <input 
-                                className="authorization__input authorization__input--res input" 
+                                className="a__input a__input--res input" 
                                 type="text" 
                                 placeholder="Your number or email"
                                 ref={this.phoneRef} />
-                            <p className="authorization__label authorization__label--abs">Your number or email</p>
+                            <p className="a__label a__label--abs">Your number or email</p>
                         </label>
                         {this.state.showNextStep && 
                             <React.Fragment>
-                                <label className="authorization__label">
+                                <label className="a__label">
                                     <input 
-                                        className="authorization__input authorization__input--res input" 
+                                        className="a__input a__input--res input" 
                                         type="text" 
                                         placeholder="Enter the code" 
                                         required
                                         autoFocus 
                                         ref={this.codeFieldRef} />
-                                    <p className="authorization__label authorization__label--abs">The code your recieved</p>
+                                    <p className="a__label a__label--abs">The code your recieved</p>
                                 </label>
                             </React.Fragment>
                         }
-                        <button className="btn btn__primary btn__primary--green authorization__btn" onClick={(e) => this.onProceed(e)}>
+                        <button className="btn btn__primary btn__primary--green a__btn" onClick={(e) => this.onProceed(e)}>
                             Reset Password
-                            <svg className="icon ml-5 icon--8" dangerouslySetInnerHTML={{__html: utils.use('key')}} />
+                            <utils.use styleClass="icon ml-5 icon--8" svg="key" />
                         </button>
                         {!this.state.showNextStep && 
-                            <p className="authorization__info mt-1">Do not have an account?&nbsp;<Link to="/signup" className="authorization__info--high">Sign up</Link></p>
+                            <p className="a__info mt-1">Do not have an account?&nbsp;<Link to="/signup" className="a__info--high">Sign up</Link></p>
                         }
-                        {(this.state.attempted && this.state.time > 0) && <p className="authorization__label authorization__label--timer mt-1">You can request another code in {this.state.time}</p>}
+                        {(this.state.attempted && this.state.time > 0) && <p className="a__label a__label--timer mt-1">You can request another code in {this.state.time}</p>}
                     </div>
                 </form>
             </div>

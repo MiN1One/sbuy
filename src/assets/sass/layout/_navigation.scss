@@ -1,4 +1,4 @@
-.navigation {
+.nav {
     background: #fff;
     font-weight: 500;
     position: fixed;
@@ -39,7 +39,7 @@
         }
 
         &--hoverable:hover {
-            .navigation__icon--arrow {
+            .nav__icon--arrow {
                 transform: rotate(180deg);
             }
 
@@ -55,7 +55,7 @@
         }
 
         &--drop:focus {
-            .navigation__icon--arrow {
+            .nav__icon--arrow {
                 transform: rotate(180deg);
             }
 
@@ -165,7 +165,7 @@
         height: 100%;
 
         &:hover {
-            .navigation__icon--arrow {
+            .nav__icon--arrow {
                 transform: rotate(180deg);
             }
 

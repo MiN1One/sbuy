@@ -9,17 +9,21 @@ import Dropdown from '../components/Dropdown';
 import Categories from '../components/Categories';
 import Backdrop from '../UI/Backdrop';
 import * as actions from '../store/actions';
+import axios from 'axios';
 
 class Navigation extends PureComponent {
-    state = {
-        toggleLogo: false,
-        signedIn: true,
-        inputFocused: false,
-        showCat: false
-    }
+    constructor(props) {
+        super(props);
 
-    componentDidMount() {
+        this.state = {
+            toggleLogo: false,
+            inputFocused: false,
+            showCat: false,
+            error: null
+        }
 
+        this.mainInputRef = React.createRef();
+        this.passwordRef = React.createRef();
     }
 
     componentDidUpdate(prevProps) {
@@ -32,9 +36,33 @@ class Navigation extends PureComponent {
     onOpenCategories = () => this.setState({ showCat: true });
     onCloseCategories = () => this.setState({ showCat: false });
 
+    onLogin = (e) => {
+        e.preventDefault();
+        const mainInput = this.mainInputRef.current;
+        const password = this.passwordRef.current;
+
+        if ((password.value && mainInput.value) !== '') {
+            const data = {
+                phone: mainInput.value,
+                password: password.value,
+                // email: 'test@mail.eu',
+            };
+            axios.post('http://api.soybaliq.uz/api/auth/login', data)
+                .then(res => {
+                    const { access_token } = res.data;
+                    this.props.onLogin(access_token);
+                    this.setState({ error: null });
+                    this.setState({ inputFocused: false });
+                }).catch(er => {
+                    console.log(er);
+                    this.setState({ error: er.message });
+                });
+        }
+    }
+
     render() {
-        const signClass = ['navigation__item navigation__item--hoverable'];
-        if (this.state.inputFocused) signClass.push('navigation__item--keep');
+        const signClass = ['nav__item nav__item--hoverable'];
+        if (this.state.inputFocused) signClass.push('nav__item--keep');
 
         const pathname = this.props.location.pathname;
         const isNotHome = pathname !== '/' && pathname !== '/post-new';
@@ -94,12 +122,22 @@ class Navigation extends PureComponent {
             userDrop = (
                 <Dropdown class="dropdown--w-auto">
                     <div className="dropdown__link dropdown__link--col">
-                        <p className="navigation__info navigation__info--bold">Sign in</p>
-                        <form className="navigation__form">
-                            <input className="navigation__input input" type="text" placeholder="Phone or email" onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} />
-                            <input className="navigation__input input" type="password" placeholder="Password" onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} />
+                        <p className="nav__info nav__info--bold">Sign in</p>
+                        <form className="nav__form" onSubmit={(e) => this.onLogin(e)}>
+                            <input 
+                                className="nav__input input" 
+                                type="text" placeholder="Phone or email" 
+                                onFocus={() => this.onFocus()} 
+                                onBlur={() => this.onBlur()} 
+                                ref={this.mainInputRef} />
+                            <input 
+                                className="nav__input input" 
+                                type="password" placeholder="Password" 
+                                onFocus={() => this.onFocus()} 
+                                onBlur={() => this.onBlur()} 
+                                ref={this.passwordRef} />
                             <button className="btn btn__primary dropdown__btn--sign" onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} >Sign in</button>
-                            <p className="navigation__info">Do not have an account? <Link to="/signup" className="navigation__info--high">Sign up</Link></p>
+                            <p className="nav__info">Do not have an account? <Link to="/signup" className="nav__info--high">Sign up</Link></p>
                         </form>
                     </div>
                 </Dropdown>
@@ -109,50 +147,50 @@ class Navigation extends PureComponent {
         return (
             <React.Fragment>
                 {this.state.showCat &&
-                    <div className="categories__container">
+                    <div className="cat__container">
                         <Backdrop z={96} click={this.onCloseCategories} />
-                        <Categories class="categories--fix" clickItem={this.onCloseCategories} />
+                        <Categories class="cat--fix" clickItem={this.onCloseCategories} />
                     </div>
                 }
-                <header className="navigation">
+                <header className="nav">
                     <div className="container">
-                        <nav role="navigation" className="navigation__wrapper">
-                            <div className="navigation__list">
-                                <Logo classOver="navigation__item" classImg="logo__figure--nav" />
+                        <nav role="navigation" className="nav__wrapper">
+                            <div className="nav__list">
+                                <Logo classOver="nav__item" classImg="logo__figure--nav" />
                                 <Language dropClass="dropdown--close dropdown--left-fix" />
                             </div>
-                            <div className="navigation__list">
-                                <div className="navigation__item">
-                                    <Link to="/user/favorites" className="navigation__link">
-                                        <span className="navigation__title navigation__title--user">Favorites</span>
+                            <div className="nav__list">
+                                <div className="nav__item">
+                                    <Link to="/user/favorites" className="nav__link">
+                                        <span className="nav__title nav__title--user">Favorites</span>
                                         <div className="d-flex ac jc">
-                                            <svg className="navigation__icon m-0" dangerouslySetInnerHTML={{__html: utils.use('folder')}} />
+                                            <utils.use styleClass="nav__icon m-0" svg="folder" />
                                             {this.props.favorites.length > 0 && <div className="ml-1">{this.props.favorites.length}</div>}
                                         </div>
                                     </Link>
                                 </div>
                                 <div className={signClass.join(' ')}>
-                                    <Link to={this.state.signedIn ? '/user/profile' : '/signin'} className="navigation__link">
-                                        <svg className="navigation__icon navigation__icon--arrow" dangerouslySetInnerHTML={{__html: utils.use('chevron-down')}} />
-                                        <span className="navigation__title navigation__title--user">{this.state.signedIn ? 'My profile' : 'Sign in'}</span>
-                                        <div className="navigation__iconbox">
-                                            <svg className="navigation__icon navigation__icon--abs navigation__icon--white" dangerouslySetInnerHTML={{__html: utils.use('user')}} />
-                                            {this.state.signedIn && <span className="message-badge__empty"></span>}
+                                    <Link to={this.props.token ? '/user/profile' : '/signin'} className="nav__link">
+                                        <utils.use styleClass="nav__icon nav__icon--arrow" svg="chevron-down" />
+                                        <span className="nav__title nav__title--user">{this.props.token ? 'My profile' : 'Sign in'}</span>
+                                        <div className="nav__iconbox">
+                                            <utils.use styleClass="nav__icon nav__icon--abs nav__icon--white" svg="user" />
+                                            {this.props.token && <span className="message-badge__empty"></span>}
                                         </div>
                                     </Link>
                                     {userDrop}
                                 </div>
                                 
                                 {isNotPost && 
-                                    <Link to="/post-new" className="btn btn__primary navigation__btn">
-                                        <span className="navigation__title navigation__title--white">Advert</span>
-                                        <svg className="navigation__icon navigation__icon--white" dangerouslySetInnerHTML={{__html: utils.use('plus')}} />
+                                    <Link to="/post-new" className="btn btn__primary nav__btn">
+                                        <span className="nav__title nav__title--white">Advert</span>
+                                        <utils.use styleClass="nav__icon nav__icon--white" svg="plus" />
                                     </Link>
                                 }
                                 {isNotHome && 
-                                    <button className="btn btn__secondary navigation__btn" onClick={() => this.onOpenCategories()}>
-                                        <span className="navigation__title navigation__title--white">Categories</span>
-                                        <svg className="navigation__icon navigation__icon--white" dangerouslySetInnerHTML={{__html: utils.use('menu')}} />
+                                    <button className="btn btn__secondary nav__btn" onClick={() => this.onOpenCategories()}>
+                                        <span className="nav__title nav__title--white">Categories</span>
+                                        <utils.use styleClass="nav__icon nav__icon--white" svg="menu" />
                                     </button>
                                 }
                             </div>
@@ -172,7 +210,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     onLogOut: () => dispatch(actions.logOut()),
-    onLogin: () => dispatch(actions.logIn())
+    onLogin: (token) => dispatch(actions.logIn(token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(Navigation)));

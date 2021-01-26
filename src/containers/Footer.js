@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Logo from '../components/Logo';
 import Language from '../components/Language';
@@ -14,7 +15,7 @@ const Footer = props => {
     const navItems = navs.map((el, i) => {
         return (
             <li className="footer__item" key={i}>
-                <a href="#" className="footer__link">{el}</a>
+                <Link to={`/about#${utils.slug(el)}`} className="footer__link">{el}</Link>
             </li>
         );
     });
@@ -24,11 +25,11 @@ const Footer = props => {
             <div className="footer__head">
                 <div className="container">
                     <div className="footer__headwrap">
-                        <div className="navigation__item">
-                            <svg className="footer__icon" dangerouslySetInnerHTML={{__html: utils.use('home')}} />
+                        <div className="d-flex ac">
+                            <utils.use styleClass="footer__icon" svg="home" />
                             <h5 className="footer__heading">Home</h5>
                         </div>
-                        <Language class="navigation__item navigation__item--drop" dropClass="dropdown--right-fix" />
+                        <Language dropClass="dropdown--close dropdown--right-fix" />
                     </div>
                 </div>
             </div>

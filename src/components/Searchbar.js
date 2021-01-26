@@ -8,58 +8,59 @@ import Backdrop from '../UI/Backdrop';
 import RegionsDropdown from './RegionsDropdown';
 
 class searchbar extends PureComponent {
-    state = { showDrop: false }
-    
-    onClick = () => this.setState({ showDrop: true });
-    onClickOutside = () => this.setState({ showDrop: false });
 
     onPerformSearch = (e) => {
         e.preventDefault();
+        
+        // ------------------------
+
+        // ..........
     }
+
+    onClickOutside = () => this.setState({ showDrop: false });
 
     changeSearchLocation = (location) => {
         this.props.onChangeSearchLoc(location);
         this.onClickOutside();
     }
 
-    clearInput = (event) => {
-        event.preventDefault();
+    clearInput = (e) => {
+        e.preventDefault();
         this.props.onChangeSearchInput('');
     }
 
     render() {
-        const dropClass = ['dropdown--full dropdown--close searchbar__dropdown'];
-        if (this.state.showDrop) dropClass.push('dropdown--show');
 
         return (
-            <div className="searchbar">
+            <div className="s">
                 <div className="container">
-                    <div className="searchbar__wrapper">
-                        <Logo class="searchbar__logo" />
-                        {this.state.showDrop && <Backdrop z={1} click={this.onClickOutside} />}
-                        <form className="searchbar__form" onSubmit={(event) => this.onSubmit(event)}>
-                            <label className="searchbar__label" htmlFor="search">
-                                <input 
-                                    className="searchbar__input"
-                                    type="text"
-                                    placeholder="Search..."
-                                    id="search"
-                                    onChange={(ev) => this.props.onChangeSearchInput(ev.target.value)}
-                                    value={this.props.search} />
-                                <button className="searchbar__btn searchbar__btn--map searchbar__btn--clear" onClick={(e) => this.clearInput(e)} >
-                                    <svg className="searchbar__icon searchbar__icon--map searchbar__icon--clear" dangerouslySetInnerHTML={{__html: utils.use('x')}} />
+                    <div className="s__wrapper">
+                        <Logo class="s__logo" />
+                        <div className="s__form-wrap">
+                            <form className="s__form" onSubmit={(e) => this.onPerformSearch(e)} tabIndex="0">
+                                <label className="s__label" htmlFor="search">
+                                    <input 
+                                        className="s__input"
+                                        type="text"
+                                        placeholder="Search..."
+                                        id="search"
+                                        onChange={(ev) => this.props.onChangeSearchInput(ev.target.value)}
+                                        value={this.props.search} />
+                                    <button className="s__btn s__btn--map s__btn--clear" onClick={(e) => this.clearInput(e)} >
+                                        <utils.use styleClass="s__icon s__icon--map s__icon--clear" svg="x" />
+                                    </button>
+                                </label>
+                                <div className="s__btn s__btn--map">
+                                    <utils.use styleClass="s__icon s__icon--map" svg="map-pin" />
+                                    <span className="s__title">{this.props.searchLocation}</span>
+                                </div>
+                                
+                                <button className="s__btn">
+                                    <utils.use styleClass="s__icon" svg="search" />
                                 </button>
-                            </label>
-                            <div className="searchbar__btn searchbar__btn--map" onClick={() => this.onClick()}>
-                                <svg className="searchbar__icon searchbar__icon--map" dangerouslySetInnerHTML={{__html: utils.use('map-pin')}} />
-                                <span className="searchbar__title">{this.props.searchLocation}</span>
-                            </div>
-                            
-                            <button className="searchbar__btn" type="submit">
-                                <svg className="searchbar__icon" dangerouslySetInnerHTML={{__html: utils.use('search')}} />
-                            </button>
-                            <RegionsDropdown class={dropClass} click={this.changeSearchLocation} />
-                        </form>
+                            </form>
+                            <RegionsDropdown class="dropdown--full dropdown--close s__dropdown" click={this.changeSearchLocation} />
+                        </div>
                     </div>
                 </div>
             </div>
