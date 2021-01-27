@@ -98,10 +98,10 @@ class Categories extends PureComponent {
         return (
             <React.Fragment>
                 {this.state.activeCat && <Backdrop z={9} click={this.unsetActiveCat} />}
-                <div className={`cat ${this.props.class ? this.props.class : ''}`}>
+                <div className={`cat ${this.props.class || ''}`}>
                     <div className="cat__head">
                         <h2 className="cat__heading">Categories</h2>
-                        <Link to="/cats/all" className="cat__btn">See all</Link>
+                        <Link to="/cats/all" className="cat__btn btn__sub">See all</Link>
                     </div>
                     <ul className="cat__list">
                         {catItems}
@@ -131,8 +131,8 @@ class Categories extends PureComponent {
                                     {this.state.categories[this.state.activeCat].title}
                                     <utils.useCat styleClass="cat__i cat__i--large" svg={this.state.categories[this.state.activeCat].icon} />
                                 </h2>
-                                <button className="cat__btn cat__btn--sub" onClick={() => this.unsetActiveCat()}>
-                                    <utils.use styleClass="cat__i cat__i--close" svg="x" />
+                                <button className="cat__btn cat__btn--sub btn__sub" onClick={() => this.unsetActiveCat()}>
+                                    <utils.use styleClass="cat__i" svg="x" />
                                 </button>
                             </div>
                             <ul className="cat__sublist">

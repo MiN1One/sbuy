@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FcFeedback, FcFaq, FcEmptyTrash } from 'react-icons/fc';
 
+import * as utils from '../../utilities/utilities';
 import LoadingScreen from '../../UI/LoadingScreen';
 
 export const Inbox = (props) => {
@@ -24,13 +26,29 @@ export const Inbox = (props) => {
 
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
+    let view = null;
+    if (true) {
+        view = (
+            <div className="profile__empty">
+                <div>
+                    <FcFeedback className="profile__icon--large mb-1" />
+                    Nothing here to display
+                    <button className="btn btn__white mt-2">
+                        <utils.use styleClass="icon icon--dark mr-1" svg="edit-2" />
+                        Write message
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <React.Fragment>
             <div className="profile__titlebar">
                 <h2 className="heading heading__2 profile__heading">Inbox</h2>
             </div>
             <div className="profile__content">
-                <div className=""></div>
+                {view}
             </div>
         </React.Fragment>
     );
@@ -56,6 +74,22 @@ export const Sentbox = (props) => {
     }, []);
 
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
+    
+    let view = null;
+    if (true) {
+        view = (
+            <div className="profile__empty">
+                <div>
+                    <FcFaq className="profile__icon--large mb-1" />
+                    Nothing here to display
+                    <button className="btn btn__white mt-2">
+                        <utils.use styleClass="icon icon--dark mr-1" svg="edit-2" />
+                        Write message
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <React.Fragment>
@@ -63,7 +97,7 @@ export const Sentbox = (props) => {
                 <h2 className="heading heading__2 profile__heading">Sentbox</h2>
             </div>
             <div className="profile__content">
-                <div className=""></div>
+                {view}
             </div>
         </React.Fragment>
     );
@@ -90,13 +124,25 @@ export const Spam = (props) => {
 
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
+    let view = null;
+    if (true) {
+        view = (
+            <div className="profile__empty">
+                <div>
+                    <FcEmptyTrash className="profile__icon--large mb-1" />
+                    Nothing here to display
+                </div>
+            </div>
+        );
+    }
+
     return (
         <React.Fragment>
             <div className="profile__titlebar">
                 <h2 className="heading heading__2 profile__heading">Spam</h2>
             </div>
             <div className="profile__content">
-                <div className=""></div>
+                {view}
             </div>
         </React.Fragment>
     );

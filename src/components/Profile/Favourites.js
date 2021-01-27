@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { setLoading } from "../../store/actions";
 import axios from 'axios';
+import { FcOpenedFolder } from 'react-icons/fc';
 
 import { AdFull } from "./Ads/AdCard";
 import LoadingScreen from "../../UI/LoadingScreen";
@@ -27,13 +27,25 @@ const Favorites = (props) => {
 
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
+    let view = ads;
+    if (true) {
+        view = (
+            <div className="profile__empty">
+                <div>
+                    <FcOpenedFolder className="profile__icon--large" />
+                    Nothing here to display
+                </div>
+            </div>
+        );
+    }
+
     return (
         <React.Fragment>
             <div className="profile__titlebar">
                 <h2 className="heading heading__2 profile__heading">Favourite Ads</h2>
             </div>
             <div className="profile__ads">
-                {ads}
+                {view}
             </div>
         </React.Fragment>
     );

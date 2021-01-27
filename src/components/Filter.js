@@ -163,7 +163,7 @@ class Filter extends PureComponent {
                             <div className="f__list f__list--headline">
                                 <h3 className="heading heading__3 f__heading">Filters</h3>
                                 <div className="f__group">
-                                    <button className="f__btn f__btn--close" onClick={() => this.onClearFilters()}>
+                                    <button className="f__btn f__btn--close btn__sub" onClick={() => this.onClearFilters()}>
                                         Clear
                                         <utils.use styleClass="f__icon ml-5" svg="x" />
                                     </button>

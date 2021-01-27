@@ -24,6 +24,7 @@ class AuthSignin extends Component {
         this.checkboxRef = React.createRef();
         this.passRef = React.createRef();
         this.loginRef = React.createRef();
+
     }
 
     componentWillUnmount() {
@@ -58,9 +59,13 @@ class AuthSignin extends Component {
                 .then(res => {
                     const { access_token } = res.data;
                     this.props.onLogin(access_token);
+
+                    if (remember) localStorage.setItem('auth-token', access_token);
+                    else localStorage.removeItem('auth-token');
+
                     this.setState({ error: null });
+                    // this.props.history.replace('/');
                     this.props.history.goBack();
-                    console.log(this.props.history);
                 }).catch(er => {
                     console.log(er);
                     this.setState({ error: er.message });
@@ -137,7 +142,7 @@ class AuthSignin extends Component {
                         </div>
                         <button className="btn btn__primary a__btn mb-1" onClick={(e) => this.onProceed(e)}>
                             Sign in
-                            <svg className="icon ml-5 icon--8" dangerouslySetInnerHTML={{__html: utils.use('log-in')}} />
+                            <utils.use styleClass="icon ml-5 icon--8" svg="log-in" />
                         </button>
                         <Link to="/password-reset" className="a__info mb-15">Reset password</Link>
                         <p className="a__info">Do not have an account? <Link to="/signup" className="a__info--high">Sign up</Link></p>
@@ -149,7 +154,8 @@ class AuthSignin extends Component {
 }
 
 const mapStateToProps = state => ({
-    lang: state.localization.lang
+    lang: state.localization.lang,
+    token: state.user.token
 });
 
 const mapDispatchToProps = dispatch => ({

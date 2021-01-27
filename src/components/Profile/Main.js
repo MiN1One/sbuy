@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { PureComponent } from 'react';
+import imageCompression from 'browser-image-compression';
 
 import avatar from '../../assets/images/32.jpg';
 import company from '../../assets/images/intech-2.jpg';
@@ -14,6 +15,7 @@ export class User extends PureComponent {
             editMode: false,
             image: company,
             loading: false,
+            error: null,
             data: {
                 name: '',
                 email: '',
@@ -76,6 +78,7 @@ export class User extends PureComponent {
 
     removeImage = () => {
         this.figureRef.current.querySelector('.profile__img').remove();
+        this.setState({ image: null });
 
         // -----------------
 
@@ -84,10 +87,28 @@ export class User extends PureComponent {
 
     selectImage = () => {
         if (this.imgRef.current.files.length) {
-            this.appendImage(this.figureRef.current, this.imgRef.current.files[0]);
+
+            const options = {
+                maxSizeMB: .7,
+                maxWidthOrHeight: 1920,
+                useWebWorker: true
+            }
             
+            imageCompression(this.imgRef.current.files[0], options)
+                .then(cimage => {
+                    const file = new File([cimage], cimage.name);
+
+                    this.setState({ image: file }, () => {
+                        this.appendImage(this.figureRef.current, this.state.image);
+                        this.setState({ error: null });
+                    });
+                })
+                .catch(er => {
+                    this.setState({ error: er });
+                });
+
             const formData = new FormData();
-            formData.append('profileImage[]', this.imgRef.current.files[0]);
+            formData.append('profileImage[]', this.state.image);
 
             // -------------------
             
@@ -177,7 +198,7 @@ export class User extends PureComponent {
                     <div>
                         <div className="pos-rel d-inline mb-1">
                             <figure className="profile__figure" ref={this.figureRef}>
-                                <img className="profile__img" alt="user" src={avatar} />
+                                <img className="profile__img" alt="user" src={this.state.image} />
                                 <utils.use styleClass="profile__icon profile__icon--big" svg="user" />
                             </figure>
                             <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />
@@ -284,6 +305,7 @@ export class Company extends PureComponent {
 
     removeImage = () => {
         this.figureRef.current.querySelector('.profile__img').remove();
+        this.setState({ image: null });
 
         // -----------------
 
@@ -366,7 +388,7 @@ export class Company extends PureComponent {
                         <div>
                             <div className="pos-rel d-inline mb-1">
                                 <figure className="profile__figure" ref={this.figureRef}>
-                                    <img className="profile__img" alt="user" src={company} />
+                                    <img className="profile__img" alt="user" src={this.state.image} />
                                     <utils.use styleClass="profile__icon profile__icon--big" svg="image" />
                                 </figure>
                                 <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />

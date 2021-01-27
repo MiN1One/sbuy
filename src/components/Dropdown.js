@@ -1,5 +1,5 @@
 const Dropdown = (props) => (
-    <div className={`dropdown ${props.class ? props.class : ''}`}>
+    <div className={`dropdown ${props.class || ''}`}>
         {props.children}
     </div>
 );

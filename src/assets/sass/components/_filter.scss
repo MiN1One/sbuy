@@ -182,16 +182,18 @@
         padding: .7rem 1rem;
         align-items: center;
         color: var(--color-grey-7);
-        border-radius: .7rem;
 
         &--close {
             text-transform: uppercase;
             font-size: 1.45rem;
             background: var(--color-light-7);
-            border: 1px solid transparent;
+            padding: .7rem 1.75rem;
 
             &:hover,
-            &:focus { border-color: var(--color-primary-opaque); }
+            &:focus {
+
+                .f__icon { fill: var(--color-primary-opaque); }
+            }
         }
 
         &--abs {
@@ -213,10 +215,6 @@
         &--arrow {
             width: 2rem;
             height: 2rem;
-        }
-        
-        &--small {
-            margin-left: .5rem;
         }
     }
 

@@ -217,15 +217,18 @@ class AuthSignup extends Component {
                             <p className="a__label a__label--abs">Your number or email</p>
                         </label>
                         <div className="a__item">
-                            <input type="checkbox" id="terms" className="checkbox" ref={this.checkboxRef} />
-                            <label htmlFor="terms" className="label">
-                                <span></span>
-                                Agree to terms of use
-                            </label>
+                            <p>
+                                <input type="checkbox" id="terms" className="checkbox" ref={this.checkboxRef} />
+                                <label htmlFor="terms" className="label">
+                                    <span></span>
+                                    Agree to&nbsp;
+                                    <Link to="/about#terms" className="a__info--high">website terms of use</Link>
+                                </label>
+                            </p>
                         </div>
                         <button className="btn btn__primary a__btn mb-1" onClick={(e) => this.onProceed(e)}>
                             Proceed
-                            <svg className="icon ml-5 icon--8" dangerouslySetInnerHTML={{__html: utils.use('user-plus')}} />
+                            <utils.use styleClass="icon ml-5 icon--8" svg="user-plus" />
                         </button>
                         <p className="a__info">Existing user? <Link to="/signin" className="a__info--high">Sign in</Link></p>
                     </form>

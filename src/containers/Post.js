@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import { connect } from 'react-redux';
 import imageCompression from 'browser-image-compression';
+import { withRouter } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
 import Backdrop from '../UI/Backdrop';
@@ -52,6 +53,8 @@ class Publish extends PureComponent {
 
         this.fileRef = React.createRef();
         this.priceInputRef = React.createRef();
+
+        if (!this.props.token) this.props.history.push('/signin');
     }
 
     importCategories = () => {
@@ -85,6 +88,7 @@ class Publish extends PureComponent {
             });
         }
         if (this.props.lang.val !== prevProps.lang.val) this.importCategories();
+        if (!this.props.token) this.props.history.push('/signin');
     }
 
     onAddNumber = () => {
@@ -656,11 +660,10 @@ class Publish extends PureComponent {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        lang: state.localization.lang
-    };
-};
+const mapStateToProps = state => ({
+    lang: state.localization.lang,
+    token: state.user.token
+});
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -668,4 +671,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Publish);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Publish));

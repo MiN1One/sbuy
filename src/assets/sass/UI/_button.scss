@@ -136,4 +136,29 @@
             .icon { fill: var(--color-grey-dark) !important; }
         }
     }
+
+    &__white {
+        color: var(--color-black);
+        background: #fff;
+        box-shadow: 0 0 1.5rem rgba(#000, .05);
+        backface-visibility: hidden;
+
+        &:hover,
+        &:focus {
+            box-shadow: 0 0 1.5rem rgba(#000, .07);
+            transform: scale(1.02);
+        }
+    }
+
+    &__sub {
+        padding: .5rem 1.75rem;
+        border-radius: 3rem;
+        background: var(--color-white-bg-secondary);
+        border: 1px solid transparent;
+
+        &:hover {
+            color: var(--color-primary);
+            border-color: var(--color-primary-opaque);
+        }
+    }
 }

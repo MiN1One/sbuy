@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import Main from './Main';
 import Header from './Header';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
-import Layout from './Layout';
 import LoadingScreen from '../UI/LoadingScreen';
-import { connect } from 'react-redux';
+import ErrorComponent from '../components/Error';
+import Layout from './Layout';
 
 const AsyncAuthSignin = asyncComponent(() => import('./Authorization/AuthSignin'));
 const AsyncAuthSignup = asyncComponent(() => import('./Authorization/AuthSignup'));
@@ -45,31 +46,38 @@ function App(props) {
     </Layout>
   );
 
+  const errorC = (
+    <Layout>
+      <ErrorComponent {...props} notFound />
+    </Layout>    
+  );
+
   let routes = (
     <Switch>
       <Route path="/signin" exact component={AsyncAuthSignin} />
       <Route path="/password-reset" exact component={AsyncResetPass} />
       <Route path="/signup" exact component={AsyncAuthSignup} />
-      <Route path="/exchange" exact component={() => main} />
-      <Route path="/giveaway" exact component={() => main} />
+      <Route path="/exchange" exact render={() => main} />
+      <Route path="/giveaway" exact render={() => main} />
       <Route path="/post-new" exact render={() => post} />
+      <Route path="/user/:section" render={() => profile} />
       <Route path="/all/:category" exact render={() => singleCategory} />
       <Route path="/categories/:category/:subcategory" render={() => main} />
-      <Route path="/" render={() => header} />
-      <Route path="*" render={() => <h1>404 Not Found</h1>} />
+      <Route path="/" exact render={() => header} />
+      <Route path="*" render={() => errorC} />
     </Switch>
   );
   if (props.token) {
     routes = (
       <Switch>
-        <Route path="/exchange" exact component={() => main} />
-        <Route path="/giveaway" exact component={() => main} />
+        <Route path="/exchange" exact render={() => main} />
+        <Route path="/giveaway" exact render={() => main} />
         <Route path="/post-new" exact render={() => post} />
         <Route path="/all/:category" exact render={() => singleCategory} />
-        <Route path="/user/:section" exact render={() => profile} />
+        <Route path="/user/:section" render={() => profile} />
         <Route path="/categories/:category/:subcategory" render={() => main} />
-        <Route path="/" render={() => header} />
-        <Route path="*" render={() => <h1>404 Not Found</h1>} />
+        <Route path="/" exact render={() => header} />
+        <Route path="*" render={() => errorC} />
       </Switch>
     );
   }
