@@ -144,7 +144,7 @@ class adview extends PureComponent {
     }
 
     closePopup = () => {
-        if (!this.props.match.params.category && !this.props.match.params.subcategory) this.props.history.replace('/');
+        if (!this.props.match.params.category && !this.props.match.params.subcategory) this.props.history.goBack();
         else this.props.history.replace('/categories/' + this.categoryPath);
     }
 

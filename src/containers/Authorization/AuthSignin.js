@@ -64,8 +64,7 @@ class AuthSignin extends Component {
                     else localStorage.removeItem('auth-token');
 
                     this.setState({ error: null });
-                    // this.props.history.replace('/');
-                    this.props.history.goBack();
+                    this.props.history.replace('/');
                 }).catch(er => {
                     console.log(er);
                     this.setState({ error: er.message });

@@ -38,7 +38,7 @@ const ActiveAds = React.memo((props) => {
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     let view = ads;
-    if (true) {
+    if (false) {
         view = (
             <div className="profile__empty">
                 <div>

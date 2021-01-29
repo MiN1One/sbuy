@@ -74,11 +74,11 @@ export const AdsCard = (props) => {
                 </div>
                 <div className="profile__ad-group sb">
                     <div className="d-flex">
-                        <button className="profile__btn profile__btn--control">
+                        <Link to={`/user/ads/edit/${props.el.id}`} className="profile__btn profile__btn--control">
                             <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="edit-2" />
                             Edit
-                        </button>
-                        <Link to="/" className="profile__btn profile__btn--control">
+                        </Link>
+                        <Link to={`/user/ads/view/${props.el.id}`} className="profile__btn profile__btn--control">
                             <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="eye" />
                             View
                         </Link>

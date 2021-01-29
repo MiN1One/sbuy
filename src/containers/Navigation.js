@@ -165,7 +165,7 @@ class Navigation extends PureComponent {
                                         <span className="nav__title nav__title--user">Favorites</span>
                                         <div className="d-flex ac jc">
                                             <utils.use styleClass="nav__icon m-0" svg="folder" />
-                                            {this.props.favorites.length > 0 && <div className="ml-1">{this.props.favorites.length}</div>}
+                                            {this.props.favorites.length > 0 && <div className="ml-5">{this.props.favorites.length}</div>}
                                         </div>
                                     </Link>
                                 </div>

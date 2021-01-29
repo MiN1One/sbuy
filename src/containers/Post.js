@@ -366,7 +366,7 @@ class Publish extends PureComponent {
         return (
             <React.Fragment>
                 {this.state.loading && <LoadingScreen class="loadingScreen--abs" />}
-                <section className="post">
+                <section className={`post ${this.props.class || ''}`}>
                     <div className="container">
                         <div className="post__wrapper">
                             <div className="post__head">
@@ -484,7 +484,8 @@ class Publish extends PureComponent {
                                 </div>
                                 <div className="post__group">
                                     <p className="post__title mb-1">Category</p>
-                                    <button className="post__input post__input--cat post__input--cat-main" onClick={() => this.onOpenCatPop()}>
+                                    {this.props.class && <p className="post__hint post__hint--red mb-1">You cannot change category</p>}
+                                    <button className="post__input post__input--cat post__input--cat-main" data-readonly={`${this.props.class ? 'read-only' : ''}`} onClick={() => this.onOpenCatPop()}>
                                         <span className="post__val">
                                             {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.state.categories[this.state.activeAfter].icon} />}
                                             {title ? title : 'Select category'}

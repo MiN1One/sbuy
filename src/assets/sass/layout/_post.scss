@@ -3,6 +3,56 @@
     margin-top: 7rem;
     background: var(--color-white-bg-secondary);
 
+    &--edit {
+        margin: 0;
+        background: #fff;
+
+        .post__figure {
+            background: var(--color-white-bg-secondary);
+        }
+        
+        .post__input {
+            background: var(--color-white-bg-secondary);
+
+            &:focus { box-shadow: none; }
+        }
+
+        .post__wrapper {
+            padding: 0 4rem;
+            padding-top: 3rem;
+        }
+
+        .post__group {
+            width: calc((100% - 3rem) / 2);
+            margin-right: 3rem;
+
+            &:nth-child(3n) { margin-right: 3rem !important; }
+            &:nth-child(2n) { margin-right: 0 !important; }
+
+            &--details {
+                flex-wrap: wrap;
+
+                & > div {
+                    width: 100%;
+                }
+            }
+        }
+
+        .post__input {
+            font-size: 1.5rem;
+            
+            &--title {
+                transition: all .3s ease;
+                width: 100%;
+                
+                &:focus {
+                    width: 100%;
+                    transform: translate(0);
+                }
+            }
+        }
+    }
+
     &__wrapper {
         padding: 6.5rem 0 0 0;
         position: relative;
@@ -42,9 +92,7 @@
         width: 100%;
     }
 
-    &__title {
-        font-size: 1.8rem;
-    }
+    &__title { font-size: 1.8rem; }
 
     &__uploadbox {
         width: 100%;
@@ -108,7 +156,7 @@
             padding: 1.5rem 2.5rem;
         }
 
-        &--singlebtn { width: 23rem; }
+        // &--singlebtn { width: 23rem; }
 
         &--des {
             height: 30rem;
@@ -242,6 +290,11 @@
 
     &__double-form {
         display: flex;
+
+        .post__input {
+            &:first-child { flex-wrap: 2; }
+            &:last-child { flex-grow: 1; }
+        }
 
         &:not(:last-child) { margin-bottom: 1.5rem; }
     }

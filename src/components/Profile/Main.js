@@ -13,10 +13,10 @@ export class User extends PureComponent {
         super(props);
         this.state = {
             editMode: false,
-            image: company,
             loading: false,
             error: null,
             data: {
+                image: avatar,
                 name: '',
                 email: '',
                 number: '',
@@ -26,25 +26,30 @@ export class User extends PureComponent {
 
         this.figureRef = React.createRef();
         this.imgRef = React.createRef();
+        this.source = axios.CancelToken.source();
     }
 
     fetchData = () => {
         this.setState({ loading: true });
-        axios('https://jsonplaceholder.typicode.com/todos')
+        axios.get('https://jsonplaceholder.typicode.com/todos', { cancelToken: this.source.token })
             .then(res => {
                 setTimeout(() => {
-                    
+                    console.log(res.data);
                     this.setState({ loading: false });
                 }, 2000);
             })
             .catch(er => {
-                
+                if (axios.isCancel(er)) console.log("axios request cancelled", er.message);
                 this.setState({ loading: false });
             });
     }
 
     componentDidMount() {
         this.fetchData();
+    }
+
+    componentWillUnmount() {
+        this.source.cancel("Canceled");
     }
 
     onToggleEditMode = () => this.setState(prevState => {
@@ -89,8 +94,8 @@ export class User extends PureComponent {
         if (this.imgRef.current.files.length) {
 
             const options = {
-                maxSizeMB: .7,
-                maxWidthOrHeight: 1920,
+                maxSizeMB: .5,
+                maxWidthOrHeight: 800,
                 useWebWorker: true
             }
             
@@ -98,17 +103,19 @@ export class User extends PureComponent {
                 .then(cimage => {
                     const file = new File([cimage], cimage.name);
 
-                    this.setState({ image: file }, () => {
-                        this.appendImage(this.figureRef.current, this.state.image);
+                    this.setState(prevState => ({ data: { ...prevState.data, image: file } }), 
+                        () => {
+                        this.appendImage(this.figureRef.current, this.state.data.image);
                         this.setState({ error: null });
                     });
+
+                    const formData = new FormData();
+                    formData.append('profileImage[]', this.state.data.image);
                 })
                 .catch(er => {
                     this.setState({ error: er });
                 });
 
-            const formData = new FormData();
-            formData.append('profileImage[]', this.state.image);
 
             // -------------------
             
@@ -198,7 +205,7 @@ export class User extends PureComponent {
                     <div>
                         <div className="pos-rel d-inline mb-1">
                             <figure className="profile__figure" ref={this.figureRef}>
-                                <img className="profile__img" alt="user" src={this.state.image} />
+                                <img className="profile__img" alt="user" src={this.state.data.image} />
                                 <utils.use styleClass="profile__icon profile__icon--big" svg="user" />
                             </figure>
                             <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />
@@ -292,11 +299,31 @@ export class Company extends PureComponent {
 
     selectImage = () => {
         if (this.imgRef.current.files.length) {
-            this.appendImage(this.figureRef.current, this.imgRef.current.files[0]);
+
+            const options = {
+                maxSizeMB: .5,
+                maxWidthOrHeight: 800,
+                useWebWorker: true
+            }
             
-            const formData = new FormData();
-            formData.append('profileImage[]', this.imgRef.current.files[0]);
-            
+            imageCompression(this.imgRef.current.files[0], options)
+                .then(cimage => {
+                    const file = new File([cimage], cimage.name);
+
+                    this.setState(prevState => ({ data: { ...prevState.data, image: file } }), 
+                        () => {
+                        this.appendImage(this.figureRef.current, this.state.data.image);
+                        this.setState({ error: null });
+                    });
+
+                    const formData = new FormData();
+                    formData.append('profileImage[]', this.state.data.image);
+                })
+                .catch(er => {
+                    this.setState({ error: er });
+                });
+
+
             // -------------------
             
             // .....
@@ -388,7 +415,7 @@ export class Company extends PureComponent {
                         <div>
                             <div className="pos-rel d-inline mb-1">
                                 <figure className="profile__figure" ref={this.figureRef}>
-                                    <img className="profile__img" alt="user" src={this.state.image} />
+                                    <img className="profile__img" alt="company" src={this.state.data.image} />
                                     <utils.use styleClass="profile__icon profile__icon--big" svg="image" />
                                 </figure>
                                 <input className="d-none" type="file" ref={this.imgRef} onChange={() => this.selectImage()} />

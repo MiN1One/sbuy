@@ -42,6 +42,17 @@
     border: 2px solid transparent;
     background: var(--color-light-7);
     font-family: 'Inter', sans-serif;
+    
+    #read-only { 
+        * {
+            color: var(--color-light-7);
+            
+            &:focus {
+                color: var(--color-light-7);
+                border-color: transparent;
+            }
+        }
+    }
 
     &:focus {
         border-color: var(--color-primary-opaque);
