@@ -49,35 +49,35 @@ function App(props) {
   const errorC = (
     <Layout>
       <ErrorComponent {...props} notFound />
-    </Layout>    
+    </Layout>
   );
 
   let routes = (
     <Switch>
-      <Route path="/signin" exact component={AsyncAuthSignin} />
-      <Route path="/password-reset" exact component={AsyncResetPass} />
-      <Route path="/signup" exact component={AsyncAuthSignup} />
-      <Route path="/exchange" exact render={() => main} />
-      <Route path="/giveaway" exact render={() => main} />
-      <Route path="/post-new" exact render={() => post} />
-      <Route path="/user/:section" render={() => profile} />
-      <Route path="/all/:category" exact render={() => singleCategory} />
-      <Route path="/categories/:category/:subcategory" render={() => main} />
-      <Route path="/" exact render={() => header} />
-      <Route path="*" render={() => errorC} />
+      <Route path="/signin" exact><AsyncAuthSignin /></Route>
+      <Route path="/password-reset" exact><AsyncResetPass /></Route>
+      <Route path="/signup" exact><AsyncAuthSignup /></Route>
+      <Route path="/exchange" exact>{main}</Route>
+      <Route path="/giveaway" exact>{main}</Route>
+      <Route path="/post-new" exact>{post}</Route>
+      <Route path="/user/:section">{profile}</Route>
+      <Route path="/all/:category" exact>{singleCategory}</Route>
+      <Route path="/categories/:category/:subcategory">{main}</Route>
+      <Route path="/" exact>{header}</Route>
+      <Route path="*">{errorC}</Route>
     </Switch>
   );
   if (props.token) {
     routes = (
       <Switch>
-        <Route path="/exchange" exact render={() => main} />
-        <Route path="/giveaway" exact render={() => main} />
-        <Route path="/post-new" exact render={() => post} />
-        <Route path="/all/:category" exact render={() => singleCategory} />
-        <Route path="/user/:section" render={() => profile} />
-        <Route path="/categories/:category/:subcategory" render={() => main} />
-        <Route path="/" exact render={() => header} />
-        <Route path="*" render={() => errorC} />
+        <Route path="/exchange" exact>{main}</Route>
+        <Route path="/giveaway" exact>{main}</Route>
+        <Route path="/post-new" exact>{post}</Route>
+        <Route path="/all/:category" exact>{singleCategory}</Route>
+        <Route path="/user/:section">{profile}</Route>
+        <Route path="/categories/:category/:subcategory">{main}</Route>
+        <Route path="/" exact>{header}</Route>
+        <Route path="*">{errorC}</Route>
       </Switch>
     );
   }

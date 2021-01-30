@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FcMoneyTransfer } from 'react-icons/fc';
 
 import LoadingScreen from '../../UI/LoadingScreen';
 
@@ -22,6 +23,17 @@ const Payments = (props) => {
     }, []);
 
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
+    let view = null;
+    if (true) {
+        view = (
+            <div className="profile__empty">
+                <div>
+                    <FcMoneyTransfer className="profile__icon--large mb-1" />
+                    No payments were made
+                </div>
+            </div>
+        );
+    }
 
     return (
         <React.Fragment>
@@ -30,6 +42,7 @@ const Payments = (props) => {
             </div>
             <div className="profile__content">
                 <h5 className="heading heading__5">Total balance: 1561,56 som</h5>
+                {view}
             </div>
         </React.Fragment>
     );

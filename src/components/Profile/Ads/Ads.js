@@ -58,9 +58,9 @@ const ActiveAds = React.memo((props) => {
             <div className="profile__titlebar">
                 <h2 className="heading heading__2 profile__heading">Active Ads</h2>
             </div>
-                <div className="profile__ads">
-                    {view}
-                </div>
+            <div className="profile__ads">
+                {view}
+            </div>
         </React.Fragment>      
     )
 });

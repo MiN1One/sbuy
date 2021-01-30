@@ -117,10 +117,11 @@
     }
 
     &__red {
+        background: var(--color-red);
 
         &--outline {
             background: #fff;
-            border-color: var(--color-red);
+            border-color: var(--color-red-opaque);
             color: var(--color-grey-dark);
             
             &:hover,

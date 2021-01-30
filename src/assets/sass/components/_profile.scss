@@ -135,38 +135,46 @@
             }
         }
         
-        &--red:hover,
-        &--red:focus {
+        &--red {
             color: var(--color-red);
             border-color: var(--color-red-opaque);
-        }
+            
+            &:hover,
+            &:focus {
+                color: var(--color-red-dark);
+                border-color: var(--color-red);
+            }
 
+            .icon { fill: var(--color-red-opaque); }
+        }
+        
         &--toggler {
             padding: 0 .5rem;
             border-left: 1px solid rgba(#000, .1);
             
             &:hover { background: var(--color-primary); }
         }
-
+        
         &--rounded {
             border-radius: 50%;
             width: 3.3rem;
             height: 3.3rem;
             border: 1px solid rgba(#000, .15);
-
+            
             &:hover { border-color: var(--color-primary-opaque); }
         }
-
+        
         &--activate {
             color: var(--color-primary);
+            border-color: var(--color-primary-opaque);
+            
+            &:hover,
+            &:focus {
+                color: var(--color-primary-dark) !important;
+                border-color: var(--color-primary) !important;
+            }
 
-            &:hover { border-color: var(--color-primary-opaque); }
-        }
-
-        &--deact {
-            color: var(--color-red);
-
-            &:hover { border-color: var(--color-red-opaque); }
+            .icon { fill: var(--color-primary-opaque); }
         }
         
         &--img {
@@ -189,8 +197,6 @@
 
     &__btn--control:not(.profile__btn--red):hover &__icon,
     &__btn--control:not(.profile__btn--red):focus &__icon { fill: var(--color-primary-opaque); }
-    &__btn--red:hover &__icon,
-    &__btn--red:focus &__icon { fill: var(--color-red-opaque); }
 
     &__icon {
         width: 2rem;
@@ -351,6 +357,7 @@
     &__ads {
         display: flex;
         flex-direction: column;
+        min-height: 55rem;
         width: 100%;
     }
     
@@ -360,6 +367,7 @@
         padding: 2rem;
         transition: all .2s ease;
         display: flex;
+        border-bottom: 1px solid rgba(#000, .045);
 
         &:not(:last-child) { border-bottom: 1px solid rgba(#000, .045); }
     }
@@ -467,6 +475,8 @@
         position: relative;
         color: var(--color-grey-7);
 
+        &--err { border-top: 1px solid rgba(#000, .1); }
+
         & > div {
             position: absolute;
             display: flex;
@@ -476,5 +486,83 @@
             left: 50%;
             transform: translateX(-50%);
         }
+    }
+
+    &__messages-list {
+        width: 100%;
+        min-height: 55rem;
+    }
+
+    &__messages-item {
+        width: 100%;
+        border-bottom: 1px solid rgba(#000, .045);
+        position: relative;
+    }
+    
+    &__messages-link {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 3rem 4rem;
+    }
+
+    &__messages-text {
+        font-size: 1.35rem;
+
+        &--name { font-size: 1.8rem; }
+ 
+        &:not(:last-child) { margin-bottom: 1rem; }
+    }
+
+    &__messages-btn {
+        position: absolute;
+        top: 50%;
+        right: 4rem;
+        transform: translateY(-50%);
+    }
+
+    &__chat {
+        height: 30rem !important;
+        width: 100% !important;
+        background: var(--color-white-bg-secondary);
+        // box-shadow: inset 0 -1.5rem 1.5rem rgba(#000, .03);
+    }
+
+    &__chat-area {
+        padding: 1rem 4rem;
+        min-height: 30rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    &__sendbox {
+        display: flex;
+        justify-content: space-between;
+        padding: 1.5rem 4rem;
+        border-bottom: 1px solid rgba(#000, .1);
+        border-top: 1px solid rgba(#000, .1);
+    }
+
+    &__textarea {
+        flex-grow: 1;
+        resize: none;
+        border: 1px solid rgba(#000, .1);
+        background: var(--color-white-bg-secondary);
+        border-radius: .7rem;
+        margin-right: 2rem;
+        padding: .7rem 1rem;
+        font-size: 1.6rem;
+        height: 15rem;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &__btn-attach {
+
     }
 }

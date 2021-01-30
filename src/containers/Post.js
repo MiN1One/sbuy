@@ -120,7 +120,9 @@ class Publish extends PureComponent {
     onChangeBusinessType = (type) => this.setState({ business_type: type });
     onChangeAdType = (type) => this.setState({ adType: type });
 
-    onOpenCatPop = () => this.setState({ showCat: true });
+    onOpenCatPop = () => {
+        if (!this.props.class) this.setState({ showCat: true });
+    }
     onCloseCatPop = () => this.setState({ showCat: false });
 
     setActiveCat = (cat) => this.setState({ activeCat: cat, activeAfter: cat, activeSubCat: null });
@@ -278,10 +280,10 @@ class Publish extends PureComponent {
                 return (
                     <React.Fragment key={index}>
                         <p className="post__title mb-1">{obj.title}</p>
-                        <div className="post__box">
-                            <div className="post__input post__input--cat" tabIndex="0">
+                        <div className="w-100 pos-rel mb-15">
+                            <div className="post__input post__input--cat post__input--drop" tabIndex="0">
                                 {defaultTitle}
-                                <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
+                                <utils.use styleClass="icon post__icon icon post__icon--cat-arrow" svg="chevron-down" />
                             </div>
                             <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                 {dropItems}
@@ -433,11 +435,13 @@ class Publish extends PureComponent {
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
                                                     <utils.use styleClass="post__icon" svg="plus" />
                                                 </figure>
-                                                {this.state.images[4] && <div className="post__overlay">
-                                                    <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(4)}>
-                                                        <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
-                                                    </button>
-                                                </div>}
+                                                {this.state.images[4] && 
+                                                    <div className="post__overlay">
+                                                        <button className="post__btn post__btn--sm post__btn--delete" onClick={() => this.onDeleteImage(4)}>
+                                                            <utils.use styleClass="post__icon post__icon--cat post__icon--sm" svg="trash-2" />
+                                                        </button>
+                                                    </div>
+                                                }
                                             </div>
                                             <div className="post__imagebox">
                                                 <figure className="post__figure post__figure--small" onClick={() => this.fileRef.current.click()}>
@@ -475,8 +479,8 @@ class Publish extends PureComponent {
                                             placeholder="Enter Ad title"
                                             onChange={(e) => this.onInputTitle(e)}
                                             value={this.state.mainTitle} 
-                                            maxLength="30" />
-                                        <span className="post__counter mt-1">{30 - this.state.mainTitle.length} characters left</span>
+                                            maxLength="35" />
+                                        <span className="post__counter mt-1">{35 - this.state.mainTitle.length} characters left</span>
                                     </label>
                                     <p className="post__hint mt-1">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus nibh vel hendrerit maximus. Proin imperdiet elit ipsum, in maximus lectus faucibus in. Praesent eu nunc ut quam mattis rhoncus.
@@ -485,12 +489,12 @@ class Publish extends PureComponent {
                                 <div className="post__group">
                                     <p className="post__title mb-1">Category</p>
                                     {this.props.class && <p className="post__hint post__hint--red mb-1">You cannot change category</p>}
-                                    <button className="post__input post__input--cat post__input--cat-main" data-readonly={`${this.props.class ? 'read-only' : ''}`} onClick={() => this.onOpenCatPop()}>
+                                    <button className="post__input post__input--cat post__input--cat-main" onClick={() => this.onOpenCatPop()}>
                                         <span className="post__val">
                                             {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.state.categories[this.state.activeAfter].icon} />}
                                             {title ? title : 'Select category'}
                                         </span>
-                                        <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-right" />
+                                        <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-right" />
                                     </button>
                                     {this.state.activeAfter &&
                                         <React.Fragment>
@@ -500,7 +504,7 @@ class Publish extends PureComponent {
                                                     <li className="post__item">{title}</li>
                                                 </ul>
                                                 <button className="post__btn post__btn--catitems">
-                                                    <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-right" />
+                                                    <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-right" />
                                                 </button>
                                             </div>
                                         </React.Fragment>
@@ -513,29 +517,29 @@ class Publish extends PureComponent {
                                     <div className="post__group">
                                         <div className="mb-15">
                                             <p className="post__title mb-1">Price</p>
-                                            <div className="post__box">
-                                                <div className="post__input post__input--cat" tabIndex="0">
+                                            <div className="mb-1 w-100 pos-rel">
+                                                <div className="post__input post__input--cat post__input--drop" tabIndex="0">
                                                     {this.state.types[this.state.adType]}
-                                                    <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
+                                                    <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-down" />
                                                 </div>
                                                 <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                     {types}
                                                 </Dropdown>
                                             </div>
                                             {this.state.adType === 'sell' &&
-                                                <div className="post__double-form mb-1">
+                                                <div className="post__double-form">
                                                     <input type="text" placeholder="Price" className="post__input post__input--price mr-1" ref={this.priceInputRef} />
-                                                    <div className="post__box">
-                                                        <div className="post__input post__input--cat post__input--cur" tabIndex="0">
+                                                    <div className="pos-rel">
+                                                        <div className="post__input post__input--cat post__input--drop" tabIndex="0">
                                                             {this.state.currency.toUpperCase()}
-                                                            <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
+                                                            <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-down" />
                                                         </div>
                                                         <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                             <div className="dropdown__item" onClick={() => this.onChangeCurrency('usd')}>
-                                                                <div className="dropdown__link post__dropitem post__dropitem--cur">USD</div>
+                                                                <div className="dropdown__link post__dropitem post__dropitem--currency">USD</div>
                                                             </div>
                                                             <div className="dropdown__item" onClick={() => this.onChangeCurrency('uzsom')}>
-                                                                <div className="dropdown__link post__dropitem post__dropitem--cur">UZSOM</div>
+                                                                <div className="dropdown__link post__dropitem post__dropitem--currency">UZSOM</div>
                                                             </div>
                                                         </Dropdown>
                                                     </div>
@@ -543,10 +547,10 @@ class Publish extends PureComponent {
                                             }
                                         </div>
                                         <p className="post__title mb-1">Type of business</p>
-                                        <div className="post__box">
-                                            <div className="post__input post__input--cat" tabIndex="0">
+                                        <div className="w-100 pos-rel">
+                                            <div className="post__input post__input--cat post__input--drop" tabIndex="0">
                                                 {utils.capitalize(this.state.business_type)}
-                                                <utils.use styleClass="post__icon post__icon--cat-arrow" svg="chevron-down" />
+                                                <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-down" />
                                             </div>
                                             <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                 <div className="dropdown__item" onClick={() => this.onChangeBusinessType('individual')}>
@@ -587,17 +591,17 @@ class Publish extends PureComponent {
                                 <div className="post__group">
                                     <p className="post__title mb-1">Contact numbers</p>
                                     {this.state.numbers.length > 1 && <p className="post__text mb-1">If you do not want to add a number laeve number field empty</p>}
-                                    <div className="post__double-form">
+                                    <div className="post__double-form w-100 pos-rel">
                                         <input 
                                             type="text" 
                                             placeholder="Your contact number" 
-                                            className="post__input post__input--singlebtn mr-1" 
+                                            className="post__input mr-1" 
                                             value={this.state.numbers[0]} 
                                             onChange={(e) => this.onInputNumber(e.target.value, 0)} 
                                             maxLength={15} />
-                                        <button className="post__input post__input--btn post__input--cat" onClick={() => this.onAddNumber()}>
+                                        <button className="post__input jc d-flex" onClick={() => this.onAddNumber()}>
                                             Add
-                                            <utils.use styleClass="post__icon post__icon--cat-arrow" svg="plus" />
+                                            <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="plus" />
                                         </button>
                                     </div>
                                     {numbers}
@@ -631,7 +635,7 @@ class Publish extends PureComponent {
                     </div>
                 </section>
 
-                {this.state.showCat &&
+                {(this.state.showCat && !this.props.class) &&
                     <div className="cat__container">
                         <Backdrop z={96} click={this.onCloseCatPop} />
                         {this.state.activeCat && <Backdrop z={9} click={this.unsetActiveCat} />}

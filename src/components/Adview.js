@@ -397,12 +397,11 @@ class adview extends PureComponent {
                                                 <div className="adview__group adview__group--col afs">
                                                     <p className="adview__title adview__title--mid mb-1">Personalized description:</p>
                                                     <p className="adview__text">
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra odio vel risus consequat feugiat. Vivamus nec lorem auctor felis suscipit ullamcorper sit amet non orci. Sed ornare justo eu arcu convallis venenatis. Sed luctus maximus viverra. Nullam sit amet urna fermentum, dignissim urna semper, auctor mi. Mauris pulvinar porta augue, sodales ultricies urna placerat vitae. 
+                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra odio vel risus consequat feugiat. Vivamus nec lorem auctor felis suscipit ullamcorper sit amet non orci. Sed ornare justo eu arcu convallis venenatis. Sed luctus maximus viverra. Nullam sit amet urna fermentum, dignissim urna semper, auctor mi. Mauris pulvinar porta augue, sodales ultricies urna placerat vitae.
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
-
 
                                         <div className="adview__right">
                                             <div className="adview__box adview__box--user">
@@ -465,7 +464,7 @@ class adview extends PureComponent {
                                                         </div>
                                                         <button className="wh-auto btn btn__primary btn__primary--outline">
                                                             Send
-                                                            <utils.use styleClass="icon--7 icon" svg="send" />
+                                                            <utils.use styleClass="icon--7 icon ml-5" svg="send" />
                                                         </button>
                                                     </form>
                                                 </div>

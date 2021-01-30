@@ -24,9 +24,9 @@
     &__content {
         position: relative;
         z-index: 15;
-        height: 170rem;
+        min-height: 250rem;
     }
-
+    
     &__head {
         margin-bottom: 3rem;
         display: flex;

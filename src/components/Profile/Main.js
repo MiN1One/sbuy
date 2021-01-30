@@ -221,24 +221,23 @@ export class User extends PureComponent {
                         <p className="profile__hint tc">Image size and resolution<br/>should not exceed<br/>1MB and 500x500px</p>
                     </div>
                 </div>
-                {this.state.editMode && 
-                    <div className="profile__footer mt-15">
-                        {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
-                        <button className="ml-2 btn btn__primary btn__primary--outline" onClick={() => this.onSaveData()}>
-                            Save
+                <div className="profile__footer mt-15">
+                    {this.state.editMode 
+                        ? <React.Fragment>
+                            {this.state.loading && <LoadingSub class="loader--small loader--grey" />}
+                            <button className="ml-2 btn btn__primary btn__primary--outline" onClick={() => this.onSaveData()}>
+                                Save
+                            </button>
+                        </React.Fragment>
+                        : <button className="ml-2 btn btn__red btn__red--outline" onClick={() => this.props.onLogOut()}>
+                            Log out
                         </button>
-                    </div>
-                }
+                    }
+                </div>
             </React.Fragment>
         );
     }
 }
-
-
-
-
-
-
 
 
 export class Company extends PureComponent {

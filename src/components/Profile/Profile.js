@@ -60,14 +60,20 @@ class Profile extends PureComponent {
     
     render() {
         const notFound = (
-            <div className="profile__empty">
+            <div className="profile__empty profile__empty--err">
                 <div>
                     <FcMediumPriority className="profile__icon--large mb-1" />
                     Requested page is not found
-                    <Link className="btn btn__white mt-2" to="/user/profile">
-                        <utils.use styleClass="icon icon--dark mr-5" svg="user" />
-                        My profile
-                    </Link>
+                    <div className="e__bottom mt-2">
+                        <Link className="btn btn__white mr-15" to="/user/profile">
+                            <utils.use styleClass="icon icon--dark mr-5" svg="user" />
+                            My profile
+                        </Link>
+                        <Link className="btn btn__white" onClick={() => this.props.history.goBack()}>
+                            <utils.use styleClass="e__i e__i--sm" svg="corner-up-left" />
+                            Go back
+                        </Link>
+                    </div>
                 </div>
             </div>
         );
@@ -188,7 +194,10 @@ class Profile extends PureComponent {
                                     <Route path="/user/ads/promoted" exact>
                                         <PromotedAds {...this.props} />
                                     </Route>
-                                    <Route path="/user/messages" exact>
+                                    <Route path="/user/messages">
+                                        <Inbox {...this.props} />
+                                    </Route>
+                                    <Route path="/user/conversation" exact>
                                         <Inbox {...this.props} />
                                     </Route>
                                     <Route path="/user/messages/sentbox" exact>
@@ -235,10 +244,8 @@ const mapStateToProps = state => ({
     token: state.user.token
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    onLogOut: () => dispatch(actions.logOut())
+});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

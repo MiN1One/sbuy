@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -21,7 +22,12 @@ export const AdsCard = (props) => {
     let btnView;
     switch (props.view) {
         case 'active': 
-            btnView = <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToDeact(props.el.id)}>Deactivate </button>;
+            btnView = (
+                <div className="d-flex">
+                    {!props.el.premium && <Link to="/ads/promote" className="profile__btn profile__btn--activate profile__btn--control" onClick={() => clickToActivate(props.el.id)}>Promote</Link>}
+                    <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToDeact(props.el.id)}>Deactivate</button>
+                </div>
+            );
             break;
         case 'remove': 
             btnView = <button className="profile__btn profile__btn--red profile__btn--control" onClick={() => clickToRemove(props.el.id)}>Remove</button>;
@@ -42,7 +48,7 @@ export const AdsCard = (props) => {
             </figure>
             <div className="profile__ad-left">
                 <span className="profile__ad-title d-flex sb ac" data-premium={props.el.premium}>
-                    {props.el.title}
+                    {utils.limitStrAny(props.el.title, 30, true)}
                     <span className="badge w-max profile__ad-badge">Promoted</span>
                 </span>
                 <span className="profile__ad-title--price-tag w-max">{props.el.price}</span>
