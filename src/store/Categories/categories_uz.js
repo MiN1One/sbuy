@@ -4,6 +4,7 @@ const categories = {
         title: 'Bolalar uchun',
         subCategories: [
             { title: 'Kiyim kechak', val: 'clothing' },
+            { title: 'Oyoq kiyim', val: 'shoes' },
             { title: 'Mebel', val: 'furniture' }, 
             { title: 'Oyinchoqlar', val: 'toys' }, 
             { title: 'O\'quv qurollar', val: 'educational_assets' }, 
@@ -31,12 +32,15 @@ const categories = {
         subCategories: [
             { title: 'Мобильные телефоны', val: 'mobile_phones' },
             { title: 'Компьютеры', val: 'computers' },
+            { title: 'Sim cards', val: 'sim_cards' },
             { title: 'Медиаустройства', val: 'media_devices' },
+            { title: 'Landline phones', val: 'landline_phones' },
             { title: 'Игровые приставки', val: 'games_consoles' },
             { title: 'Телевизоры', val: 'tvs' },
             { title: 'Бытовая техника', val: 'home_appliances' },
             { title: 'Климатическое оборудование', val: 'climatic_equipment' },
-            { title: 'Аксессуары и компоненты', val: 'accessories_and_components' }
+            { title: 'Аксессуары и компоненты', val: 'accessories_and_components' },
+            { title: 'Прочая электроника', val: 'other' }
         ],
         icon: 'devices'
     },
@@ -99,7 +103,7 @@ const categories = {
             { title: 'Knitting', val: 'knitting' }, 
             { title: 'Lost and found', val: 'lost_and_found' }, 
             { title: 'Other animals', val: 'other_animals' }, 
-             { title: 'Animals for free', val: 'animals_for_free'}
+            { title: 'Animals for free', val: 'animals_for_free'}
         ],
         icon: 'paw',
     },

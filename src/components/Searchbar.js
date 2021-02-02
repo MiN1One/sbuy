@@ -8,6 +8,7 @@ import Backdrop from '../UI/Backdrop';
 import RegionsDropdown from './RegionsDropdown';
 
 class searchbar extends PureComponent {
+    state = { langTitle: '' };
 
     onPerformSearch = (e) => {
         e.preventDefault();
@@ -17,16 +18,11 @@ class searchbar extends PureComponent {
         // ..........
     }
 
-    onClickOutside = () => this.setState({ showDrop: false });
 
-    changeSearchLocation = (location) => {
-        this.props.onChangeSearchLoc(location);
-        this.onClickOutside();
-    }
-
-    clearInput = (e) => {
-        e.preventDefault();
-        this.props.onChangeSearchInput('');
+    changeSearchLocation = (location, title) => {
+        this.props.onChangeSearchLoc(location, title);
+        this.setState({ title });
+        this.onPerformSearch();
     }
 
     render() {
@@ -46,20 +42,25 @@ class searchbar extends PureComponent {
                                         id="search"
                                         onChange={(ev) => this.props.onChangeSearchInput(ev.target.value)}
                                         value={this.props.search} />
-                                    <button className="s__btn s__btn--map s__btn--clear" onClick={(e) => this.clearInput(e)} >
+                                    <button 
+                                        className="s__btn s__btn--map s__btn--clear" 
+                                        type="button" 
+                                        onClick={() => this.props.onChangeSearchInput('')}>
                                         <utils.use styleClass="s__icon s__icon--map s__icon--clear" svg="x" />
                                     </button>
                                 </label>
                                 <div className="s__btn s__btn--map">
                                     <utils.use styleClass="s__icon s__icon--map" svg="map-pin" />
-                                    <span className="s__title">{this.props.searchLocation}</span>
+                                    <span className="s__title">{this.state.langTitle}</span>
                                 </div>
                                 
                                 <button className="s__btn">
                                     <utils.use styleClass="s__icon" svg="search" />
                                 </button>
                             </form>
-                            <RegionsDropdown class="dropdown--full dropdown--close s__dropdown" click={this.changeSearchLocation} />
+                            <RegionsDropdown 
+                                class="dropdown--full dropdown--close s__dropdown" 
+                                click={this.changeSearchLocation} />
                         </div>
                     </div>
                 </div>

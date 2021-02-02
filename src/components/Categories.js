@@ -24,7 +24,7 @@ class Categories extends PureComponent {
     
     importCategories = () => {
         this.setState({ loading: true });
-        import(`../store/Categories/categories_${this.props.lang.val}`)
+        import(`../store/Categories/categories_${this.props.lang}`)
             .then(res => {
                 this.setState({ categories: res.default, loading: false });
             })
@@ -146,11 +146,8 @@ class Categories extends PureComponent {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        lang: state.localization.lang
-    };
-};
-
+const mapStateToProps = state => ({
+    lang: state.localization.lang
+});
 
 export default connect(mapStateToProps)(React.memo(Categories));

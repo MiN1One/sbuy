@@ -23,17 +23,19 @@ const Language = (props) => {
 
     const langItems = langs.map((el, i) => {
         return (
-            <div className="dropdown__item" key={i} onClick={() => props.onChangeLanguage(el.val, el.title)}>
+            <div className="dropdown__item" key={i} onClick={() => props.onChangeLanguage(el.val)}>
                 <div className="dropdown__link">{el.title}</div>
             </div>
         );
     });
+    
+    const langTitle = langs.find(el => el.val === props.lang).title;
 
     return (
         <div className={`language ${props.class ? props.class : ''}`}>
             <div className="nav__item nav__item--drop" tabIndex="0">
                 <utils.use styleClass="nav__icon" svg="globe" />
-                <span className="nav__title">{props.lang.title}</span>
+                <span className="nav__title">{langTitle}</span>
                 <utils.use styleClass="nav__icon nav__icon--arrow" svg="chevron-down" />
             </div>
             <Dropdown class={props.dropClass}>
@@ -44,17 +46,13 @@ const Language = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        lang: state.localization.lang
-    }
-};
+const mapStateToProps = (state) => ({
+    lang: state.localization.lang
+});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onChangeLanguage: (lang, title) => dispatch(actions.changeLanguage(lang, title)),
-        onChangeLocation: (loc) => dispatch(actions.changeLocation(loc))
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+    onChangeLanguage: (lang) => dispatch(actions.changeLanguage(lang)),
+    onChangeLocation: (loc) => dispatch(actions.changeLocation(loc))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Language);

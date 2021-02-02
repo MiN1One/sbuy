@@ -58,7 +58,7 @@ class Publish extends PureComponent {
     }
 
     importCategories = () => {
-        import(`../store/Categories/categories_${this.props.lang.val}`)
+        import(`../store/Categories/categories_${this.props.lang}`)
             .then(res => {
                 this.setState({ categories: res.default });
             })
@@ -76,7 +76,7 @@ class Publish extends PureComponent {
 
             this.setState({ activeSubCat: null }, () => {
                 console.log('hey')
-                import(`../store/PostFilters/${this.props.lang.val}/${category}`)
+                import(`../store/PostFilters/${this.props.lang}/${category}`)
                     .then(filter => {
                         this.setState({ filterObj: filter.default }, () => {
                             console.log(this.state.filterObj);
@@ -87,7 +87,7 @@ class Publish extends PureComponent {
                     });
             });
         }
-        if (this.props.lang.val !== prevProps.lang.val) this.importCategories();
+        if (this.props.lang !== prevProps.lang) this.importCategories();
         if (!this.props.token) this.props.history.push('/signin');
     }
 

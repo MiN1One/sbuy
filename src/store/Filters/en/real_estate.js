@@ -6,8 +6,8 @@ const filter = {
                 title: 'Apartments',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Number of rooms',
+                        val: 'num_rooms',
                         start: 0,
                         end: 1
                     },
@@ -16,18 +16,29 @@ const filter = {
                         val: 'price',
                         start: 0,
                         end: 1
+                    },
+                    {
+                        title: 'Total area',
+                        val: 'total_area',
+                        start: 0,
+                        end: 1
+                    },
+                    {
+                        title: 'Floor',
+                        val: 'floor',
+                        start: 0,
+                        end: 1
                     }
                 ],
                 sub: [
                     {
-                        title: 'Condition',
-                        val: 'condition', 
+                        title: 'Type of business',
+                        val: 'business_type', 
                         items: [
-                            { val: 'used', title: 'Used' }, 
-                            { val: 'new', title: 'New' }, 
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
                     }
                 ]
             },
@@ -35,28 +46,48 @@ const filter = {
                 title: 'Houses',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Price',
+                        val: 'price',
                         start: 0,
                         end: 1
                     },
                     {
-                        title: 'Price',
-                        val: 'price',
+                        title: 'Total area',
+                        val: 'total_area',
+                        start: 0,
+                        end: 1
+                    },
+                    {
+                        title: 'Number of rooms',
+                        val: 'num_rooms',
+                        start: 0,
+                        end: 1
+                    },
+                    {
+                        title: 'Land area',
+                        val: 'land_area',
                         start: 0,
                         end: 1
                     }
                 ],
                 sub: [
                     {
-                        title: 'Condition',
-                        val: 'condition', 
+                        title: 'Type of house',
+                        val: 'house_type', 
                         items: [
-                            { val: 'used', title: 'Used' }, 
-                            { val: 'new', title: 'New' }, 
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
                     }
                 ]
             },
@@ -64,8 +95,8 @@ const filter = {
                 title: 'Fields',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Total area',
+                        val: 'total_area',
                         start: 0,
                         end: 1
                     },
@@ -78,14 +109,37 @@ const filter = {
                 ],
                 sub: [
                     {
-                        title: 'Condition',
-                        val: 'condition', 
+                        title: 'Disposition',
+                        val: 'disposition', 
+                        select: true,
                         items: [
-                            { val: 'used', title: 'Used' }, 
-                            { val: 'new', title: 'New' }, 
+                            { val: 'center', title: 'In city' }, 
+                            { val: 'suburb', title: 'In the suburbs' }, 
+                            { val: 'countryside', title: 'In the countryside' },
+                            { val: 'foothills', title: 'In the foothills' },
+                            { val: 'closed', title: 'In a closed area' }
+                        ]
+                    },
+                    {
+                        title: 'Field for',
+                        val: 'field_for',
+                        select: true,
+                        items: [
+                            { val: 'construction', title: 'For construction' }, 
+                            { val: 'garden', title: 'For garden' }, 
+                            { val: 'industrial', title: 'Industrial' },
+                            { val: 'garden', title: 'For garden' }, 
+                            { val: 'other', title: 'Other' }
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
                     }
                 ]
             },
@@ -93,8 +147,8 @@ const filter = {
                 title: 'Commercial premises',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Total area',
+                        val: 'total_area',
                         start: 0,
                         end: 1
                     },
@@ -107,14 +161,29 @@ const filter = {
                 ],
                 sub: [
                     {
-                        title: 'Condition',
-                        val: 'condition', 
+                        title: 'Type of property',
+                        val: 'property_type',
+                        select: true,
                         items: [
-                            { val: 'used', title: 'Used' }, 
-                            { val: 'new', title: 'New' }, 
+                            { val: 'shop', title: 'Shop' }, 
+                            { val: 'salon', title: 'Salon' }, 
+                            { val: 'warehouse', title: 'Warehouse' },
+                            { val: 'recreation', title: 'Recreation premise' },
+                            { val: 'universal', title: 'Universal premise' },
+                            { val: 'architecture', title: 'Small architectural form' },
+                            { val: 'part', title: 'Part of building' },
+                            { val: 'industry', title: 'Industrial premise' },
+                            { val: 'other', title: 'Other' }
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
                     }
                 ]
             },
@@ -122,12 +191,6 @@ const filter = {
                 title: 'Garages',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
-                        start: 0,
-                        end: 1
-                    },
-                    {
                         title: 'Price',
                         val: 'price',
                         start: 0,
@@ -136,14 +199,22 @@ const filter = {
                 ],
                 sub: [
                     {
-                        title: 'Condition',
-                        val: 'condition', 
+                        title: 'Type',
+                        val: 'type', 
                         items: [
-                            { val: 'used', title: 'Used' }, 
-                            { val: 'new', title: 'New' }, 
+                            { val: 'garage', title: 'Garage' }, 
+                            { val: 'parking', title: 'Parking place' }, 
+                            { val: 'parkin_space', title: 'Parking space' }
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
                     }
                 ]
             }

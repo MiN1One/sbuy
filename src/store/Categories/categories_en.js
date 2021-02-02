@@ -4,6 +4,7 @@ const categories = {
         title: 'For kids',
         subCategories: [
             { title: 'Clothing', val: 'clothing' },
+            { title: 'Shoes', val: 'shoes' },
             { title: 'Furniture', val: 'furniture' }, 
             { title: 'Toys', val: 'toys' }, 
             { title: 'Educational assets', val: 'educational_assets' }, 
@@ -31,13 +32,17 @@ const categories = {
         title: 'Electronics',
         subCategories: [
             { title: 'Mobile phones', val: 'mobile_phones' },
-            { title: 'Computers', val: 'computers' },
+            { title: 'Sim cards', val: 'sim_cards' },
+            { title: 'desktop', val: 'Desktop PCs' },
+            { title: 'laptops', val: 'Laptops' },
             { title: 'Media devices', val: 'media_devices' },
+            { title: 'Landline phones', val: 'landline_phones' },
             { title: 'Games / Consoles', val: 'games_consoles' },
             { title: 'TVs', val: 'tvs' },
             { title: 'Home Appliances', val: 'home_appliances' },
             { title: 'Climatic equipment', val: 'climatic_equipment' },
-            { title: 'Accessories and components', val: 'accessories_and_components' }
+            { title: 'Accessories and components', val: 'accessories_and_components' },
+            { title: 'Other electronics', val: 'other' }
         ],
         // icon: 'multiple_devices'
         icon: 'devices'

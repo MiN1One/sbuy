@@ -1,35 +1,26 @@
 import actionTypes from '../actions/actionTypes';
 
+const systemLanguage = navigator.language.split('-')[0];
+
 const initialState = {
-    lang: {
-        title: 'English',
-        val: 'en'
-    },
+    lang: JSON.parse(localStorage.getItem('SBUY_LANGUAGE')) || systemLanguage,
     location: 'Tashkent',
-    searchLocation: localStorage.getItem('sbuySL') ? localStorage.getItem('sbuySL') : 'Whole country'
+    searchLocation: localStorage.getItem('SBUY_SEARCH_LOCATION') || 'all'
 };
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.CHANGE_LOCATION:
-            return {
-                ...state,
-                location: action.location
-            }
+
+        case actionTypes.CHANGE_LOCATION: return { ...state, location: action.location };
+
         case actionTypes.CHANGE_LANG:
-            return {
-                ...state,
-                lang: {
-                    ...state.lang,
-                    val: action.lang,
-                    title: action.title
-                }
-            }
-        case actionTypes.CHANGE_SEARCH_LOC:
-            return {
-                ...state,
-                searchLocation: action.location
-            }
+            localStorage.setItem('SBUY_LANGUAGE', JSON.stringify(action.lang));
+            return { ...state, lang: action.lang };
+            
+        case actionTypes.CHANGE_SEARCH_LOC: 
+            localStorage.setItem('SBUY_SEARCH_LOCATION', JSON.stringify(action.location));
+            return { ...state, searchLocation: action.location };
+
         default: return state;
     }
 };

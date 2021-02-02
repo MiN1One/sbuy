@@ -41,10 +41,10 @@ const Error = (props) => {
                         <utils.use styleClass="e__i e__i--sm" svg="home" />
                         Home
                     </Link>
-                    <Link className="btn btn__white e__link" onClick={() => props.history.goBack()}>
+                    <button className="btn btn__white e__link" onClick={() => props.history.goBack()}>
                         <utils.use styleClass="e__i e__i--sm" svg="corner-up-left" />
                         Go back
-                    </Link>
+                    </button>
                     <Link to="/sitemap" className="btn btn__white e__link">
                         <utils.use styleClass="e__i e__i--sm" svg="map" />
                         Sitemap

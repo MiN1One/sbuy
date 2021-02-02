@@ -5,10 +5,9 @@ export const changeLocation = (location) => ({
     location
 });
 
-export const changeLanguage = (lang, title) => ({
+export const changeLanguage = (lang) => ({
     type: actionTypes.CHANGE_LANG,
-    lang,
-    title
+    lang
 });
 
 export const changeSearchLoc = (location) => ({

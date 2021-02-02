@@ -26,23 +26,30 @@ const filter = {
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
                     },
                     {
-                        title: 'Type',
+                        title: 'Type of clothing',
                         val: 'type', 
                         items: [
                             { val: 'boys', title: 'For boys' }, 
                             { val: 'girls', title: 'For girls' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
                     },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
+                    }
                 ]
             },
-            furniture: {
-                title: 'Furniture',
+            shoes: {
+                title: 'Shoes',
                 counters: [
                     {
                         title: 'Size',
@@ -65,8 +72,47 @@ const filter = {
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
+                    }
+                ]
+            },
+            furniture: {
+                title: 'Furniture',
+                counters: [
+                    {
+                        title: 'Price',
+                        val: 'price',
+                        start: 0,
+                        end: 1
+                    }
+                ],
+                sub: [
+                    {
+                        title: 'Condition',
+                        val: 'condition', 
+                        items: [
+                            { val: 'used', title: 'Used' }, 
+                            { val: 'new', title: 'New' }, 
+                            { val: 'all', title: 'All' }
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
                     }
                 ]
             },
@@ -74,22 +120,30 @@ const filter = {
                 title: 'Toys',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Price',
+                        val: 'price',
                         start: 0,
                         end: 1
                     }
                 ],
                 sub: [
-                    { 
+                    {
                         title: 'Condition',
                         val: 'condition', 
                         items: [
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ], 
-                        method: 'onFilterByCondition'
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
                     }
                 ]
             },
@@ -97,22 +151,30 @@ const filter = {
                 title: 'Educational assets',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Price',
+                        val: 'price',
                         start: 0,
                         end: 1
                     }
                 ],
                 sub: [
-                    { 
+                    {
                         title: 'Condition',
                         val: 'condition', 
                         items: [
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
                     }
                 ]
             },
@@ -120,8 +182,8 @@ const filter = {
                 title: 'Carriages',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Price',
+                        val: 'price',
                         start: 0,
                         end: 1
                     }
@@ -134,8 +196,16 @@ const filter = {
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
                     }
                 ]
             },
@@ -143,8 +213,8 @@ const filter = {
                 title: 'Food',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Price',
+                        val: 'price',
                         start: 0,
                         end: 1
                     }
@@ -157,31 +227,16 @@ const filter = {
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ],
-                        method: 'onFilterByCondition'
-                    }
-                ]
-            },
-            child_car_seats: {
-                title: 'Child car seats',
-                counters: [
+                        ]
+                    },
                     {
-                        title: 'Size',
-                        val: 'size',
-                        start: 0,
-                        end: 1
-                    }
-                ],
-                sub: [
-                    { 
-                        title: 'Condition',
-                        val: 'condition', 
+                        title: 'Type of business',
+                        val: 'business_type', 
                         items: [
-                            { val: 'used', title: 'Used' }, 
-                            { val: 'new', title: 'New' }, 
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
                             { val: 'all', title: 'All' }
-                        ], 
-                        method: 'onFilterByCondition'
+                        ]
                     }
                 ]
             },
@@ -189,22 +244,30 @@ const filter = {
                 title: 'Others',
                 counters: [
                     {
-                        title: 'Size',
-                        val: 'size',
+                        title: 'Price',
+                        val: 'price',
                         start: 0,
                         end: 1
                     }
                 ],
                 sub: [
-                    { 
+                    {
                         title: 'Condition',
                         val: 'condition', 
                         items: [
                             { val: 'used', title: 'Used' }, 
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
-                        ], 
-                        method: 'onFilterByCondition'
+                        ]
+                    },
+                    {
+                        title: 'Type of business',
+                        val: 'business_type', 
+                        items: [
+                            { val: 'business', title: 'Business' }, 
+                            { val: 'private', title: 'Private' }, 
+                            { val: 'all', title: 'All' }
+                        ]
                     }
                 ]
             }

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Scrollbars } from 'react-custom-scrollbars';
 import axios from 'axios';
 
 import Filter from '../components/Filter';
@@ -126,7 +127,7 @@ class Main extends PureComponent {
                                 <div className="main__head">
                                     <div className="main__group">
                                         <h2 className="heading heading__2 main__heading mb-5 mr-1">Premiuim ads</h2>
-                                        <Link to="/" className="filter__btn filter__btn--close main__link">See all</Link>
+                                        <Link to="/all" className="filter__btn filter__btn--close main__link">See all</Link>
                                     </div>
                                     <span className="main__subhead">Found 1,354 ads in this category</span>
                                 </div>

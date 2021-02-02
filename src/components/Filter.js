@@ -32,7 +32,7 @@ class Filter extends PureComponent {
 
     importFilter =  () => {
         this.setState({ loading: true })
-        import(`../store/Filters/${this.props.lang.val}/${this.props.match.params.category}`)
+        import(`../store/Filters/${this.props.lang}/${this.props.match.params.category}`)
             .then(filter => {
                 this.setState({ filterConfig: filter.default, loading: false });
             })
@@ -47,7 +47,7 @@ class Filter extends PureComponent {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if ((this.props.match.params !== prevProps.match.params) || (this.props.lang.val !== prevProps.lang.val)) this.importFilter();
+        if ((this.props.match.params !== prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilter();
     }
 
     onFilterByCounter = (param, subParam, val) => {
@@ -223,22 +223,18 @@ class Filter extends PureComponent {
     };
 }
 
-const mapStateToProps = state => {
-    return {
-        lang: state.localization.lang,
-        condition: state.data.filters.condition,
-        size: state.data.filters.size,
-        price: state.data.filters.price,
-        type: state.data.filters.type,
-        sort: state.data.filters.sort
-    }
-};
+const mapStateToProps = state => ({
+    lang: state.localization.lang,
+    condition: state.data.filters.condition,
+    size: state.data.filters.size,
+    price: state.data.filters.price,
+    type: state.data.filters.type,
+    sort: state.data.filters.sort
+});
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onFilterByCountersDispatch: (name, index, val) => dispatch(actions.filterByCounters(name, index, val)),
-        onFilterByOptionsDispatch: (name, val) => dispatch(actions.filterByOptions(name, val))
-    }
-}
+const mapDispatchToProps = dispatch => ({
+    onFilterByCountersDispatch: (name, index, val) => dispatch(actions.filterByCounters(name, index, val)),
+    onFilterByOptionsDispatch: (name, val) => dispatch(actions.filterByOptions(name, val))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Filter));

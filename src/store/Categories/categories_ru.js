@@ -5,6 +5,7 @@ const categories = {
         subCategories: [
             { title: 'Одежда', val: 'clothing' },
             { title: 'Мебель', val: 'furniture' }, 
+            { title: 'Обувь', val: 'shoes' }, 
             { title: 'Игрушки', val: 'toys' }, 
             { title: 'Учебные принадлежности', val: 'educational_assets' }, 
             { title: 'Коляски', val: 'carriages' }, 
@@ -31,12 +32,15 @@ const categories = {
         subCategories: [
             { title: 'Мобильные телефоны', val: 'mobile_phones' },
             { title: 'Компьютеры', val: 'computers' },
+            { title: 'Sim cards', val: 'sim_cards' },
             { title: 'Медиаустройства', val: 'media_devices' },
+            { title: 'Landline phones', val: 'landline_phones' },
             { title: 'Игровые приставки', val: 'games_consoles' },
             { title: 'Телевизоры', val: 'tvs' },
             { title: 'Бытовая техника', val: 'home_appliances' },
             { title: 'Климатическое оборудование', val: 'climatic_equipment' },
-            { title: 'Аксессуары и компоненты', val: 'accessories_and_components' }
+            { title: 'Аксессуары и компоненты', val: 'accessories_and_components' },
+            { title: 'Прочая электроника', val: 'other' }
         ],
         icon: 'devices'
     },

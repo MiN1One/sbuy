@@ -19,7 +19,6 @@ const Settings = (props) => {
     const emailInputRef = useRef();
 
     const prevRegionRef = useRef();
-
     useEffect(() => {
         prevRegionRef.current = region;
     });

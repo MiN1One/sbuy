@@ -14,6 +14,7 @@ const AsyncAuthSignup = asyncComponent(() => import('./Authorization/AuthSignup'
 const AsyncResetPass = asyncComponent(() => import('./Authorization/ResetPass'));
 const AsyncPost = asyncComponent(() => import('./Post'));
 const AsyncProfile = asyncComponent(() => import('../components/Profile/Profile'));
+const AsyncAllCategories = asyncComponent(() => import('../components/AllCategories'));
 
 function App(props) {
   const header = (
@@ -28,9 +29,9 @@ function App(props) {
     </Layout>
   );
 
-  const singleCategory = (
+  const allCategories = (
     <Layout>
-      <h1>All</h1>
+      <AsyncAllCategories />
     </Layout>
   );
 
@@ -61,7 +62,8 @@ function App(props) {
       <Route path="/giveaway" exact>{main}</Route>
       <Route path="/post-new" exact>{post}</Route>
       <Route path="/user/:section">{profile}</Route>
-      <Route path="/all/:category" exact>{singleCategory}</Route>
+      <Route path="/all" exact>{allCategories}</Route>
+      <Route path="/all/:category" exact>{main}</Route>
       <Route path="/categories/:category/:subcategory">{main}</Route>
       <Route path="/" exact>{header}</Route>
       <Route path="*">{errorC}</Route>
@@ -73,7 +75,8 @@ function App(props) {
         <Route path="/exchange" exact>{main}</Route>
         <Route path="/giveaway" exact>{main}</Route>
         <Route path="/post-new" exact>{post}</Route>
-        <Route path="/all/:category" exact>{singleCategory}</Route>
+        <Route path="/all" exact>{allCategories}</Route>
+        <Route path="/all/:category" exact>{main}</Route>
         <Route path="/user/:section">{profile}</Route>
         <Route path="/categories/:category/:subcategory">{main}</Route>
         <Route path="/" exact>{header}</Route>
