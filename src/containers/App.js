@@ -31,7 +31,7 @@ function App(props) {
 
   const allCategories = (
     <Layout>
-      <AsyncAllCategories />
+      <AsyncAllCategories {...props} />
     </Layout>
   );
 
@@ -95,7 +95,8 @@ function App(props) {
 
 const mapStateToProps = (state) => ({
   loadingLazy: state.data.loadingLazy,
-  token: state.user.token
+  token: state.user.token,
+  lang: state.localization.lang
 });
 
 export default connect(mapStateToProps)(App);

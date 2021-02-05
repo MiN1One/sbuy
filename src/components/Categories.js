@@ -101,7 +101,7 @@ class Categories extends PureComponent {
                 <div className={`cat ${this.props.class || ''}`}>
                     <div className="cat__head">
                         <h2 className="cat__heading">Categories</h2>
-                        <Link to="/cats/all" className="cat__btn btn__sub">See all</Link>
+                        <Link to="/all" className="cat__btn btn__sub">See all</Link>
                     </div>
                     <ul className="cat__list">
                         {catItems}

@@ -6,22 +6,22 @@ import Logo from '../components/Logo';
 import * as utils from '../utilities/utilities';
 import Backdrop from '../UI/Backdrop';
 import RegionsDropdown from './RegionsDropdown';
+import { event } from 'jquery';
 
 class searchbar extends PureComponent {
-    state = { langTitle: '' };
+    state = { regionTitle: '' };
 
     onPerformSearch = (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault();
         
         // ------------------------
 
         // ..........
     }
 
-
     changeSearchLocation = (location, title) => {
         this.props.onChangeSearchLoc(location, title);
-        this.setState({ title });
+        this.setState({ regionTitle: title });
         this.onPerformSearch();
     }
 
@@ -51,7 +51,7 @@ class searchbar extends PureComponent {
                                 </label>
                                 <div className="s__btn s__btn--map">
                                     <utils.use styleClass="s__icon s__icon--map" svg="map-pin" />
-                                    <span className="s__title">{this.state.langTitle}</span>
+                                    <span className="s__title">{this.state.regionTitle}</span>
                                 </div>
                                 
                                 <button className="s__btn">

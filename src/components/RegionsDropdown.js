@@ -1,42 +1,59 @@
-import { useEffect, useState } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../store/actions';
 import Dropdown from './Dropdown';
 
-const RegionsDropdown = (props) => {
-    const [regions, setRegions] = useState([]);
+class RegionsDropdown extends PureComponent {
+    constructor(props) {
+        super(props);
+        this.state = { regions: [] }
+    }
+    
+    importRegions = (update) => {
+        if (!update) {
+            import(`../store/Regions/regions_${this.props.lang}`)
+                .then(data => {
+                    const regTitle = data.default.find(el => el.val === this.props.searchLocation).title;
+                    this.setState({ regions: data.default }, () => {
+                        this.props.click(this.props.searchLocation, regTitle);
+                    });
+                })
+                .catch(er => {
+                    console.error(er);
+                });
+        } else return null;
+    }
+        
+    componentDidMount() {
+        this.importRegions();
+    }
+    
+    componentDidUpdate(prevProps) {
+        if (this.props.lang !== prevProps.lang) this.importRegions();
+    }
+    
+    onChangeRegion = (reg) => {
+        const title = this.state.regions.find(el => el.val === reg).title;
+        this.props.click(reg, title);
+    }
 
-    useEffect(() => {
-        import(`../store/Regions/regions_${props.lang}`)
-            .then(data => {
-                setRegions(data.default);
-            })
-            .catch(er => {
-                console.error(er);
-            });
-        }, [props.lang]);
+    render() {
+    
+        const locations = this.state.regions.map((el, i) => {
+            return (
+                <li className="dropdown__item dropdown__item--grid" key={i} onClick={() => this.onChangeRegion(el.val)}>{el.title}</li>
+            );
+        });
 
-    const title = regions.find(el => el.val === props.searchLocation).title;
-
-    useEffect(() => {
-        if (this.props.click) 
-            props.click(props.searchLocation, title);
-    }, []);
-
-
-    const locations = regions.map((el, i) => {
         return (
-            <li className="dropdown__item dropdown__item--grid" key={i} onClick={() => props.click(el.val, title)}>{el.title}</li>
-        );
-    });
-    return (
-        <Dropdown class={props.class}>
-            <ul className="dropdown__wrap">
-                {locations}
-            </ul>
-        </Dropdown>
-    )
+            <Dropdown class={this.props.class}>
+                <ul className="dropdown__wrap">
+                    {locations}
+                </ul>
+            </Dropdown>
+        )
+    }
 };
 
 const mapStateToProps = (state) => ({
@@ -48,4 +65,4 @@ const mapDispatchToProps = dispatch => ({
     onChangeSearchLocation: (loc, title) => dispatch(actions.changeSearchLoc(loc, title)) 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RegionsDropdown);
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(RegionsDropdown));

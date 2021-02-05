@@ -94,7 +94,7 @@ const Settings = (props) => {
                 <span className="profile__title">Region</span>
                 <div className="pos-rel">
                     <div className="profile__input profile__input--reg input" tabIndex="0">{region}</div>
-                    <RegionsDropdown click={(reg) => setRegion(reg)} class={['dropdown--full dropdown--left-fix profile__reg-dropdown dropdown--close']}/>
+                    <RegionsDropdown click={setRegion} class={['dropdown--full dropdown--left-fix profile__reg-dropdown dropdown--close']}/>
                 </div>
             </React.Fragment>
         )
