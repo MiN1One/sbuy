@@ -18,7 +18,7 @@
     
     &__list {
         width: 70%;
-        height: 60rem;
+        height: 53rem;
     }
 
     &__item {
@@ -76,5 +76,5 @@
         fill: var(--color-light-7);
     }
 
-    &__loading { margin-top: -7.5rem; }
+    // &__loading { margin-top: -7.5rem; }
 }

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Scrollbars } from 'react-custom-scrollbars';
 import axios from 'axios';
 
 import Filter from '../components/Filter';
@@ -112,9 +111,11 @@ class Main extends PureComponent {
 
         const pagesListArr = [];
         for (let i = 0; i < this.state.numberOfPages; i++) pagesListArr.push('');
-        const pagesList = pagesListArr.map((el, i) => {
-            return <li className={`main__page-item${i+1 === this.state.page ? ' main__page-item--active' : ''}`} onClick={() => this.onGoToPage(i+1)}>{i+1}</li>
-        });
+        const pagesList = pagesListArr.map((el, i) => 
+            <span 
+                className={`main__page-item ${i+1 === this.state.page ? 'main__page-item--active' : ''}`} 
+                onClick={() => this.onGoToPage(i+1)}>{i+1}</span>
+        );
 
         let view = <LoadingScreen />;
         if (!this.state.loading) {
@@ -144,9 +145,9 @@ class Main extends PureComponent {
                                             <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPagePrev()}>
                                                 <utils.use styleClass="icon icon--dark" svg="chevrons-left" />
                                             </button>
-                                            <ul className="main__page-list">
+                                            <div className="main__page-list">
                                                 {pagesList}
-                                            </ul>
+                                            </div>
                                             <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPageNext()}>
                                                 <utils.use styleClass="icon icon--dark" svg="chevrons-right" />
                                             </button>

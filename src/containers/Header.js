@@ -92,7 +92,7 @@ class Header extends Component {
                                 {this.state.loadingVendor 
                                     ? <div className="header__list header__loading loading-center">
                                             <LoadingSub />
-                                        </div> 
+                                    </div>
                                     : <Swiper 
                                         className="header__list gradient gradient--right"
                                         autoplay={{ delay: 3000, waitForTransition: true }}

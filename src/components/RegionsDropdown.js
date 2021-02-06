@@ -10,19 +10,22 @@ class RegionsDropdown extends PureComponent {
         this.state = { regions: [] }
     }
     
-    importRegions = (update) => {
-        if (!update) {
-            import(`../store/Regions/regions_${this.props.lang}`)
-                .then(data => {
-                    const regTitle = data.default.find(el => el.val === this.props.searchLocation).title;
-                    this.setState({ regions: data.default }, () => {
-                        this.props.click(this.props.searchLocation, regTitle);
-                    });
-                })
-                .catch(er => {
-                    console.error(er);
+    importRegions = () => {
+        import(`../store/Regions/regions_${this.props.lang}`)
+            .then(data => {
+
+                let regTitle;
+                if (this.props.default) regTitle = data.default.find(el => el.val === this.props.default).title;
+                else regTitle = data.default.find(el => el.val === this.props.searchLocation).title;
+
+                this.setState({ regions: data.default }, () => {
+                    if (this.props.default) this.props.click(this.props.default, regTitle);
+                    else this.props.click(this.props.searchLocation, regTitle);
                 });
-        } else return null;
+            })
+            .catch(er => {
+                console.error(er);
+            });
     }
         
     componentDidMount() {
@@ -61,8 +64,4 @@ const mapStateToProps = (state) => ({
     searchLocation: state.localization.searchLocation
 });
 
-const mapDispatchToProps = dispatch => ({
-    onChangeSearchLocation: (loc, title) => dispatch(actions.changeSearchLoc(loc, title)) 
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(RegionsDropdown));
+export default connect(mapStateToProps)(React.memo(RegionsDropdown));

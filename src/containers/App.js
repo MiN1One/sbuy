@@ -15,6 +15,7 @@ const AsyncResetPass = asyncComponent(() => import('./Authorization/ResetPass'))
 const AsyncPost = asyncComponent(() => import('./Post'));
 const AsyncProfile = asyncComponent(() => import('../components/Profile/Profile'));
 const AsyncAllCategories = asyncComponent(() => import('../components/AllCategories'));
+const AsyncPromote = asyncComponent(() => import('../components/Promote'));
 
 function App(props) {
   const header = (
@@ -77,6 +78,7 @@ function App(props) {
         <Route path="/post-new" exact>{post}</Route>
         <Route path="/all" exact>{allCategories}</Route>
         <Route path="/all/:category" exact>{main}</Route>
+        <Route path="/promote" exact><AsyncPromote /></Route>
         <Route path="/user/:section">{profile}</Route>
         <Route path="/categories/:category/:subcategory">{main}</Route>
         <Route path="/" exact>{header}</Route>

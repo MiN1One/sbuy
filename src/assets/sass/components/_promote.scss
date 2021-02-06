@@ -1,0 +1,108 @@
+.promote {
+    background: var(--color-white-bg-secondary);
+    width: 100%;
+
+    &__wrapper {
+        width: 100%;
+        padding-top: 5rem;
+        padding-bottom: 15rem;        
+    }
+
+    &__head {
+        margin-bottom: 7rem;
+    }
+
+    &__body {
+        display: flex;
+        width: 100%;
+        background: #fff;
+        border-radius: 1rem;
+        border: 1px solid rgba(#000, .1);
+    }
+
+    &__text {
+        color: var(--color-grey-dark);
+        font-size: 1.4rem;
+    }
+
+    &__icon {
+        width: 6.5rem;
+        height: 6.5rem;
+
+        &--sm {
+            width: 2rem;
+            height: 2rem;
+            margin-right: 1.5rem;
+        }
+
+        &--mid {
+            width: 3rem;
+            height: 3rem;
+        }
+    }
+
+    &__feature {
+        display: flex;
+        align-items: center;
+        font-size: 1.55rem;
+
+        &:not(:last-child) { margin-bottom: 2.5rem; }
+    }
+
+    &__card {
+        width: calc((100% - 2 * 11rem) / 3);
+        background: #fff;
+        border: 2.5px solid rgba(#000, .1);
+        border-radius: 1rem;
+        padding: 4rem 3.5rem;
+        box-shadow: 0 0 2rem rgba(#000, .05);
+        transition: all .2s ease;
+        user-select: none;
+        transform: scale(1.015);
+        cursor: pointer;
+        
+        &:not(:last-child) { margin-right: 11rem; }
+        
+        &:focus,
+        &:hover {
+            box-shadow: 0 0 5rem rgba(#000, .065);
+            border-color: var(--color-primary-opaque);
+            transform: scale(1.03);
+        }
+        
+        &--prem {
+            transform: scale(1.125);
+
+            &:focus,
+            &:hover {
+                transform: scale(1.15);
+                border-color: var(--color-secondary-opaque);
+            }
+        }
+
+    }
+
+    &__card-head {
+        padding-bottom: 1.75rem;
+        border-bottom: 1px solid rgba(#000, .07);
+        margin-bottom: 3rem;
+    }
+
+    &__card-body {
+        font-size: 1.4rem;
+        color: var(--color-grey-dark);
+        margin-bottom: 4rem;
+    }
+
+    &__card-heading {
+        font-size: 2.5rem;
+        font-weight: 400;
+    }
+
+    &__card-btn {
+        width: 100%;
+        font-size: 1.75rem;
+        padding: 1.8rem;
+        font-weight: 300;
+    }
+}

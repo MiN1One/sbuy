@@ -33,20 +33,31 @@ class AllCategories extends PureComponent {
     }
 
     onSelectCat = (index) => {
+
         const itemList = Array.from(document.querySelectorAll('.allcats__list--slide'))[index];
-        const itemLink = Array.from(document.querySelectorAll('.allcats__link'))[index];
-        const item = Array.from(document.querySelectorAll('.allcats__item'))[index];
-        const arrow = Array.from(document.querySelectorAll('.allcats__icon--arrow'))[index]
+        const arrow = Array.from(document.querySelectorAll('.allcats__icon--arrow'))[index];
+        const itemLink = Array.from(document.querySelectorAll('.allcats__link--main'))[index];
+
         if ($(itemList).is(':hidden')) {
-            $(itemList).slideDown({ duration: 400 });
+
+            $(itemList).slideDown({
+                duration: 400,
+                start: function() {
+                    $(this).css({ display: 'flex' })
+                }
+            });
             $(arrow).css('transform', 'rotate(180deg)');
-            $(itemLink).css('border-bottom', '1px solid rgba(0,0,0, .07)');
-            $(item).css('border-bottom', '1px solid rgba(0,0,0, .07)');
+            $(itemList).css({
+                'border-bottom': '1px solid rgba(0,0,0, .07)',
+                'border-top': '1px solid rgba(0,0,0, .07)',
+            });
+            $(itemLink).addClass('allcats__link--active');
+            
         } else {
             $(itemList).slideUp({ duration: 400 });
             $(arrow).css('transform', 'rotate(0)');
-            $(itemLink).css('border-bottom', 'none');
-            $(item).css('border-bottom', 'none');
+            $(itemList).css('border', 'none');
+            $(itemLink).removeClass('allcats__link--active');
         }
     }
 
@@ -72,7 +83,7 @@ class AllCategories extends PureComponent {
 
             return (
                 <li className="allcats__item" key={i}>
-                    <div className="allcats__link" onClick={() => this.onSelectCat(i)}>
+                    <div className="allcats__link allcats__link--main" onClick={() => this.onSelectCat(i)}>
                         <div className="allcats__group">
                             <utils.useCat styleClass="allcats__icon" svg={el.icon} />
                             {el.title}
@@ -99,24 +110,6 @@ class AllCategories extends PureComponent {
                             ? <LoadingSub />
                             : <ul className="allcats__list">
                                 {catItems}
-                                <li className="allcats__item">
-                                    <Link className="allcats__link">
-                                        <div className="allcats__group">
-                                            <utils.useCat styleClass="allcats__icon" svg="handshake-o" />
-                                            Exchange
-                                        </div>
-                                        <utils.use styleClass="allcats__icon allcats__icon--arrow" svg="chevron-right" />
-                                    </Link>
-                                </li>
-                                <li className="allcats__item">
-                                    <Link className="allcats__link">
-                                        <div className="allcats__group">
-                                            <utils.useCat styleClass="allcats__icon" svg="gift2" />
-                                            Giveaway
-                                        </div>
-                                        <utils.use styleClass="allcats__icon allcats__icon--arrow" svg="chevron-right" />
-                                    </Link>
-                                </li>
                             </ul>
                         }
                     </div>

@@ -59,7 +59,7 @@ class Categories extends PureComponent {
 
         const catItems = catItemsArr.map((el) => {
             return (
-                <div 
+                <li 
                     className="cat__item"
                     key={el.id}
                     onClick={() => this.setActiveCat(el.id)}>
@@ -70,7 +70,7 @@ class Categories extends PureComponent {
                         </div>
                         <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
                     </div>
-                </div>
+                </li>
             );
         });
         
@@ -105,7 +105,7 @@ class Categories extends PureComponent {
                     </div>
                     <ul className="cat__list">
                         {catItems}
-                        <li className="cat__item">
+                        {/* <li className="cat__item">
                             <Link to="/exchange" className="cat__link">
                                 <div className="cat__group">
                                     <utils.useCat styleClass="cat__i cat__i--cat" svg="handshake-o" />
@@ -122,7 +122,7 @@ class Categories extends PureComponent {
                                 </div>
                                 <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                     {this.state.activeCat && 
                         <div className="cat__panel">

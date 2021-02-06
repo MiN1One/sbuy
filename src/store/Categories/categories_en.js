@@ -31,7 +31,13 @@ const categories = {
         val: 'electronics',
         title: 'Electronics',
         subCategories: [
-            { title: 'Mobile phones', val: 'mobile_phones' },
+            {
+                title: 'Mobile phones',
+                val: 'mobile_phones',
+                sub: [
+                    { title: 'Sim cards', val: 'sim_cards' },
+                ]
+            },
             { title: 'Sim cards', val: 'sim_cards' },
             { title: 'desktop', val: 'Desktop PCs' },
             { title: 'laptops', val: 'Laptops' },

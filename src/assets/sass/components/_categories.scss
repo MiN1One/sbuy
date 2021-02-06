@@ -136,8 +136,8 @@
 
     &__item {
         display: flex;
+        flex-grow: 1;
         align-items: center;
-        height: 4.5rem;
         transition: var(--cat-item-transition-real);
         backface-visibility: hidden;
         
