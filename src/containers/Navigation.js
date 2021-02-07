@@ -44,8 +44,7 @@ class Navigation extends PureComponent {
         if ((password.value && mainInput.value) !== '') {
             const data = {
                 phone: mainInput.value,
-                password: password.value,
-                // email: 'test@mail.eu',
+                password: password.value
             };
             axios.post('http://api.soybaliq.uz/api/auth/login', data)
                 .then(res => {

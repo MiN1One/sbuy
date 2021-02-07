@@ -18,14 +18,15 @@ class Main extends PureComponent {
     state = {
         loading: false,
         data: [...this.props.data],
-        page: parseInt(utils.getQueryParamValue('page')),
-        numberOfPages: 7
+        currentPage: parseInt(utils.getQueryParamValue('page')),
+        numberOfPages: 30,
+        pagesInterval: 7
     }
         
     fetchData = async () => {
         try {
             this.setState({ loading: true });
-            const data = await axios(`https://jsonplaceholder.typicode.com/todos/${this.state.page}`);
+            const data = await axios(`https://jsonplaceholder.typicode.com/todos/${this.state.currentPage}`);
             console.log(data);
             setTimeout(() => {
                 this.setState({ loading: false });
@@ -38,7 +39,7 @@ class Main extends PureComponent {
     }
 
     setPageIfNone = () => {
-        if (!this.state.page) {
+        if (!this.state.currentPage) {
             this.setState({ page: 1 }, () => {
                 this.props.history.push('?page=1');
             });
@@ -51,7 +52,7 @@ class Main extends PureComponent {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (!utils.getQueryParamValue('page') && !this.props.match.params.id) this.props.history.push(`?page=${this.state.page}`);
+        if (!utils.getQueryParamValue('page') && !this.props.match.params.id) this.props.history.push(`?page=${this.state.currentPage}`);
         else if (this.props.match.params.id) window.location.search = '';
 
         if (prevProps.filters !== this.props.filters) {
@@ -62,9 +63,9 @@ class Main extends PureComponent {
     }
 
     onGoToPage = (page) => {
-        if (page !== this.state.page) {
+        if (page !== this.state.currentPage) {
             document.documentElement.scrollTop = 130;
-            this.setState({ page }, async () => {
+            this.setState({ currentPage: page }, async () => {
                 const data = await this.fetchData();
                 this.setState({ data: this.props.data });
                 this.props.history.push(`?page=${page}`);
@@ -74,29 +75,29 @@ class Main extends PureComponent {
 
     onClickPageNext = () => {
         document.documentElement.scrollTop = 130;
-        this.setState(prevState => ({ page: prevState.page + 1 }), 
+        this.setState(prevState => ({ currentPage: prevState.currentPage + 1 }), 
             async () => {
                 const data = await this.fetchData();
                 this.setState({ data: this.props.data });
-                this.props.history.push(`?page=${this.state.page}`);
+                this.props.history.push(`?page=${this.state.currentPage}`);
             });
     }
 
     onClickPagePrev = () => {
         document.documentElement.scrollTop = 130;
-        if (this.state.page > 1) 
-            this.setState(prevState => ({ page: prevState.page - 1 }),
+        if (this.state.currentPage > 1) 
+            this.setState(prevState => ({ currentPage: prevState.currentPage - 1 }),
                 async () => {
                     const data = await this.fetchData();
                     this.setState({ data: this.props.data });
-                    this.props.history.push(`?page=${this.state.page}`);
+                    this.props.history.push(`?page=${this.state.currentPage}`);
                 });
     }
 
     onLoadMore = () => {
-        this.setState(prevState => ({ page: prevState.page + 1 }), 
+        this.setState(prevState => ({ currentPage: prevState.currentPage + 1 }), 
             async () => {
-                this.props.history.push(`?page=${this.state.page}`);
+                this.props.history.push(`?page=${this.state.currentPage}`);
                 const data = await this.fetchData();
                 this.setState(prevState => ({ data: [...prevState.data, ...this.props.data] }));
             });
@@ -109,13 +110,30 @@ class Main extends PureComponent {
         const usualAdsArr = this.state.data.filter(el => el.premium === false);
         const usualAds = usualAdsArr.map((el, i) => <Card data={el} key={i} />);
 
-        const pagesListArr = [];
-        for (let i = 0; i < this.state.numberOfPages; i++) pagesListArr.push('');
-        const pagesList = pagesListArr.map((el, i) => 
-            <span 
-                className={`main__page-item ${i+1 === this.state.page ? 'main__page-item--active' : ''}`} 
-                onClick={() => this.onGoToPage(i+1)}>{i+1}</span>
-        );
+        let pagesListArr = [];
+        for (let i = 0; i < this.state.numberOfPages; i++) pagesListArr.push(i+1);
+
+        if (this.state.currentPage > this.state.pagesInterval) {
+
+            const intervalStartIndex = this.state.currentPage - 3;
+            const intervalLastIndex = this.state.currentPage + this.state.pagesInterval - 3;
+            pagesListArr = pagesListArr.slice(intervalStartIndex, intervalLastIndex);
+            if (intervalLastIndex >= this.state.numberOfPages) {
+                // console.log(intervalLastIndex >= this.state.numberOfPages, intervalLastIndex);
+                pagesListArr = [1, '...', ...pagesListArr];
+            } else {
+                // pagesListArr = pagesListArr.slice(intervalStartIndex, intervalLastIndex);
+                pagesListArr = [1, '...', ...pagesListArr, '...', this.state.numberOfPages];
+            }
+            
+        }
+
+        const pagesList = pagesListArr.map((el, i) => {
+            return <span 
+                key={i}
+                className={`main__page-item ${el === this.state.currentPage ? 'main__page-item--active' : ''}`} 
+                onClick={() => this.onGoToPage(el)}>{el}</span>
+        });
 
         let view = <LoadingScreen />;
         if (!this.state.loading) {

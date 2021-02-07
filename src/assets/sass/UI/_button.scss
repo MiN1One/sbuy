@@ -36,6 +36,11 @@
                 border-color: var(--color-white-opaque-5);
 
                 .icon { fill: #fff !important; }
+                &:disabled {
+                    background: #fff;
+                    color: var(--color-grey-dark);
+                    border-color: var(--color-primary-opaque);
+                }
             }
 
             .icon { fill: var(--color-grey-dark) !important; }
@@ -161,5 +166,10 @@
             color: var(--color-primary);
             border-color: var(--color-primary-opaque);
         }
+    }
+
+    &:disabled {
+        opacity: .55;
+        cursor: default;
     }
 }

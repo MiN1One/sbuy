@@ -18,6 +18,12 @@
         background: #fff;
         border-radius: 1rem;
         border: 1px solid rgba(#000, .1);
+        margin-bottom: 7rem;
+    }
+
+    &__footer {
+        display: flex;
+        justify-content: flex-end;
     }
 
     &__text {
@@ -44,7 +50,7 @@
     &__feature {
         display: flex;
         align-items: center;
-        font-size: 1.55rem;
+        font-size: 1.45rem;
 
         &:not(:last-child) { margin-bottom: 2.5rem; }
     }
@@ -55,11 +61,11 @@
         border: 2.5px solid rgba(#000, .1);
         border-radius: 1rem;
         padding: 4rem 3.5rem;
+        padding-top: 2.5rem;
         box-shadow: 0 0 2rem rgba(#000, .05);
         transition: all .2s ease;
         user-select: none;
         transform: scale(1.015);
-        cursor: pointer;
         
         &:not(:last-child) { margin-right: 11rem; }
         
@@ -83,9 +89,10 @@
     }
 
     &__card-head {
-        padding-bottom: 1.75rem;
+        padding-bottom: 1.2rem;
         border-bottom: 1px solid rgba(#000, .07);
         margin-bottom: 3rem;
+        display: flex;
     }
 
     &__card-body {
@@ -94,9 +101,21 @@
         margin-bottom: 4rem;
     }
 
-    &__card-heading {
-        font-size: 2.5rem;
-        font-weight: 400;
+    &__logo {
+        width: 12rem;
+        height: auto;
+        transform: translateY(1rem);
+    }
+
+    &__card-title {
+        position: absolute;
+        top: 61.5%;
+        right: 0;
+        transform: translate(97%, -50%);
+        font-size: 1.8rem;
+        text-transform: uppercase;
+        font-weight: 500;
+        color: var(--color-black);
     }
 
     &__card-btn {

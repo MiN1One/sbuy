@@ -8,6 +8,7 @@
     }
 
     &__link {
+
     }
     
     &__figure {
@@ -16,6 +17,8 @@
         overflow: hidden;
 
         &--nav { width: 8rem; }
+
+        &--plan { width: 10rem; }
     }
     
     &__img {

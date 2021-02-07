@@ -13,7 +13,6 @@ const categories = {
             { title: 'Others', val: 'others' }
         ],
         icon: 'child_friendly'
-        // icon: 'home'
     },
     real: {
         val: 'real_estate',
@@ -50,7 +49,6 @@ const categories = {
             { title: 'Accessories and components', val: 'accessories_and_components' },
             { title: 'Other electronics', val: 'other' }
         ],
-        // icon: 'multiple_devices'
         icon: 'devices'
     },
     trans: {
@@ -69,7 +67,6 @@ const categories = {
             { title: 'Agricultural machinery', val: 'agricultural_machinery' },
             { title: 'Water transport', val: 'water_transport' }
         ],
-        // icon: 'automotive'
         icon: 'car-sport'
     },
     jobs: {
@@ -97,7 +94,6 @@ const categories = {
             { title: 'Other areas of occupation', val: 'other_areas_of_occupation' },
             { title: 'Part-time employment', val: 'part_time_employment' }
         ],
-        // icon: 'briefcase'
         icon: 'suitcase'
     },
     pets: {
@@ -135,7 +131,6 @@ const categories = {
             { title: 'Other household goods', val: 'other_household_goods' }
         ],
         icon: 'tree'
-        // icon: 'close_up_mode'
     },
     business: {
         val: 'business_and_services',
@@ -161,7 +156,6 @@ const categories = {
             { title: 'Other services', val: 'other_services' }
         ],
         icon: 'truck2'
-        // icon: 'business'
     },
     fashion: {
         val: 'fashion_and_style',

@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { FcShop, FcOk, FcPlanner, FcHighPriority } from 'react-icons/fc';
 
+import logo from '../assets/Без названия.png';
 import * as utils from '../utilities/utilities';
+import Logo from '../components/Logo';
 
 const Promote = (props) => {
-    // useState()
 
     return (
         <div className="promote">
             <div className="container">
                 <div className="promote__wrapper">
                     <div className="promote__head">
-                        <div className="mb-5 d-flex ac">
+                        <div className="mb-1 d-flex ac">
                             <FcShop className="promote__icon mr-15" />
                             <h2 className="promote__heading heading heading__2">Choose your plan</h2>
                         </div>
@@ -20,7 +21,10 @@ const Promote = (props) => {
                     <div className="promote__body">
                         <div className="promote__card" tabIndex="0">
                             <div className="promote__card-head">
-                                <h4 className="heading heading__4 promote__card-heading">SBUY Basic</h4>
+                                <figure className="pos-rel">
+                                    <img src={logo} className="promote__logo" alt="SBUY" />
+                                    <span className="promote__card-title">Basic</span>
+                                </figure>
                             </div>
                             <div className="promote__card-body">
                                 <div className="promote__feature">
@@ -40,14 +44,16 @@ const Promote = (props) => {
                                     Some advantage 4
                                 </div>
                             </div>
-                            <div className="btn btn__primary promote__card-btn">
+                            <button className="btn btn__primary promote__card-btn">
                                 $1.99
-                            </div>
+                            </button>
                         </div>
                         <div className="promote__card promote__card--prem" tabIndex="0">
                             <div className="promote__card-head">
-                                <h4 className="heading heading__4 promote__card-heading">SBUY Advanced</h4>
-                                {/* <FcRating className="promote__icon--mid" /> */}
+                                <figure className="pos-rel">
+                                    <img src={logo} className="promote__logo" alt="SBUY" />
+                                    <span className="promote__card-title">Advanced</span>
+                                </figure>
                             </div>
                             <div className="promote__card-body">
                                 <div className="promote__feature">
@@ -67,13 +73,16 @@ const Promote = (props) => {
                                     Some advantage 4
                                 </div>
                             </div>
-                            <div className="btn btn__secondary promote__card-btn">
+                            <button className="btn btn__secondary promote__card-btn">
                                 $5.99
-                            </div>
+                            </button>
                         </div>
                         <div className="promote__card" tabIndex="0">
                             <div className="promote__card-head">
-                                <h4 className="heading heading__4 promote__card-heading">SBUY Pro</h4>
+                                <figure className="pos-rel">
+                                    <img src={logo} className="promote__logo" alt="SBUY" />
+                                    <span className="promote__card-title">Pro</span>
+                                </figure>
                             </div>
                             <div className="promote__card-body">
                                 <div className="promote__feature">
@@ -93,10 +102,13 @@ const Promote = (props) => {
                                     Some advantage 4
                                 </div>
                             </div>
-                            <div className="btn btn__primary promote__card-btn">
+                            <button className="btn btn__primary promote__card-btn">
                                 $3.99
-                            </div>
+                            </button>
                         </div>
+                    </div>
+                    <div className="promote__footer">
+                        <button className="btn btn__primary btn__primary--outline">Do not promote</button>
                     </div>
                 </div>
             </div>
