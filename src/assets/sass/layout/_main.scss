@@ -47,7 +47,7 @@
     &__page-list {
         display: flex;
         justify-content: center;
-        width: 30rem;
+        margin: 0 1rem;
     }
 
     &__page-item {
@@ -65,22 +65,32 @@
         &:not(:last-child) { margin-right: .7rem; }
 
         &:hover:not(.main__page-item--active),
-        &:focus:not(.main__page-item--active) { color: var(--color-primary); }
-
+        &:focus:not(.main__page-item--active) {
+            color: var(--color-primary);
+            outline: none;
+        }
+        
         &--active {
             background: var(--color-primary);
             color: #fff;
-            cursor: initial;
+            cursor: default;
         }
 
         &--btn {
             margin-right: 0 !important;
             
-            &:hover {
+            &:hover,
+            &:focus {
                 background: var(--color-primary);
 
                 .icon { fill: #fff !important; }
             }
+        }
+
+        &--dots {
+            cursor: default;
+
+            &:hover { color: initial !important; }
         }
     }
     

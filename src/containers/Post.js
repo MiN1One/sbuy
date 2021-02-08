@@ -261,8 +261,7 @@ class Publish extends PureComponent {
             );
         });
 
-        let subOptions = null;
-        let inputItems = null;
+        let subOptions = null, inputItems = null;
         if (this.state.filterObj && this.state.activeSubCat) {
 
             subOptions = this.state.filterObj.items[this.state.activeSubCat].sub.map((obj, index) => {
@@ -305,8 +304,7 @@ class Publish extends PureComponent {
         }
 
         const catItemsArr = [];
-        let subItems = null;
-        let catItems = null;
+        let subItems = null, catItems = null;
         if (this.state.categories) {
             for (let key in this.state.categories) {
                 catItemsArr.push({

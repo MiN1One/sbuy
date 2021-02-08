@@ -45,7 +45,7 @@ class Card extends PureComponent {
                             <span className="badge">TOP</span>
                         </div>
                         <span className="card__item">{this.props.data.date}</span>
-                        <p className="card__item card__item--location">{this.props.data.location}</p>
+                        <p className="card__item card__item--location">{utils.limitStrAny(this.props.data.location, 20, false)}</p>
                         <div className="card__item card__item--space">
                             <span className="price-tag">{this.props.data.price}</span>
                         </div>

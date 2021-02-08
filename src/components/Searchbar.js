@@ -31,7 +31,7 @@ class searchbar extends PureComponent {
             <div className="s">
                 <div className="container">
                     <div className="s__wrapper">
-                        <Logo class="s__logo" />
+                        <Logo classOver="s__logo" />
                         <div className="s__form-wrap">
                             <form className="s__form" onSubmit={(e) => this.onPerformSearch(e)} tabIndex="0">
                                 <label className="s__label" htmlFor="search">

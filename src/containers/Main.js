@@ -19,8 +19,8 @@ class Main extends PureComponent {
         loading: false,
         data: [...this.props.data],
         currentPage: parseInt(utils.getQueryParamValue('page')),
-        numberOfPages: 30,
-        pagesInterval: 7
+        numberOfPages: 41,
+        pagesInterval: 5
     }
         
     fetchData = async () => {
@@ -39,7 +39,7 @@ class Main extends PureComponent {
     }
 
     setPageIfNone = () => {
-        if (!this.state.currentPage) {
+        if (!parseInt(utils.getQueryParamValue('page')) || isNaN(this.state.currentPage)) {
             this.setState({ page: 1 }, () => {
                 this.props.history.push('?page=1');
             });
@@ -52,12 +52,8 @@ class Main extends PureComponent {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (!utils.getQueryParamValue('page') && !this.props.match.params.id) this.props.history.push(`?page=${this.state.currentPage}`);
-        else if (this.props.match.params.id) window.location.search = '';
-
         if (prevProps.filters !== this.props.filters) {
             const data = await this.fetchData();
-            console.log(data);
             // this.setState({ data });
         }
     }
@@ -110,29 +106,58 @@ class Main extends PureComponent {
         const usualAdsArr = this.state.data.filter(el => el.premium === false);
         const usualAds = usualAdsArr.map((el, i) => <Card data={el} key={i} />);
 
+        //  ------------ PAGINATION --------------
         let pagesListArr = [];
         for (let i = 0; i < this.state.numberOfPages; i++) pagesListArr.push(i+1);
 
-        if (this.state.currentPage > this.state.pagesInterval) {
+        const intervalStartIndex = this.state.currentPage - 3;
+        const intervalLastIndex = this.state.currentPage + this.state.pagesInterval - 3;
 
-            const intervalStartIndex = this.state.currentPage - 3;
-            const intervalLastIndex = this.state.currentPage + this.state.pagesInterval - 3;
-            pagesListArr = pagesListArr.slice(intervalStartIndex, intervalLastIndex);
-            if (intervalLastIndex >= this.state.numberOfPages) {
-                // console.log(intervalLastIndex >= this.state.numberOfPages, intervalLastIndex);
+        // currentPage = 6, [1,2,3,4,5,6,7,8,9]
+        // start = 3, end = 8
+        // slice* last element is not included
+        // final = [4,5,6,7,8]
+
+        if (this.state.currentPage > this.state.pagesInterval) {
+            
+            // cur = 26, numPages = 30 
+            // 30 - 26 = 4
+            
+            if (
+                (this.state.numberOfPages - this.state.currentPage <= Math.ceil(this.state.pagesInterval / 2)) ||
+                (this.state.numberOfPages - 4 === this.state.currentPage)
+               ) 
+            {
+                pagesListArr = pagesListArr.slice(intervalStartIndex, this.state.numberOfPages);
                 pagesListArr = [1, '...', ...pagesListArr];
-            } else {
-                // pagesListArr = pagesListArr.slice(intervalStartIndex, intervalLastIndex);
+            }
+            
+            else {
+                pagesListArr = pagesListArr.slice(intervalStartIndex, intervalLastIndex);
                 pagesListArr = [1, '...', ...pagesListArr, '...', this.state.numberOfPages];
             }
             
+        } else {
+            if (this.state.currentPage < Math.ceil(this.state.pagesInterval / 2)) {
+                pagesListArr = pagesListArr.slice(0, 5);
+                pagesListArr = [...pagesListArr, '...', this.state.numberOfPages];
+            } else {
+                pagesListArr = pagesListArr.slice(0, intervalLastIndex);
+    
+                if (this.state.currentPage === this.state.pagesInterval)
+                    pagesListArr = [...pagesListArr, '...', this.state.numberOfPages];
+
+                else pagesListArr = [...pagesListArr, '...', this.state.numberOfPages];
+            }
         }
 
         const pagesList = pagesListArr.map((el, i) => {
+            if (el === '...') return <span key={i} className="main__page-item main__page-item--dots">{el}</span>
             return <span 
                 key={i}
                 className={`main__page-item ${el === this.state.currentPage ? 'main__page-item--active' : ''}`} 
-                onClick={() => this.onGoToPage(el)}>{el}</span>
+                onClick={() => this.onGoToPage(el)}
+                tabIndex="0">{el}</span>
         });
 
         let view = <LoadingScreen />;

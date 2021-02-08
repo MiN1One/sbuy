@@ -6,7 +6,16 @@
   box-sizing: border-box;
 }
 
-html { font-size: 62.5%; }
+html {
+  font-size: 62.5%;
+
+  @include respond(large) { font-size: 57.5%; } // 9.2
+  @include respond(mid-one) { font-size: 55%; } // 8.8
+  @include respond(mid-two) { font-size: 53.125%; } // 8.5
+  @include respond(mid-three) { font-size: 51.25%; } //  8.2
+  @include respond(mid-four) { font-size: 50.85%; } // 8.13
+  @include respond(sm-one) { font-size: 50%; } // 8.13
+}
 
 a {
   text-decoration: none;

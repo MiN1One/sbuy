@@ -72,12 +72,12 @@ class AllCategories extends PureComponent {
             });
         }
 
-        const catItems = catItemsArr.map((el, i) => {
-            const subCategories = el.subItems.map((el, i) => (
+        const catItems = catItemsArr.map((obj, i) => {
+            const subCategories = obj.subItems.map((el, i) => (
                 <li className="allcats__item allcats__item--sub" key={i}>
-                    <div className="allcats__link allcats__link--sub">
+                    <Link to={`/categories/${obj.val}/${el.val}?page=1`} className="allcats__link allcats__link--sub">
                         {el.title}
-                    </div>
+                    </Link>
                 </li>
             ));
 
@@ -85,8 +85,8 @@ class AllCategories extends PureComponent {
                 <li className="allcats__item" key={i}>
                     <div className="allcats__link allcats__link--main" onClick={() => this.onSelectCat(i)}>
                         <div className="allcats__group">
-                            <utils.useCat styleClass="allcats__icon" svg={el.icon} />
-                            {el.title}
+                            <utils.useCat styleClass="allcats__icon" svg={obj.icon} />
+                            {obj.title}
                         </div>
                         <utils.use styleClass="allcats__icon allcats__icon--arrow" svg="chevron-down" />
                     </div>
