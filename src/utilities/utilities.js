@@ -77,3 +77,40 @@ export const getQueryParamValue = (name) => {
     });
     return value;
 };
+
+// 5000000
+// 50 000 000
+
+export const formatPrice = (price) => {
+    const parsedPrice = parseInt(price.substring(1));
+    if (isNum(parsedPrice)) {
+
+        const priceStr = parsedPrice.toString();
+        
+        if (priceStr.length > 3) {
+            const priceArr = [];
+            
+            if (priceStr.length % 3 === 0) {
+    
+                for (let i = 0; i < priceStr.length; i+=3) 
+                    priceArr.push(priceStr.slice(i, 3+i));
+    
+                console.log(priceArr.join(' '));
+                return `$${priceArr.join(' ')}`;
+            } else {
+    
+                const initPartEndIndex = priceStr.length % 3;
+                const initPart = priceStr.slice(0, initPartEndIndex);
+                const withoutInit = priceStr.slice(initPartEndIndex, priceStr.length);
+                
+                for (let i = 0; i < withoutInit.length; i+=3)
+                    priceArr.push(withoutInit.slice(i, i+3));
+                
+                console.log([initPart, ...priceArr].join(' '));
+                return `$${[initPart, ...priceArr].join(' ')}`;
+            }
+        }
+        return price;
+    }
+    return price;
+};

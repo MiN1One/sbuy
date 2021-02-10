@@ -18,6 +18,8 @@
     &__heading {
         align-self: flex-start;
         font-size: 3rem;
+
+        @include respond(ss) { font-size: 2.5rem; }
     }
     
     &__head {
@@ -25,6 +27,8 @@
         margin-bottom: 3rem;
         display: flex;
         flex-direction: column;
+
+        @include respond(mid) { margin-bottom: 1.5rem; }
     }
 
     &__list {
@@ -42,12 +46,21 @@
         padding: 2.5rem 3rem;
         justify-content: space-between;
         align-items: center;
+
+        @include respond(mid) {
+            justify-content: flex-start;
+            padding: 2rem;
+        }
+
+        @include respond(ss) { padding: 1.5rem; }
     }
 
     &__page-list {
         display: flex;
         justify-content: center;
         margin: 0 1rem;
+
+        @include respond(mid) { margin: 0 .5rem }
     }
 
     &__page-item {
@@ -62,7 +75,16 @@
         cursor: pointer;
         margin-bottom: 1rem;
 
-        &:not(:last-child) { margin-right: .7rem; }
+        @include respond(sm) {
+            width: 3.2rem;
+            height: 3.2rem;
+        }
+
+        &:not(:last-child) {
+            margin-right: .7rem;
+
+            @include respond(mid) { margin-right: .5rem }
+        }
 
         &:hover:not(.main__page-item--active),
         &:focus:not(.main__page-item--active) {
@@ -111,10 +133,11 @@
             fill: #fff;
         }
 
-        &--green {
-            font-size: 1.2rem;
-            border-width: 1.5px !important;
-            border-radius: 0 !important;
+        @include respond(mid) { display: none; }
+        
+        &--mobile {
+            display: none;
+            @include respond(mid) { display: flex; }
         }
     }
 

@@ -4,7 +4,7 @@
     border-color: var(--color-primary);
 
     span::after {
-        background: rgba(#0652DD, .75);
+        background: rgba(var(--color-primary), .75);
     }
 }
 
@@ -72,6 +72,8 @@
         top: 0;
         background: var(--color-white-bg);
         z-index: 2;
+
+        @include respond(sm) { content: none; }
     }
     
     &--right::after {
@@ -85,13 +87,8 @@
     }
 }
 
-[data-premium=true] {
-    .badge__bull { display: inline-block; }
-    .badge { display: inline-block; }
-}
-
 .badge {
-    display: none;
+    display: inline-block;
     padding: .5rem 1rem;
     border-radius: 3.5px;
     color: #fff;
@@ -99,9 +96,9 @@
     font-weight: 500;
     box-shadow: 1px 1px 4px rgba(#000, .1);
     user-select: none;
-    background: rgb(6,82,221);
+    background: var(--color-primary);
     transition: all .3s ease;
-    background: linear-gradient(120deg, rgba(6,82,221,1) 0%, rgba(255,50,112,1) 47%);
+    background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-tertiary) 47%);
     
     &__bull {
         display: none;
@@ -116,7 +113,7 @@
     fill: var(--color-grey-a5);
 
     &--fill {
-        fill: #FFC312;
+        fill: var(--color-yellow);
     }
 }
 
@@ -195,6 +192,9 @@
     border-radius: .7rem;
     font-size: 1.6rem;
     font-weight: 300;
+
+    @include respond(mid) { padding: .7rem 2rem; }
+    @include respond(sm) { padding: .5rem 1.7rem; }
 }
 
 .message-badge {
@@ -230,10 +230,6 @@
         background: var(--color-white-bg);
         color: var(--color-grey-dark);
     }
-}
-
-[data-favorite=true] .icon {
-    fill: var(--color-red) !important;
 }
 
 .icon {

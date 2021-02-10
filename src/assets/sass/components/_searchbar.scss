@@ -1,8 +1,8 @@
 .s {
+    @include moveDown;
     background: var(--color-white-bg-secondary);
     width: 100%;
     position: relative;
-    margin-top: 7rem;
     z-index: 10;
     
     &__wrapper {
@@ -12,10 +12,12 @@
         display: flex;
         justify-content: flex-start;
         align-items: center;
+
+        @include respond(sm) { height: 9rem; }
     }
 
     &__logo {
-        @include respond(mid-three) { display: none !important; }
+        @include respond(mid) { display: none !important; }
     }
 
     &__form-wrap {
@@ -47,9 +49,20 @@
     &__form:focus + &__dropdown {
         opacity: 1;
         visibility: visible;
+
+        @include respond(xs) {
+            opacity: 0;
+            visibility: hidden;
+        }
     }
 
-    &__form:focus &__btn { border-radius: .7rem .7rem 0 0; }
+    &__form:focus &__btn {
+        border-radius: .7rem .7rem 0 0;
+
+        @include respond(xs) {
+            border-radius: 0 .7rem .7rem 0;
+        }
+    }
     
     &__label {
         position: relative;
@@ -65,12 +78,13 @@
         font-family: 'Inter', sans-serif;
         border-right: 1px solid rgba(#000, .07);
 
-        @include respond(mid-two) {
+        @include respond(mid) {
             width: 25rem;
             padding: 2rem 2.5rem;
         }
 
-        @include respond(xs-one) {
+        @include respond(xs) {
+            padding: 1.2rem 2.5rem;
             width: 20rem;
         }
     }
@@ -78,7 +92,7 @@
     &__input:not(:placeholder-shown) + &__btn { visibility: visible; }
     
     &__btn {
-        padding: 0 3rem;
+        padding: 0 2.5rem;
         font-size: 1.5rem;
         font-weight: 500;
         display: flex;
@@ -95,20 +109,31 @@
         &:hover,
         &:focus { background: var(--color-primary-dark); }
 
-        @include respond(mid-one) {
+        @include respond(mid) {
             padding: 0 1.8rem;
+        }
+
+        @include respond(xs) {
+            border-radius: 0 .7rem .7rem 0;
+            border-width: 3px;
+            border-left: 1px solid rgba(#fff, .2);
+            margin: 0;
+
+            .s__icon {
+                width: 2rem;
+                height: 2rem;
+            }
         }
         
         &--map {
             padding: 0 2.5rem;
             background: var(--color-white-bg);
-            display: flex;
-            align-items: center;
             color: var(--color-grey-dark);
             border: none;
             cursor: text;
             font-weight: 500;
             margin: 0;
+            align-items: center;
             border-radius: 0 !important;
             
             &:hover {
@@ -120,12 +145,34 @@
                 }
             }
 
-            @include respond(mid-one) {
-                padding: 0 1.8rem;
+            @include respond(mid) { padding: 0 1.8rem; }
+            @include respond(xs) { display: none; }
+        }
+
+        &--map-mob {
+            padding: 0 1.8rem;
+            border-radius: 0;
+            background: var(--color-primary);
+            border: 3px solid var(--color-white-opaque-7);
+            border-right: none;
+            margin-left: -3px;
+            
+            display: none;
+
+            &:hover,
+            &:focus {
+                background: var(--color-primary-dark);
+                
+                .s__icon { fill: #fff; }
             }
 
-            @include respond(xs-one) {
-                padding: 0 1.3rem;
+            .s__icon {
+                fill: #fff;
+                margin: 0;
+            }
+
+            @include respond(xs) {
+                display: flex;
             }
         }
 
@@ -145,6 +192,8 @@
     &__title {
         width: 14rem;
         transition: color .15s ease-in-out;
+
+        @include respond(xs) { display: none; }
     }
 
     &__icon {

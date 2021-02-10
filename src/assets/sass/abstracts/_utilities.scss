@@ -2,7 +2,10 @@
     max-width: $row-width;
     margin: 0 auto;
 
-    @include respond(large) { padding: 0 2rem; }
+    @include respond(lg) { padding: 0 2rem; }
+    @include respond(mid) { padding: 0 5rem; }
+    @include respond(sm) { padding: 0 4rem; }
+    @include respond(ss) { padding: 0 1rem; }
 }
 
 .wh-auto {

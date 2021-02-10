@@ -35,20 +35,18 @@ class Card extends PureComponent {
                             effect="opacity" 
                             alt={this.props.data.title} 
                             className="card__img" 
-                            height="100%"
+                            height="100%" 
                             width="100%" />
-                        <span className="card__heading card__heading--hidden">{this.props.data.title}</span>
+                        <span className="card__heading-full">{this.props.data.title}</span>
                     </figure>
                     <div className="card__list">
-                        <div className="card__item card__item--group" data-premium={this.props.data.premium}>
+                        <div className="card__item card__item--group">
                             <span className="card__heading">{title}</span>
-                            <span className="badge">TOP</span>
+                            {this.props.data.premium && <span className="badge card__badge">TOP</span>}
                         </div>
-                        <span className="card__item">{this.props.data.date}</span>
-                        <p className="card__item card__item--location">{utils.limitStrAny(this.props.data.location, 20, false)}</p>
-                        <div className="card__item card__item--space">
-                            <span className="price-tag">{this.props.data.price}</span>
-                        </div>
+                        <span className="card__item card__item--sub">{this.props.data.date}</span>
+                        <p className="card__item card__item--sub">{utils.limitStrAny(this.props.data.location, 20, false)}</p>
+                        <span className="price-tag">{utils.formatPrice(this.props.data.price)}</span>
                     </div>
                 </Link>
                 <button className="card__btn" data-favorite={isFavorite ? true : false} onClick={() => this.onLikeAd(this.props.data.id)}>

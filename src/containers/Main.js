@@ -20,7 +20,8 @@ class Main extends PureComponent {
         data: [...this.props.data],
         currentPage: parseInt(utils.getQueryParamValue('page')),
         numberOfPages: 41,
-        pagesInterval: 5
+        pagesInterval: 5,
+
     }
         
     fetchData = async () => {
@@ -49,6 +50,16 @@ class Main extends PureComponent {
     async componentDidMount() {
         this.setPageIfNone();
         const data = await this.fetchData();
+
+        const media = window.matchMedia('(max-width: 46.875em)');
+
+        const watch = () => {
+            if (media.matches) this.setState({ pagesInterval: 3 });
+            else this.setState({ pagesInterval: 5 });
+        };
+
+        watch();
+        media.onchange = watch;
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -110,13 +121,26 @@ class Main extends PureComponent {
         let pagesListArr = [];
         for (let i = 0; i < this.state.numberOfPages; i++) pagesListArr.push(i+1);
 
-        const intervalStartIndex = this.state.currentPage - 3;
-        const intervalLastIndex = this.state.currentPage + this.state.pagesInterval - 3;
+        const prevPages = this.state.pagesInterval - 2;
+        const intervalStartIndex = this.state.currentPage - prevPages;
+        const intervalLastIndex = this.state.currentPage + this.state.pagesInterval - prevPages;
 
         // currentPage = 6, [1,2,3,4,5,6,7,8,9]
         // start = 3, end = 8
         // slice* last element is not included
         // final = [4,5,6,7,8]
+
+        const mediaSS = window.matchMedia('(max-width: 31.25em)');
+        const matchMediaPages = (arr) => {
+            if (mediaSS.matches) {
+                if (this.state.currentPage !== 1 && this.state.currentPage !== 41) {
+                    return arr.filter(el => {
+                        if (el === this.state.numberOfPages || el === 1) return null;
+                        else return el;
+                    });
+                } else return arr;
+            } else return arr;
+        };
 
         if (this.state.currentPage > this.state.pagesInterval) {
             
@@ -129,25 +153,21 @@ class Main extends PureComponent {
                ) 
             {
                 pagesListArr = pagesListArr.slice(intervalStartIndex, this.state.numberOfPages);
-                pagesListArr = [1, '...', ...pagesListArr];
+                pagesListArr = matchMediaPages([1, '...', ...pagesListArr]);
             }
             
             else {
                 pagesListArr = pagesListArr.slice(intervalStartIndex, intervalLastIndex);
-                pagesListArr = [1, '...', ...pagesListArr, '...', this.state.numberOfPages];
+                pagesListArr = matchMediaPages([1, '...', ...pagesListArr, '...', this.state.numberOfPages]);
             }
             
         } else {
             if (this.state.currentPage < Math.ceil(this.state.pagesInterval / 2)) {
-                pagesListArr = pagesListArr.slice(0, 5);
-                pagesListArr = [...pagesListArr, '...', this.state.numberOfPages];
+                pagesListArr = pagesListArr.slice(0, this.state.pagesInterval);
+                pagesListArr = matchMediaPages([...pagesListArr, '...', this.state.numberOfPages]);
             } else {
                 pagesListArr = pagesListArr.slice(0, intervalLastIndex);
-    
-                if (this.state.currentPage === this.state.pagesInterval)
-                    pagesListArr = [...pagesListArr, '...', this.state.numberOfPages];
-
-                else pagesListArr = [...pagesListArr, '...', this.state.numberOfPages];
+                pagesListArr = matchMediaPages([...pagesListArr, '...', this.state.numberOfPages]);
             }
         }
 
@@ -201,6 +221,10 @@ class Main extends PureComponent {
                                         <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                     </button>
                                 </div>
+                                <button className="btn btn__primary btn__primary--outline main__btn main__btn--mobile mt-2" onClick={() => this.onLoadMore()}>
+                                    Load more
+                                    <utils.use styleClass="icon ml-5" svg="chevrons-down" />
+                                </button>
                             </div>
                         </div>
                     </main>

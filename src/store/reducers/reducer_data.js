@@ -37,7 +37,7 @@ const initialState = {
         {
             id: 'someId_1',
             title: 'Scania 8302365466 95',
-            price: '$230,000,00',
+            price: '$230000',
             date: 'February 20',
             img: [scan],
             location: 'Berlin, 20',
@@ -48,7 +48,7 @@ const initialState = {
         {
             id: 'someId_4',
             title: 'Iphone 8',
-            price: '$250,00',
+            price: '$250',
             date: 'February 20',
             img: [iphone8_2, iphone8],
             location: 'Some location',
@@ -58,7 +58,7 @@ const initialState = {
         {
             id: 'someId_6',
             title: 'Cobalt 2019 dfgndlkfnbdk; knglreg kerjgn kerjg',
-            price: '$8,000,00',
+            price: '$8000',
             date: 'February 16',
             img: [cobalt],
             location: 'Some location',
@@ -68,7 +68,7 @@ const initialState = {
         {
             id: 'someId_2',
             title: 'Nexia 3',
-            price: '$10,000,00',
+            price: '$10000',
             date: 'February 19',
             img: [nexoa],
             location: 'Some location',
@@ -78,7 +78,7 @@ const initialState = {
         {
             id: 'someId_3',
             title: 'Galaxy S10',
-            price: '$400,00',
+            price: '$400',
             date: 'February 18',
             img: [galax10],
             location: 'Some location',
@@ -88,7 +88,7 @@ const initialState = {
         {
             id: 'someId_5',
             title: 'Lenovo Thinkpad',
-            price: '$650,00',
+            price: '$650',
             date: 'February 17',
             img: [lenovo, lenovo_2],
             location: 'Some location',

@@ -208,7 +208,7 @@ class Filter extends PureComponent {
                                     <a href="#" className="f__link f__link--tags">Toys</a>
                                 </li>
                             </ul>
-                            <div className="f__group h-100">
+                            <div className="f__group f__group--breadc h-100">
                                 <Link to="/" className="f__link f__link--route">Home</Link>
                                 <span className="f__link f__link--route">&bull;</span>
                                 <Link to={'/' + category} className="f__link f__link--route">{catTitle}</Link>
