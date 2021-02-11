@@ -3,8 +3,6 @@ import { Route, Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-import Filter from '../components/Filter';
-import Adview from '../components/Adview';
 import Card from '../components/Card';
 import Searchbar from '../components/Searchbar';
 import * as utils from '../utilities/utilities';
@@ -21,7 +19,7 @@ class Main extends PureComponent {
         currentPage: parseInt(utils.getQueryParamValue('page')),
         numberOfPages: 41,
         pagesInterval: 5,
-
+        filterComponent: null
     }
         
     fetchData = async () => {
@@ -52,13 +50,22 @@ class Main extends PureComponent {
         const data = await this.fetchData();
 
         const media = window.matchMedia('(max-width: 46.875em)');
+        const mediaSm = window.matchMedia('(max-width: 34.6875em)');
 
         const watch = () => {
             if (media.matches) this.setState({ pagesInterval: 3 });
             else this.setState({ pagesInterval: 5 });
         };
 
+
+        const watchSm = () => {
+            if (mediaSm.matches) this.setState({ filterComponent: asyncComponent(() => import('../components/MobileFilters')) });
+            else this.setState({ filterComponent: asyncComponent(() => import('../components/Filter')) });
+        };
+        
+        watchSm();
         watch();
+        mediaSm.onchange = watchSm;
         media.onchange = watch;
     }
 
@@ -232,10 +239,12 @@ class Main extends PureComponent {
             );
         };
 
+        const Filter = this.state.filterComponent;
+
         return (
             <React.Fragment>
                 <Searchbar />
-                <Filter />
+                {Filter && <Filter />}
                 {view}
             </React.Fragment>
         );

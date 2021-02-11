@@ -88,10 +88,10 @@ class Header extends Component {
                     <div className="header__main">
                         <div className="container">
                             <div className="header__mainwrap">
-                                <Categories />
+                                <Categories {...this.props} />
                                 {this.state.loadingVendor 
                                     ? <div className="header__list header__loading loading-center">
-                                            <LoadingSub />
+                                        <LoadingSub />
                                     </div>
                                     : <Swiper 
                                         className="header__list gradient gradient--right"
@@ -144,6 +144,8 @@ const mapStateToProps = state => ({
     vendorAds: state.data.vendorAds,
     data: state.data.data,
     lang: state.localization.lang,
+    categories: state.localization.translations.categoriesList,
+    loading: state.data.loading
 });
 
 const mapDispatchToProps = (dispatch) => ({

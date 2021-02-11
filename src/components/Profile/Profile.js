@@ -241,7 +241,8 @@ const mapStateToProps = state => ({
     data: state.data.data,
     searchLocation: state.localization.searchLocation,
     favorites: state.data.favoriteAds,
-    token: state.user.token
+    token: state.user.token,
+    regions: state.localization.translations.regionsList
 });
 
 const mapDispatchToProps = dispatch => ({

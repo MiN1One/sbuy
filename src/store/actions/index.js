@@ -1,7 +1,8 @@
 export {
     changeLocation,
     changeLanguage,
-    changeSearchLoc
+    changeSearchLoc,
+    importRequisites
 } from './actions_localization';
 
 export {

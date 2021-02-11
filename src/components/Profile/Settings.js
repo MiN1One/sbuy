@@ -12,7 +12,6 @@ const Settings = (props) => {
     
     const [passTime, setPassTime] = useState('05.07.2021 16:43');
     const [region, setRegion] = useState('toshkent');
-    const [regionTitle, setRegionitle] = useState();
 
     const passwordOldInputRef = useRef();
     const passwordInputRef = useRef();
@@ -31,11 +30,6 @@ const Settings = (props) => {
             if (passwordInputRef.current.type === 'password') passwordInputRef.current.type = 'text';
             else passwordInputRef.current.type = 'password';
         }
-    };
-
-    const changeRegion = (reg, title) => {
-        setRegion(reg);
-        setRegionitle(title);
     };
 
     const onDiscardChanges = () => {
@@ -93,6 +87,11 @@ const Settings = (props) => {
         setError(null);
     };
 
+    let regionTitle = null;
+    if (props.regions) {
+        regionTitle = props.regions.find(el => el.val === region).title;
+    }
+
     let regionView = <span className="heading heading__5 profile__main-text">Region, {regionTitle}</span>;
     if (editMode) {
         regionView = (
@@ -100,7 +99,7 @@ const Settings = (props) => {
                 <span className="profile__title">Region</span>
                 <div className="pos-rel">
                     <div className="profile__input profile__input--reg input" tabIndex="0">{regionTitle}</div>
-                    <RegionsDropdown click={changeRegion} default={region} class={['dropdown--full dropdown--left-fix profile__reg-dropdown dropdown--close']}/>
+                    <RegionsDropdown click={setRegion} default={region} class={['dropdown--full dropdown--left-fix profile__reg-dropdown dropdown--close']}/>
                 </div>
             </React.Fragment>
         )

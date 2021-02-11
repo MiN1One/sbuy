@@ -8,13 +8,13 @@ const AsyncNavigation = asyncComponent(() => import('./Navigation'));
 const AsyncMobileNav = asyncComponent(() => import('../components/MobileNav'));
 
 const Layout = (props) => {
-    const [mobile, setMobile] = useState();
+    const [nav, setNav] = useState(null);
 
     const media = window.matchMedia('(max-width: 46.875em)');
 
     const checkForMobileMedia = () => {
-        if (media.matches) setMobile(true);
-        else setMobile(false);
+        if (media.matches) setNav(asyncComponent(() => import('../components/MobileNav')));
+        else setNav(asyncComponent(() => import('./Navigation')));
     };
     
     useEffect(() => {
@@ -28,11 +28,13 @@ const Layout = (props) => {
         return check;
     };
 
+    const Nav = nav;
+
     return (
         <React.Fragment>
-            {mobile ? <AsyncMobileNav /> : <AsyncNavigation />}
+            {Nav && <Nav />}
                 {props.children}
-            {!mobile && <Footer />}
+            <Footer />
         </React.Fragment>
     );
 };

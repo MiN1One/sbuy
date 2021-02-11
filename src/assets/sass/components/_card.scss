@@ -227,7 +227,7 @@
         padding: .7rem 0;
 
         @include respond(ss) {
-            top: -1.25rem;
+            top: -1.75rem;
             bottom: initial;
             transform: translateY(66%);
         }

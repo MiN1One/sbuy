@@ -5,7 +5,11 @@ const systemLanguage = navigator.language.split('-')[0];
 const initialState = {
     lang: localStorage.getItem('SBUY_LANGUAGE') || systemLanguage,
     location: 'Tashkent',
-    searchLocation: localStorage.getItem('SBUY_SEARCH_LOCATION') || 'all'
+    searchLocation: localStorage.getItem('SBUY_SEARCH_LOCATION') || 'all',
+    translations: {
+        regionsList: null,
+        categoriesList: null
+    }
 };
 
 const reducer = (state = initialState, action) => {
@@ -20,6 +24,15 @@ const reducer = (state = initialState, action) => {
         case actionTypes.CHANGE_SEARCH_LOC: 
             localStorage.setItem('SBUY_SEARCH_LOCATION', action.location);
             return { ...state, searchLocation: action.location };
+
+        case actionTypes.IMPORT_REQUISITES: 
+            return {
+                ...state,
+                translations: {
+                    ...state.translations,
+                    [action.requisite]: action.list
+                }
+            }
 
         default: return state;
     }

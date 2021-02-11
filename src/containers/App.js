@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -8,6 +8,7 @@ import asyncComponent from '../hoc/asyncComponent/asyncComponent';
 import LoadingScreen from '../UI/LoadingScreen';
 import ErrorComponent from '../components/Error';
 import Layout from './Layout';
+import * as actions from '../store/actions';
 
 const AsyncAuthSignin = asyncComponent(() => import('./Authorization/AuthSignin'));
 const AsyncAuthSignup = asyncComponent(() => import('./Authorization/AuthSignup'));
@@ -18,6 +19,28 @@ const AsyncAllCategories = asyncComponent(() => import('../components/AllCategor
 const AsyncPromote = asyncComponent(() => import('../components/Promote'));
 
 function App(props) {
+  const { onImportRequisites } = props;
+
+  useEffect(() => {
+    // --------- IMPORT REGIONS ---------
+    import(`../store/Regions/regions_${props.lang}`)
+      .then(data => {
+        onImportRequisites('regionsList', data.default);
+      })
+      .catch(er => {
+        console.error(er);
+      });
+    
+    // --------- IMPORT CATEGORIES ----------
+    import(`../store/Categories/categories_${props.lang}`)
+      .then(data => {
+        onImportRequisites('categoriesList', data.default);
+      })
+      .catch(er => {
+        console.error(er);
+      });
+  }, [props.lang, onImportRequisites]);
+
   const header = (
     <Layout>
       <Header />
@@ -101,4 +124,8 @@ const mapStateToProps = (state) => ({
   lang: state.localization.lang
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch) => ({
+  onImportRequisites: (req, list) => dispatch(actions.importRequisites(req, list))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
