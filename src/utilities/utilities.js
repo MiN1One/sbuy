@@ -95,7 +95,6 @@ export const formatPrice = (price) => {
                 for (let i = 0; i < priceStr.length; i+=3) 
                     priceArr.push(priceStr.slice(i, 3+i));
     
-                console.log(priceArr.join(' '));
                 return `$${priceArr.join(' ')}`;
             } else {
     
@@ -106,7 +105,6 @@ export const formatPrice = (price) => {
                 for (let i = 0; i < withoutInit.length; i+=3)
                     priceArr.push(withoutInit.slice(i, i+3));
                 
-                console.log([initPart, ...priceArr].join(' '));
                 return `$${[initPart, ...priceArr].join(' ')}`;
             }
         }

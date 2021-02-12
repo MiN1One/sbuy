@@ -24,9 +24,6 @@ const Searchbar = (props) => {
         if (modal) setModal(false);
     };
 
-    if (modal) document.documentElement.style.overflow = 'hidden';
-    else document.documentElement.style.overflow = 'auto';
-
     let regionTitle = null;
     if (props.regions) {
         regionTitle = props.regions.find(el => el.val === props.searchLocation).title;
@@ -34,13 +31,30 @@ const Searchbar = (props) => {
 
     let regions = null;
     if (props.regions) {
-        regions = props.regions.map((el, i) => 
-            <li 
-                className="s__item"
-                onClick={() => changeSearchLocation(el.val)}
-                key={i}>{el.title}
-            </li>
-        );
+        regions = props.regions.map((el, i) => {
+            if (el.title === regionTitle) {
+                return <li 
+                    className="modal__item modal__item--active"
+                    onClick={() => changeSearchLocation(el.val)}
+                    key={i}>
+                        <div className="d-flex ac">
+                            <utils.use styleClass="s__icon--clear s__icon--active mr-1" svg="check" />
+                            {el.title}
+                        </div>
+                    </li>
+            }
+            return (
+                <li 
+                    className="modal__item"
+                    onClick={() => changeSearchLocation(el.val)}
+                    key={i}>
+                        <div className="d-flex ac">
+                            <utils.use styleClass="s__icon--clear mr-1" svg="zoom-in" />
+                            {el.title}
+                        </div>
+                </li>
+            );
+        });
     }
 
     return (
@@ -77,7 +91,7 @@ const Searchbar = (props) => {
                                     <utils.use styleClass="s__icon s__icon--map" svg="map-pin" />
                                 </button>
                                 
-                                <button className="s__btn">
+                                <button className="s__btn" type="submit">
                                     <utils.use styleClass="s__icon" svg="search" />
                                 </button>
                             </form>
@@ -92,7 +106,7 @@ const Searchbar = (props) => {
                 show={modal}
                 click={() => setModal(false)}
                 title="Select search region">
-                    <ul className="s__list">{regions}</ul>
+                    <ul className="modal__list">{regions}</ul>
             </Modal>
         </React.Fragment>
     );

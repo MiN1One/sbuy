@@ -7,17 +7,17 @@
     padding: 0 2rem;
     transition: all .15s ease-in-out;
     border-radius: .7rem;
-    border-width: 2.5px;
+    border-width: .25rem;
     border-style: solid;
     border-color: var(--color-white-opaque-7);
     text-transform: uppercase;
     font-weight: 500;
     font-size: 1.3rem;
 
-    // @include respond(sm) {
-    //     padding: 0 1.5rem;
-    //     height: 3.5rem;
-    // }
+    @include respond(sm) {
+        padding: 0 1.75rem;
+        height: 3.5rem;
+    }
 
     &__primary {
         background: var(--color-primary);
@@ -123,6 +123,11 @@
         &--disabled {
             opacity: .5;
             cursor: initial;
+        }
+
+        @include respond(sm) {
+            width: 3.5rem;
+            height: 3.5rem;
         }
     }
 

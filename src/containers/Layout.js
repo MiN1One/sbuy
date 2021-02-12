@@ -30,11 +30,13 @@ const Layout = (props) => {
 
     const Nav = nav;
 
+    let isHome = window.location.pathname === '/';
+
     return (
         <React.Fragment>
             {Nav && <Nav />}
                 {props.children}
-            <Footer />
+            {(!isHome && !media.matches) ? <Footer /> : null}
         </React.Fragment>
     );
 };

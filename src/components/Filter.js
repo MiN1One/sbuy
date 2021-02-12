@@ -15,7 +15,6 @@ class Filter extends PureComponent {
         super(props);
         this.state = {
             loading: false,
-            filterConfig: {},
 
             sort: [
                 { title: 'Most expensive', val: 'exp' },
@@ -28,26 +27,6 @@ class Filter extends PureComponent {
             price: ['', ''],
             type: 'all'
         }
-    }
-
-    importFilter =  () => {
-        this.setState({ loading: true })
-        import(`../store/Filters/${this.props.lang}/${this.props.match.params.category}`)
-            .then(filter => {
-                this.setState({ filterConfig: filter.default, loading: false });
-            })
-            .catch(er => {
-                this.setState({ filterConfig: {}, loading: false });
-                console.log(er);
-            });
-    }
-
-    componentDidMount() {
-        this.importFilter();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if ((this.props.match.params !== prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilter();
     }
 
     onFilterByCounter = (param, subParam, val) => {
@@ -71,89 +50,90 @@ class Filter extends PureComponent {
         const subcategory = this.props.match.params.subcategory;
         
         const sortTitle = this.state.sort.find(el => el.val === this.props.sort).title; 
-        let catTitle = null;
-        let subCatTitle = null;
 
-        let subCatItems = null;
-        let counters = null;
-        let sortItems = null;
-
-        const filter = this.state.filterConfig[category];
+        let subCatItems = null, 
+            counters = null, 
+            sortItems = null,
+            subCatTitle = null,
+            catTitle = null;
         
-        if (filter) {
+        // if (this.props.filters) {
 
-            subCatItems = filter.items[this.props.match.params.subcategory].sub.map((obj, index) => {
-
-                const innerItems = obj.items.map((el, i) => {
+            const filter = this.props.filtersList[category];
+            
+            if (filter) {
+    
+                subCatItems = filter.items[subcategory].sub.map((obj, index) => {
+    
+                    const innerItems = obj.items.map((el, i) => {
+                        return (
+                            <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions(obj.val, el.val)}>{el.title}</div>
+                        );
+                    });
+    
+                    const defaultTitle = obj.items.find(el => el.val === this.props[obj.val]).title;
+    
                     return (
-                        <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions(obj.val, el.val)}>{el.title}</div>
+                        <li className="f__item" key={index}>
+                            <p className="f__title">{obj.title}</p>
+                            <div>
+                                <div className="f__input f__input--d input" tabIndex="0">
+                                    {defaultTitle}
+                                    <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-down" />
+                                </div>
+                                <Dropdown class="dropdown--full dropdown--close dropdown--sm-s f__dropdown">
+                                    {innerItems}
+                                </Dropdown>
+                            </div>
+                        </li>
                     );
                 });
-
-                const defaultTitle = obj.items.find(el => el.val === this.props[obj.val]).title;
-
-                return (
-                    <li className="f__item" key={index}>
-                        <p className="f__title">{obj.title}</p>
-                        <div>
-                            <div className="f__input f__input--d input" tabIndex="0">
-                                {defaultTitle}
-                                <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-down" />
-                            </div>
-                            <Dropdown class="dropdown--full dropdown--close dropdown--sm-s f__dropdown">
-                                {innerItems}
-                            </Dropdown>
-                        </div>
-                    </li>
-                );
-            });
-        
-            counters = filter.items[this.props.match.params.subcategory].counters.map((el, i) => {
-                return (
-                    <li className="f__item" key={i}>
-                        <p className="f__title">{el.title}</p>
-                        <div className="f__group">
-                            <label className="f__label">
-                                <input 
-                                    type="text" 
-                                    className="f__input f__input--small input" 
-                                    placeholder="from" 
-                                    onChange={(e) => this.onFilterByCounter(el.val, el.start, e.target.value)} 
-                                    value={this.props[el.val][el.start]} />
-                                <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
-                                    <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
-                                </button>
-                            </label>
-                            <label className="f__label">
-                                <input 
-                                    type="text" 
-                                    className="f__input f__input--small f__input--border input" 
-                                    placeholder="to" 
-                                    onChange={(e) => this.onFilterByCounter(el.val, el.end, e.target.value)} 
-                                    value={this.props[el.val][el.end]} />
-                                <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
-                                    <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
-                                </button>
-                            </label>
-                        </div>
-                    </li>
-                )
-            });
-        
-            catTitle = filter.title;
-            subCatTitle = filter.items[subcategory].title;
-
-            sortItems = this.state.sort.map((el, i) => <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
             
-        } else if (this.state.loading)
-            return (
-                <div className="loading-center w-100 f__loading">
-                    <LoadingSub />
-                </div>
-            );
-        console.log(this.props.history);
-        console.log(this.props.match);
-        console.log(this.props.location);
+                counters = filter.items[subcategory].counters.map((el, i) => {
+                    return (
+                        <li className="f__item" key={i}>
+                            <p className="f__title">{el.title}</p>
+                            <div className="f__group">
+                                <label className="f__label">
+                                    <input 
+                                        type="text" 
+                                        className="f__input f__input--small input" 
+                                        placeholder="from" 
+                                        onChange={(e) => this.onFilterByCounter(el.val, el.start, e.target.value)} 
+                                        value={this.props[el.val][el.start]} />
+                                    <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
+                                        <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
+                                    </button>
+                                </label>
+                                <label className="f__label">
+                                    <input 
+                                        type="text" 
+                                        className="f__input f__input--small f__input--border input" 
+                                        placeholder="to" 
+                                        onChange={(e) => this.onFilterByCounter(el.val, el.end, e.target.value)} 
+                                        value={this.props[el.val][el.end]} />
+                                    <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
+                                        <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
+                                    </button>
+                                </label>
+                            </div>
+                        </li>
+                    )
+                });
+            
+                catTitle = filter.title;
+                subCatTitle = filter.items[subcategory].title;
+    
+                sortItems = this.state.sort.map((el, i) => <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
+                
+            } else if (this.state.loading) {
+                return (
+                    <div className="loading-center w-100 f__loading">
+                        <LoadingSub />
+                    </div>
+                );
+            }
+        // }
 
         return (
             <React.Fragment>
@@ -223,18 +203,4 @@ class Filter extends PureComponent {
     };
 }
 
-const mapStateToProps = state => ({
-    lang: state.localization.lang,
-    condition: state.data.filters.condition,
-    size: state.data.filters.size,
-    price: state.data.filters.price,
-    type: state.data.filters.type,
-    sort: state.data.filters.sort
-});
-
-const mapDispatchToProps = dispatch => ({
-    onFilterByCountersDispatch: (name, index, val) => dispatch(actions.filterByCounters(name, index, val)),
-    onFilterByOptionsDispatch: (name, val) => dispatch(actions.filterByOptions(name, val))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Filter));
+export default withRouter(Filter);

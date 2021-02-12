@@ -67,6 +67,10 @@
     @if $breakpoint == ss {
         @media (max-width: 500px) { @content };
     }
+
+    @if $breakpoint == mss {
+        @media (max-width: 335px) { @content };
+    }
 }
 
 @mixin moveDown {

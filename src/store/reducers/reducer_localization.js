@@ -8,7 +8,8 @@ const initialState = {
     searchLocation: localStorage.getItem('SBUY_SEARCH_LOCATION') || 'all',
     translations: {
         regionsList: null,
-        categoriesList: null
+        categoriesList: null,
+        filtersList: {}
     }
 };
 

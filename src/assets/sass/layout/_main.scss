@@ -8,6 +8,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+
+        @include respond(sm) { padding: 1.5rem 0 2rem 0; }
     }
 
     &__link {
@@ -19,7 +21,8 @@
         align-self: flex-start;
         font-size: 3rem;
 
-        @include respond(ss) { font-size: 2.5rem; }
+        @include respond(sm) { font-size: 2.5rem; }
+        @include respond(ss) { font-size: 2rem; }
     }
     
     &__head {
@@ -52,7 +55,10 @@
             padding: 2rem;
         }
 
-        @include respond(ss) { padding: 1.5rem; }
+        @include respond(sm) {
+            padding: 1.5rem;
+            border: none;
+        }
     }
 
     &__page-list {
@@ -123,7 +129,12 @@
 
     &__subhead {
         font-size: 1.6rem;
-        color: var(--color-grey-7)
+        color: var(--color-grey-7);
+
+        @include respond(sm) {
+            font-size: 1.4rem;
+            color: var(--color-grey-dark);
+        }        
     }
 
     &__btn {

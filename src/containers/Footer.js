@@ -37,8 +37,8 @@ const Footer = props => {
                 <div className="footer__wrapper">
                     <div className="footer__body">
                         <div div className="footer__group">
-                            <Logo class="footer__logo" />
-                            <ul className="footer__list">
+                            <Logo classOver="footer__logo" />
+                            <ul className="footer__list mb-1">
                                 {navItems}
                             </ul>
                             <p className="footer__info">

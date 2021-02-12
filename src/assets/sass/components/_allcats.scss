@@ -28,8 +28,9 @@
     }
 
     &__item {
-        width: 100%;
         width: calc(100% / 2);
+
+        @include respond(sm) { width: 100%; }
     }
 
     &__link {

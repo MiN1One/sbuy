@@ -13,7 +13,7 @@
         justify-content: flex-start;
         align-items: center;
 
-        @include respond(sm) { height: 9rem; }
+        @include respond(sm) { height: 8rem; }
     }
 
     &__logo {
@@ -26,6 +26,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+
+        @include respond(ss) { width: 100%; }
     }
 
     &__form {
@@ -44,6 +46,8 @@
             border-radius: .7rem .7rem 0 0;
             outline: none;
         }
+
+        @include respond(ss) { width: 100%; }
     }
 
     &__form:focus + &__dropdown {
@@ -67,6 +71,8 @@
     &__label {
         position: relative;
         z-index: 2;
+
+        @include respond(ss) { width: 90%; }
     }
 
     &__input {
@@ -79,14 +85,13 @@
         border-right: 1px solid rgba(#000, .07);
 
         @include respond(mid) {
-            width: 25rem;
+            width: 30rem;
             padding: 2rem 2.5rem;
         }
 
-        @include respond(xs) {
-            padding: 1.2rem 2.5rem;
-            width: 20rem;
-        }
+        @include respond(sm) { padding: 1.5rem 2.5rem; }
+        @include respond(xs) { padding: 1.2rem 2.5rem; }
+        @include respond(ss) { width: 100%; }
     }
     
     &__input:not(:placeholder-shown) + &__btn { visibility: visible; }
@@ -113,9 +118,9 @@
             padding: 0 1.8rem;
         }
 
-        @include respond(xs) {
+        @include respond(sm) {
             border-radius: 0 .7rem .7rem 0;
-            border-width: 3px;
+            border-width: 2px;
             border-left: 1px solid rgba(#fff, .2);
             margin: 0;
 
@@ -146,14 +151,14 @@
             }
 
             @include respond(mid) { padding: 0 1.8rem; }
-            @include respond(xs) { display: none; }
+            @include respond(sm) { display: none; }
         }
 
         &--map-mob {
             padding: 0 1.8rem;
             border-radius: 0;
             background: var(--color-primary);
-            border: 3px solid var(--color-white-opaque-7);
+            border: 2px solid var(--color-white-opaque-7);
             border-right: none;
             margin-left: -3px;
             
@@ -171,9 +176,7 @@
                 margin: 0;
             }
 
-            @include respond(xs) {
-                display: flex;
-            }
+            @include respond(sm) { display: flex; }
         }
 
         &--clear {
@@ -186,6 +189,7 @@
             z-index: 5;
             cursor: pointer;
             visibility: hidden;
+            display: flex !important;
         }
     }
     
@@ -210,28 +214,18 @@
         }
 
         &--clear {
+            fill: var(--color-grey-dark);
             width: 2rem;
             height: 2rem;
             margin: 0;
         }
+
+        &--active { fill: #fff; }
     }
 
     &__dropdown {
         padding: 2rem 4rem;
         z-index: 1;
         border: none;
-    }
-
-    &__list {
-        width: 100%;
-        height: 100%;
-        overflow-y: scroll;
-    }
-
-    &__item {
-        width: 100%;
-        font-size: 1.55rem;
-        padding: 1.5rem 4rem;
-        color: var(--color-black);
     }
 }

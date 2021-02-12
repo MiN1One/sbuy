@@ -1,38 +1,14 @@
 import React, { PureComponent } from 'react';
 import $ from 'jquery';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import LoadingSub from '../UI/LoadingSub';
 import * as utils from '../utilities/utilities';
 
-class AllCategories extends PureComponent {
-    state = {
-        cats: null,
-        loading: false
-    }
+const AllCategories = (props) => {
 
-    importCategories = () => {
-        this.setState({ loading: true });
-        import(`../store/Categories/categories_${this.props.lang}`)
-            .then(data => {
-                this.setState({ cats: data.default, loading: false });
-                console.log(data.default);
-            })
-            .catch(er => {
-                this.setState({ loading: false });
-                console.error(er);
-            });
-    }
-
-    componentDidMount() {
-        this.importCategories();
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.lang !== prevProps.lang) this.importCategories();
-    }
-
-    onSelectCat = (index) => {
+    const onSelectCat = (index) => {
 
         const itemList = Array.from(document.querySelectorAll('.allcats__list--slide'))[index];
         const arrow = Array.from(document.querySelectorAll('.allcats__icon--arrow'))[index];
@@ -59,20 +35,21 @@ class AllCategories extends PureComponent {
             $(itemList).css('border', 'none');
             $(itemLink).removeClass('allcats__link--active');
         }
-    }
+    };
 
-    render() {
+    let catItems = null;
+    if (props.categories) {
         const catItemsArr = [];
-        for (let key in this.state.cats) {
+        for (let key in props.categories) {
             catItemsArr.push({
-                title: this.state.cats[key].title,
-                val: this.state.cats[key].val,
-                subItems: this.state.cats[key].subCategories,
-                icon: this.state.cats[key].icon
+                title: props.categories[key].title,
+                val: props.categories[key].val,
+                subItems: props.categories[key].subCategories,
+                icon: props.categories[key].icon
             });
         }
-
-        const catItems = catItemsArr.map((obj, i) => {
+    
+        catItems = catItemsArr.map((obj, i) => {
             const subCategories = obj.subItems.map((el, i) => (
                 <li className="allcats__item allcats__item--sub" key={i}>
                     <Link to={`/categories/${obj.val}/${el.val}?page=1`} className="allcats__link allcats__link--sub">
@@ -80,10 +57,10 @@ class AllCategories extends PureComponent {
                     </Link>
                 </li>
             ));
-
+    
             return (
                 <li className="allcats__item" key={i}>
-                    <div className="allcats__link allcats__link--main" onClick={() => this.onSelectCat(i)}>
+                    <div className="allcats__link allcats__link--main" onClick={() => onSelectCat(i)}>
                         <div className="allcats__group">
                             <utils.useCat styleClass="allcats__icon" svg={obj.icon} />
                             {obj.title}
@@ -96,27 +73,26 @@ class AllCategories extends PureComponent {
                 </li>
             );
         }); 
+    }
 
-        return (
-            <div className="allcats">
-                <div className="container">
-                    <div className="allcats__wrapper">
-                        <div className="allcats__breadcrumbs">
-                            <Link to="/" className="f__link f__link--route">Home</Link>
-                            <span className="f__link f__link--route">&bull;</span>
-                            <span className="f__link f__link--route">All categories</span>
-                        </div>
-                        {this.state.loading 
-                            ? <LoadingSub />
-                            : <ul className="allcats__list">
-                                {catItems}
-                            </ul>
-                        }
+    return (
+        <div className="allcats">
+            <div className="container">
+                <div className="allcats__wrapper">
+                    <div className="allcats__breadcrumbs">
+                        <Link to="/" className="f__link f__link--route">Home</Link>
+                        <span className="f__link f__link--route">&bull;</span>
+                        <span className="f__link f__link--route">All categories</span>
                     </div>
+                    <ul className="allcats__list">{catItems}</ul>
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
-export default AllCategories;
+const mapStateToProps = (state) => ({
+    categories: state.localization.translations.categoriesList   
+});
+
+export default connect(mapStateToProps)(AllCategories);

@@ -27,6 +27,7 @@ class Header extends Component {
         loadingVendor: false,
         data: [...this.props.data],
         vendorAds: this.props.vendorAds,
+        categoryComp: null
     }
 
     fetchPremiumAds = async () => {
@@ -54,6 +55,15 @@ class Header extends Component {
             console.log(er);
             this.setState({ loadingVendor: false, error: er });
         }
+
+        const media = window.matchMedia('(min-width: 46.875em)');
+        const watch = () => {
+            if (media.matches) this.setState({ categoryComp: asyncComponent(() => import('../components/Categories')) });
+            else this.setState({ categoryComp: asyncComponent(() => import('../components/MobileCats')) });
+        };
+
+        watch();
+        media.onchange = watch;
     }
 
     componentDidUpdate() {
@@ -80,15 +90,17 @@ class Header extends Component {
         const premiumArr = this.state.data.filter(el => el.premium === true);
         const premium = premiumArr.map((el, i) => <Card data={el} key={i} />);
 
+        const Categories = this.state.categoryComp; 
+
         return (
             <React.Fragment>
                 <Route path="/premium/:id" exact component={AsyncAdview} />
                 <Searchbar />
                 <header className="header">
                     <div className="header__main">
-                        <div className="container">
+                        <div className="container header__container">
                             <div className="header__mainwrap">
-                                <Categories {...this.props} />
+                                {Categories && <Categories {...this.props} />}
                                 {this.state.loadingVendor 
                                     ? <div className="header__list header__loading loading-center">
                                         <LoadingSub />
@@ -101,14 +113,14 @@ class Header extends Component {
                                         preloadImages
                                         updateOnImagesReady
                                         onSwiper={(sw) => this.swiper = sw}>
-                                        {vendorAds}
-                                        <button className="btn btn__rounded btn__rounded--left">
-                                            <utils.use styleClass="header__icon" svg="chevron-left" />
-                                        </button>
-                                        <button className="btn btn__rounded btn__rounded--right">
-                                            <utils.use styleClass="header__icon" svg="chevron-right" />
-                                        </button>
-                                        <div className="swiper-pagination"></div>
+                                            {vendorAds}
+                                            <button className="btn btn__rounded btn__rounded--left">
+                                                <utils.use styleClass="header__icon" svg="chevron-left" />
+                                            </button>
+                                            <button className="btn btn__rounded btn__rounded--right">
+                                                <utils.use styleClass="header__icon" svg="chevron-right" />
+                                            </button>
+                                            <div className="swiper-pagination"></div>
                                     </Swiper>
                                     }
                             </div>

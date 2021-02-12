@@ -45,27 +45,35 @@ class Main extends PureComponent {
         }
     }
 
+    importFilters =  () => {
+        import(`../store/Filters/${this.props.lang}/${this.props.match.params.category}`)
+            .then(data => {
+                this.props.onImportRequisites('filtersList', data.default);
+            })
+            .catch(er => {
+                console.error(er);
+            });
+    }
+
     async componentDidMount() {
+        this.importFilters();
         this.setPageIfNone();
         const data = await this.fetchData();
 
         const media = window.matchMedia('(max-width: 46.875em)');
-        const mediaSm = window.matchMedia('(max-width: 34.6875em)');
 
         const watch = () => {
-            if (media.matches) this.setState({ pagesInterval: 3 });
-            else this.setState({ pagesInterval: 5 });
-        };
-
-
-        const watchSm = () => {
-            if (mediaSm.matches) this.setState({ filterComponent: asyncComponent(() => import('../components/MobileFilters')) });
-            else this.setState({ filterComponent: asyncComponent(() => import('../components/Filter')) });
+            if (media.matches) this.setState({
+                pagesInterval: 3,
+                filterComponent: asyncComponent(() => import('../components/MobileFilters'))
+            });
+            else this.setState({
+                pagesInterval: 5,
+                filterComponent: asyncComponent(() => import('../components/Filter'))
+            });
         };
         
-        watchSm();
         watch();
-        mediaSm.onchange = watchSm;
         media.onchange = watch;
     }
 
@@ -74,6 +82,7 @@ class Main extends PureComponent {
             const data = await this.fetchData();
             // this.setState({ data });
         }
+        if ((this.props.match.params !== prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
     }
 
     onGoToPage = (page) => {
@@ -244,7 +253,7 @@ class Main extends PureComponent {
         return (
             <React.Fragment>
                 <Searchbar />
-                {Filter && <Filter />}
+                {Filter && <Filter {...this.props} />}
                 {view}
             </React.Fragment>
         );
@@ -252,14 +261,24 @@ class Main extends PureComponent {
 }
 
 const mapStateToProps = (state) => ({
+    lang: state.localization.lang,
     data: state.data.data,
     filters: state.data.filters,
-    favorites: state.user.favorites
+    favorites: state.user.favorites,
+    condition: state.data.filters.condition,
+    size: state.data.filters.size,
+    price: state.data.filters.price,
+    type: state.data.filters.type,
+    sort: state.data.filters.sort,
+    filtersList: state.localization.translations.filtersList
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onSetFavorites: (list) => dispatch(actions.setFavorites(list)),
-    onLoading: () => dispatch(actions.setLoading())
+    onLoading: () => dispatch(actions.setLoading()),
+    onImportRequisites: (req, list) => dispatch(actions.importRequisites(req, list)),
+    onFilterByCountersDispatch: (name, index, val) => dispatch(actions.filterByCounters(name, index, val)),
+    onFilterByOptionsDispatch: (name, val) => dispatch(actions.filterByOptions(name, val))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(Main)));

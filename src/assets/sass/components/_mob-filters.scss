@@ -1,0 +1,35 @@
+.mob-filters {
+    border-top: 1px solid rgba(#000, .07);
+    border-bottom: 1px solid rgba(#000, .07);
+
+    &__wrapper {
+        padding: 1.5rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    &__btn {
+        display: flex;
+        align-items: center;
+        font-size: 1.4rem;
+        border-radius: 3rem;
+        padding: .5rem 2rem;
+        border: 1.5px solid var(--color-primary-opaque);
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+
+    &__icon {
+        width: 2rem;
+        height: 2rem;
+        fill: vaR(--color-grey-7);
+    }
+
+    &__link {
+        font-size: 1.25rem;
+        color: var(--color-grey-dark);
+        
+        &:not(:last-child) { margin-right: 1rem; }
+    }
+}
