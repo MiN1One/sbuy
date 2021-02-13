@@ -28,7 +28,7 @@
         left: 0;  
         box-shadow: 0 -2rem 2rem rgba(#999, .07);
         border-top: 1px solid rgba(#000, .07);
-        transition: all .4s cubic-bezier(1,0,.31,1.05);
+        transition: all .45s cubic-bezier(1,0,.31,1.05) .1s;
 
         &--hide { transform: translateY(100%); }
     }
@@ -48,12 +48,13 @@
     }
 
     &__head {
-        height: 6.5rem;
-        align-items: center;
+        padding: 2.2rem 0;
+        padding-bottom: 0;
         display: flex;
-        justify-content: flex-start;
+        flex-direction: column;
+        border-bottom: 1px solid rgba(#000, .07);
 
-        @include respond(ss) { height: 5.5rem; }
+        // @include respond(ss) { height: 5.5rem; }
     }
 
     &__link {

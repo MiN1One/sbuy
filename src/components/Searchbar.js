@@ -24,13 +24,11 @@ const Searchbar = (props) => {
         if (modal) setModal(false);
     };
 
-    let regionTitle = null;
+    let regions = null, regionTitle = null;
     if (props.regions) {
-        regionTitle = props.regions.find(el => el.val === props.searchLocation).title;
-    }
 
-    let regions = null;
-    if (props.regions) {
+        regionTitle = props.regions.find(el => el.val === props.searchLocation).title;
+        
         regions = props.regions.map((el, i) => {
             if (el.title === regionTitle) {
                 return <li 
@@ -102,12 +100,11 @@ const Searchbar = (props) => {
                     </div>
                 </div>
             </div>
-            <Modal
-                show={modal}
-                click={() => setModal(false)}
-                title="Select search region">
+            {modal && 
+                <Modal click={() => setModal(false)} title="Choose your search location" icon="map-pin">
                     <ul className="modal__list">{regions}</ul>
-            </Modal>
+                </Modal>
+            }
         </React.Fragment>
     );
 };

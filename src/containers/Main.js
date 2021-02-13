@@ -149,7 +149,11 @@ class Main extends PureComponent {
         const mediaSS = window.matchMedia('(max-width: 31.25em)');
         const matchMediaPages = (arr) => {
             if (mediaSS.matches) {
-                if (this.state.currentPage !== 1 && this.state.currentPage !== 41) {
+                if (this.state.currentPage !== 1 && 
+                    this.state.currentPage !== this.state.numberOfPages && 
+                    this.state.currentPage !== this.state.numberOfPages - 1
+                   )
+                {
                     return arr.filter(el => {
                         if (el === this.state.numberOfPages || el === 1) return null;
                         else return el;
@@ -221,15 +225,19 @@ class Main extends PureComponent {
                                     <div>
                                         <span className="main__subhead d-flex mb-1">Page: </span>
                                         <div className="d-flex ac">
-                                            <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPagePrev()}>
-                                                <utils.use styleClass="icon icon--dark" svg="chevrons-left" />
-                                            </button>
+                                            {this.state.currentPage !== 1 && 
+                                                <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPagePrev()}>
+                                                    <utils.use styleClass="icon icon--dark" svg="chevrons-left" />
+                                                </button>
+                                            }
                                             <div className="main__page-list">
                                                 {pagesList}
                                             </div>
-                                            <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPageNext()}>
-                                                <utils.use styleClass="icon icon--dark" svg="chevrons-right" />
-                                            </button>
+                                            {this.state.currentPage !== this.state.numberOfPages && 
+                                                <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPageNext()}>
+                                                    <utils.use styleClass="icon icon--dark" svg="chevrons-right" />
+                                                </button>
+                                            }
                                         </div>
                                     </div>
                                     <button className="btn btn__primary btn__primary--outline main__btn" onClick={() => this.onLoadMore()}>
@@ -266,11 +274,13 @@ const mapStateToProps = (state) => ({
     filters: state.data.filters,
     favorites: state.user.favorites,
     condition: state.data.filters.condition,
+    searchLocation: state.localization.searchLocation,
     size: state.data.filters.size,
     price: state.data.filters.price,
     type: state.data.filters.type,
     sort: state.data.filters.sort,
-    filtersList: state.localization.translations.filtersList
+    filtersList: state.localization.translations.filtersList,
+    regions: state.localization.translations.regionsList
 });
 
 const mapDispatchToProps = (dispatch) => ({

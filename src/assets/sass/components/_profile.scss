@@ -1,6 +1,6 @@
 .profile {
+    @include moveDown;
     position: relative;
-    margin-top: 7rem;
     background: var(--color-white-bg-secondary);
     
     &__wrapper {

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FaRegHeart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
 import Logo from '../components/Logo';
 
-const MobileNav = () => {
+const MobileNav = (props) => {
     const [sideNav, setSideNav] = useState(false);
     const [scroll, setScroll] = useState(0);
 
@@ -22,9 +21,18 @@ const MobileNav = () => {
     }, []);
 
     const prevScroll = useRef();
+    const prevUrl = useRef();
     useEffect(() => {
         prevScroll.current = scroll;
+        prevUrl.current = props.location.pathname;
     });
+
+    const { pathname } = props.location;
+    
+    useEffect(() => {
+        if (prevUrl.current !== props.location.pathname) setSideNav(false);
+        console.log(pathname)
+    }, [pathname]);
 
     const burgerClass = ['m-nav__burger'];
     if (sideNav) {
@@ -34,6 +42,7 @@ const MobileNav = () => {
 
     const navBottomClass = ['m-nav__bottom'];
     if (prevScroll.current < scroll) navBottomClass.push('m-nav__bottom--hide');
+    
 
     return (
         <nav role="navigation" className="m-nav">
@@ -43,10 +52,11 @@ const MobileNav = () => {
                         <button className="m-nav__btn" onClick={() => setSideNav(false)}>
                             <utils.use styleClass="icon icon--dark" svg="x" />
                         </button>
+                        <Logo />
                     </div>
-                </div>
-                <div className="m-nav__body">
+                    <div className="m-nav__body">
 
+                    </div>
                 </div>
             </div>
             <div className="m-nav__top">
@@ -76,12 +86,10 @@ const MobileNav = () => {
                         </Link>
                         <Link to="/user/favorites" className="m-nav__link">
                             <utils.use styleClass="icon icon--dark" svg="mail" />
-                            {/* <FaRegHeart className="icon icon--dark" /> */}
                             Messages
                         </Link>
                         <Link to="/user/favorites" className="m-nav__link">
                             <utils.use styleClass="icon icon--dark" svg="folder" />
-                            {/* <FaRegHeart className="icon icon--dark" /> */}
                             Favorites
                         </Link>
                     </div>
@@ -91,4 +99,4 @@ const MobileNav = () => {
     );
 };
 
-export default React.memo(MobileNav);
+export default React.memo(withRouter(MobileNav));

@@ -1,5 +1,5 @@
 .allcats {
-    margin-top: 7rem;
+    @include moveDown;
     background: var(--color-white-bg-secondary);
     width: 100%;
 
@@ -58,6 +58,8 @@
             background: var(--color-primary);
             color: #fff;
         }
+
+        @include respond(sm) { padding: 1.5rem 2rem; }
     }
 
     &__link:hover &__icon,

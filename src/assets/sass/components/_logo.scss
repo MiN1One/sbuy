@@ -1,14 +1,11 @@
 .logo {
+    transform: translateY(.4rem);
 
     &__heading {
         font-size: 1.9rem;
         color: var(--color-primary) !important;
         font-weight: 700 !important;
         text-transform: uppercase;
-    }
-
-    &__link {
-
     }
     
     &__figure {

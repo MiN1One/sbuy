@@ -42,7 +42,7 @@ const MobileCats = (props) => {
                     <div className="modal__item" key={i}>
                         <Link to={`/categories/${props.categories[activeCategory].val}/${el.val}?page=1`} className="m-cats__link m-cats__link--sub">
                             {el.title}
-                            <utils.use styleClass="m-cats__i m-cats__i--sub" svg="chevron-right" />
+                            <utils.use styleClass="m-cats__i" svg="chevron-right" />
                         </Link>
                     </div>
                 );
@@ -62,12 +62,15 @@ const MobileCats = (props) => {
                         All Categories
                     </Link>
                     <ul className="m-cats__list">{catItems}</ul>
-                    <Modal 
-                        title={title}
-                        click={() => setActiveCategory(null)}
-                        show={activeCategory}>
-                            <ul className="modal__list">{subItems}</ul>
-                    </Modal>
+                    {activeCategory && 
+                        <Modal 
+                            click={() => setActiveCategory(null)}
+                            title={title}
+                            icon={props.categories[activeCategory].icon}
+                            cat>
+                                <ul className="modal__list">{subItems}</ul>
+                        </Modal>
+                    }
                 </div>
             </div>
         </div>

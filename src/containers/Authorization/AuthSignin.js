@@ -145,7 +145,7 @@ class AuthSignin extends Component {
                         </button>
                         <Link to="/password-reset" className="a__info mb-15">Reset password</Link>
                         <p className="a__info">Do not have an account? <Link to="/signup" className="a__info--high">Sign up</Link></p>
-                </form>
+                    </form>
                 </div>
             </div>
         )

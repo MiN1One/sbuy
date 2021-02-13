@@ -27,7 +27,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -56,7 +55,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -85,7 +83,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -114,7 +111,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -143,7 +139,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -172,7 +167,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -201,7 +195,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -230,7 +223,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -259,7 +251,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -288,7 +279,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -317,7 +307,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -346,7 +335,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -375,7 +363,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -404,7 +391,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -433,7 +419,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -462,7 +447,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -491,7 +475,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },
@@ -520,7 +503,6 @@ const filter = {
                             { val: 'new', title: 'New' }, 
                             { val: 'all', title: 'All' }
                         ],
-                        method: 'onFilterByCondition'
                     }
                 ]
             },

@@ -1,13 +1,11 @@
-import React, { PureComponent, Component } from 'react';
+import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import Dropdown from './Dropdown';
 import * as actions from '../store/actions';
 import * as utils from '../utilities/utilities';
 import axios from 'axios';
-import Searchbar from './Searchbar';
 import LoadingSub from '../UI/LoadingSub';
 
 class Filter extends PureComponent {
@@ -57,83 +55,80 @@ class Filter extends PureComponent {
             subCatTitle = null,
             catTitle = null;
         
-        // if (this.props.filters) {
+        const filter = this.props.filtersList[category];
+        
+        if (filter) {
 
-            const filter = this.props.filtersList[category];
-            
-            if (filter) {
-    
-                subCatItems = filter.items[subcategory].sub.map((obj, index) => {
-    
-                    const innerItems = obj.items.map((el, i) => {
-                        return (
-                            <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions(obj.val, el.val)}>{el.title}</div>
-                        );
-                    });
-    
-                    const defaultTitle = obj.items.find(el => el.val === this.props[obj.val]).title;
-    
+            subCatItems = filter.items[subcategory].sub.map((obj, index) => {
+
+                const innerItems = obj.items.map((el, i) => {
                     return (
-                        <li className="f__item" key={index}>
-                            <p className="f__title">{obj.title}</p>
-                            <div>
-                                <div className="f__input f__input--d input" tabIndex="0">
-                                    {defaultTitle}
-                                    <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-down" />
-                                </div>
-                                <Dropdown class="dropdown--full dropdown--close dropdown--sm-s f__dropdown">
-                                    {innerItems}
-                                </Dropdown>
-                            </div>
-                        </li>
+                        <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions(obj.val, el.val)}>{el.title}</div>
                     );
                 });
-            
-                counters = filter.items[subcategory].counters.map((el, i) => {
-                    return (
-                        <li className="f__item" key={i}>
-                            <p className="f__title">{el.title}</p>
-                            <div className="f__group">
-                                <label className="f__label">
-                                    <input 
-                                        type="text" 
-                                        className="f__input f__input--small input" 
-                                        placeholder="from" 
-                                        onChange={(e) => this.onFilterByCounter(el.val, el.start, e.target.value)} 
-                                        value={this.props[el.val][el.start]} />
-                                    <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
-                                        <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
-                                    </button>
-                                </label>
-                                <label className="f__label">
-                                    <input 
-                                        type="text" 
-                                        className="f__input f__input--small f__input--border input" 
-                                        placeholder="to" 
-                                        onChange={(e) => this.onFilterByCounter(el.val, el.end, e.target.value)} 
-                                        value={this.props[el.val][el.end]} />
-                                    <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
-                                        <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
-                                    </button>
-                                </label>
-                            </div>
-                        </li>
-                    )
-                });
-            
-                catTitle = filter.title;
-                subCatTitle = filter.items[subcategory].title;
-    
-                sortItems = this.state.sort.map((el, i) => <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
-                
-            } else if (this.state.loading) {
+
+                const defaultTitle = obj.items.find(el => el.val === this.props[obj.val]).title;
+
                 return (
-                    <div className="loading-center w-100 f__loading">
-                        <LoadingSub />
-                    </div>
+                    <li className="f__item" key={index}>
+                        <p className="f__title">{obj.title}</p>
+                        <div>
+                            <div className="f__input f__input--d input" tabIndex="0">
+                                {defaultTitle}
+                                <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-down" />
+                            </div>
+                            <Dropdown class="dropdown--full dropdown--close dropdown--sm-s f__dropdown">
+                                {innerItems}
+                            </Dropdown>
+                        </div>
+                    </li>
                 );
-            }
-        // }
+            });
+        
+            counters = filter.items[subcategory].counters.map((el, i) => {
+                return (
+                    <li className="f__item" key={i}>
+                        <p className="f__title">{el.title}</p>
+                        <div className="f__group">
+                            <label className="f__label">
+                                <input 
+                                    type="text" 
+                                    className="f__input f__input--small input" 
+                                    placeholder="from" 
+                                    onChange={(e) => this.onFilterByCounter(el.val, el.start, e.target.value)} 
+                                    value={this.props[el.val][el.start]} />
+                                <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.start, '')}>
+                                    <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
+                                </button>
+                            </label>
+                            <label className="f__label">
+                                <input 
+                                    type="text" 
+                                    className="f__input f__input--small f__input--border input" 
+                                    placeholder="to" 
+                                    onChange={(e) => this.onFilterByCounter(el.val, el.end, e.target.value)} 
+                                    value={this.props[el.val][el.end]} />
+                                <button className="f__btn f__btn--abs" onClick={() => this.onFilterByCounter(el.val, el.end, '')}>
+                                    <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
+                                </button>
+                            </label>
+                        </div>
+                    </li>
+                )
+            });
+        
+            catTitle = filter.title;
+            subCatTitle = filter.items[subcategory].title;
+
+            sortItems = this.state.sort.map((el, i) => <div className="f__dropitem" key={i} onClick={() => this.onFilterByOptions('sort', el.val)}>{el.title}</div>);
+            
+        } else if (this.state.loading) {
+            return (
+                <div className="loading-center w-100 f__loading">
+                    <LoadingSub />
+                </div>
+            );
+        }
 
         return (
             <React.Fragment>

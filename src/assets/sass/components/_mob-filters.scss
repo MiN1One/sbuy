@@ -12,24 +12,69 @@
     &__btn {
         display: flex;
         align-items: center;
-        font-size: 1.4rem;
+        font-size: 1.35rem;
         border-radius: 3rem;
-        padding: .5rem 2rem;
+        padding: .5rem 1.3rem;
         border: 1.5px solid var(--color-primary-opaque);
         font-weight: 500;
         text-transform: uppercase;
-    }
-
-    &__icon {
-        width: 2rem;
-        height: 2rem;
-        fill: vaR(--color-grey-7);
+        margin-left: .7rem;
     }
 
     &__link {
-        font-size: 1.25rem;
+        font-size: 1.4rem;
         color: var(--color-grey-dark);
         
         &:not(:last-child) { margin-right: 1rem; }
+    }
+
+    &__placeholders {
+        width: 30rem;
+        overflow-x: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    &__title {
+        font-size: 1.25rem;
+        color: var(--color-black);
+        margin-bottom: .35rem;
+    }
+
+    &__i {
+
+        &--lg {
+            width: 1.7rem;
+            height: 1.7rem;
+            fill: vaR(--color-grey-7);
+        }
+
+        &--sm {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: var(--color-grey-dark);
+        }
+    }
+
+    &__placeholder {
+        padding: .7rem 1rem;
+        font-size: 1.35rem;
+        background: var(--color-white-bg-secondary);
+        color: var(--color-grey-dark);
+        border-radius: .7rem;
+        text-transform: capitalize;
+        display: flex;
+        justify-content: center;
+        width: max-content;
+    }
+    
+    &__group {
+        &:not(:last-child) { margin-right: 1.3rem; }
+    }
+
+    &__breadcrumbs {
+        background: var(--color-light-7);
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(#000, .07);
     }
 }
