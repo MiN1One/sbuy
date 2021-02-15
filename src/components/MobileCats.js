@@ -68,7 +68,9 @@ const MobileCats = (props) => {
                             title={title}
                             icon={props.categories[activeCategory].icon}
                             cat>
-                                <ul className="modal__list">{subItems}</ul>
+                                <div className="modal__body">
+                                    <ul className="modal__list">{subItems}</ul>
+                                </div>
                         </Modal>
                     }
                 </div>

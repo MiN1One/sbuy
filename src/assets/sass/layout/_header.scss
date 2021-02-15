@@ -2,6 +2,8 @@
     position: relative;
     z-index: 1;
     background: var(--color-white-bg);
+
+    @include respond(sm) { z-index: 50; }
     
     &__main {
         width: 100%;

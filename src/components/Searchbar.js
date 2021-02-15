@@ -101,8 +101,10 @@ const Searchbar = (props) => {
                 </div>
             </div>
             {modal && 
-                <Modal click={() => setModal(false)} title="Choose your search location" icon="map-pin">
-                    <ul className="modal__list">{regions}</ul>
+                <Modal click={() => setModal(false)} title="Search location" icon="map-pin">
+                    <div className="modal__body">
+                        <ul className="modal__list">{regions}</ul>
+                    </div>
                 </Modal>
             }
         </React.Fragment>

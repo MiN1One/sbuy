@@ -78,11 +78,11 @@ class Main extends PureComponent {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if (prevProps.filters !== this.props.filters) {
+        if (!utils.objectEqual(prevProps.filters, this.props.filters)) {
             const data = await this.fetchData();
             // this.setState({ data });
         }
-        if ((this.props.match.params !== prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
+        if (!utils.objectEqual(this.props.match.params, prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
     }
 
     onGoToPage = (page) => {

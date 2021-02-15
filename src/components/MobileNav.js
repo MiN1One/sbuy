@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
 import Logo from '../components/Logo';
+import Language from './Language';
 
 const MobileNav = (props) => {
     const [sideNav, setSideNav] = useState(false);
@@ -43,6 +44,14 @@ const MobileNav = (props) => {
     const navBottomClass = ['m-nav__bottom'];
     if (prevScroll.current < scroll) navBottomClass.push('m-nav__bottom--hide');
     
+    let view = (
+        <React.Fragment>
+            <Link to="/signin" className="m-nav__link">Sign in</Link>
+        </React.Fragment>
+    );
+    if (props.token) {
+
+    }
 
     return (
         <nav role="navigation" className="m-nav">
@@ -55,7 +64,17 @@ const MobileNav = (props) => {
                         <Logo />
                     </div>
                     <div className="m-nav__body">
-
+                        
+                    </div>
+                    <div className="m-nav__footer">
+                        <div className="container">
+                            <div className="d-flex ac jc">
+                                {!props.token 
+                                    ? <button className="modal__btn">Sign in</button> 
+                                    : <button className="modal__btn">Advert</button>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,10 +91,16 @@ const MobileNav = (props) => {
             <div className={navBottomClass.join(' ')}>
                 <div className="container h-100">
                     <div className="m-nav__wrapper">
-                        <Link to="/user/profile" className="m-nav__link">
-                            <utils.use styleClass="icon icon--dark" svg="user" />
-                            My profile
-                        </Link>
+                        {props.token 
+                            ? <Link to="/user/profile" className="m-nav__link">
+                                <utils.use styleClass="icon icon--dark" svg="user" />
+                                My profile
+                            </Link>
+                            : <Link to="/signin" className="m-nav__link">
+                                <utils.use styleClass="icon icon--dark" svg="user" />
+                                Sign in
+                            </Link>
+                        }
                         <button className="m-nav__link">
                             <utils.use styleClass="icon icon--dark" svg="search" />
                             Search

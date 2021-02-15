@@ -148,7 +148,7 @@ class Navigation extends PureComponent {
                 {this.state.showCat &&
                     <div className="cat__container">
                         <Backdrop z={96} click={this.onCloseCategories} />
-                        <Categories class="cat--fix" clickItem={this.onCloseCategories} />
+                        <Categories class="cat--fix" clickItem={this.onCloseCategories} {...this.props} />
                     </div>
                 }
                 <header className="nav">
@@ -204,7 +204,8 @@ class Navigation extends PureComponent {
 const mapStateToProps = (state) => ({
     lang: state.localization.lang,
     favorites: state.user.favorites,
-    token: state.user.token
+    token: state.user.token,
+    categories: state.localization.translations.categoriesList
 });
 
 const mapDispatchToProps = (dispatch) => ({

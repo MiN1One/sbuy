@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
@@ -8,16 +8,51 @@ import Dropdown from '../components/Dropdown';
 const MobileFilters = (props) => {
     const [modal, setModal] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);
+    const [tempFilterMain, setTempFilterMain] = useState({});
+    const [tempFilter, setTempFilter] = useState({});
 
-    const onFilterByCounter = (param, subParam, val) => {
-        if (utils.isNum(parseInt(val)) || val === '') {
-            props.onFilterByCountersDispatch(param, subParam, val);
-        }
-    };
+    useEffect(() => {
+        setTempFilter({ ...props.filters });
+        setTempFilterMain({ ...props.filters });
+    }, []);
 
     const onFilterByOptions = (param, val) => {
         if (props[param] !== val) props.onFilterByOptionsDispatch(param, val);
-        console.log(props[param]);
+    };
+
+    const onSetTempCounter = (param, subParam, val) => {
+        if (utils.isNum(parseInt(val)) || val === '') {
+            const newArr = tempFilterMain[param].map((el, i) => {
+                if (i === subParam) return el = val;
+                else return el;
+            });
+
+            setTempFilterMain({
+                ...tempFilterMain,
+                [param]: newArr
+            });
+        }
+    };
+
+    const onDiscardChanges = () => {
+        setTempFilter({ ...tempFilterMain });
+        setActiveFilter(null);
+    };
+
+    const onApplyFilterChange = () => {
+        setTempFilterMain(tempFilter);
+        setActiveFilter(null);
+    };  
+    
+    const onApplyOverallChanges = () => {
+        for (let key in tempFilterMain) onFilterByOptions(key, tempFilter[key]);
+        setModal(false);
+    };
+
+    const onDiscardOverallChanges = () => {
+        setTempFilterMain({ ...props.filters });
+        setTempFilter({ ...props.filters });
+        setModal(false);
     };
 
     let options = null,
@@ -36,7 +71,7 @@ const MobileFilters = (props) => {
     if (filter) {
         options = filter.items[subcategory].sub.map((obj, index) => {
     
-            const defaultTitle = obj.items.find(el => el.val === props[obj.val]).title;
+            const defaultTitle = tempFilterMain[obj.val] && obj.items.find(el => el.val === tempFilterMain[obj.val]).title;
 
             return (
                 <div className="f__item m-0 mb-2" key={index} onClick={() => setActiveFilter(obj.val)}>
@@ -46,10 +81,6 @@ const MobileFilters = (props) => {
                             {defaultTitle}
                             <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-right" />
                         </div>
-                        {/* <Dropdown class="dropdown--full dropdown--close dropdown--sm-s f__dropdown">
-                            {innerItems}
-                        </Dropdown> */}
-                        
                     </div>
                 </div>
             );
@@ -68,9 +99,9 @@ const MobileFilters = (props) => {
                                 type="text" 
                                 className="f__input f__input--small input" 
                                 placeholder="from" 
-                                onChange={(e) => onFilterByCounter(el.val, el.start, e.target.value)} 
-                                value={props[el.val][el.start]} />
-                            <button className="f__btn f__btn--abs" onClick={() => onFilterByCounter(el.val, el.start, '')}>
+                                onChange={(e) => onSetTempCounter(el.val, el.start, e.target.value)} 
+                                value={tempFilterMain[el.val] && tempFilterMain[el.val][el.start]} />
+                            <button className="f__btn f__btn--abs" onClick={() => onSetTempCounter(el.val, el.start, '')}>
                                 <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
                             </button>
                         </label>
@@ -79,9 +110,9 @@ const MobileFilters = (props) => {
                                 type="text" 
                                 className="f__input f__input--small f__input--border input" 
                                 placeholder="to" 
-                                onChange={(e) => onFilterByCounter(el.val, el.end, e.target.value)} 
-                                value={props[el.val][el.end]} />
-                            <button className="f__btn f__btn--abs" onClick={() => onFilterByCounter(el.val, el.end, '')}>
+                                onChange={(e) => onSetTempCounter(el.val, el.end, e.target.value)} 
+                                value={tempFilterMain[el.val] && tempFilterMain[el.val][el.end]} />
+                            <button className="f__btn f__btn--abs" onClick={() => onSetTempCounter(el.val, el.end, '')}>
                                 <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
                             </button>
                         </label>
@@ -97,17 +128,24 @@ const MobileFilters = (props) => {
             optionsList = selectedFilter.items.map((el, i) => {
                 return (
                     <div 
-                        className={`modal__item${props.filters[activeFilter] === el.val ? ' modal__item--active' : ''}`}
+                        className={`modal__item${tempFilter[activeFilter] === el.val ? ' modal__item--active' : ''}`}
                         key={i} 
-                        onClick={() => onFilterByOptions(activeFilter, el.val)}>
-                            {el.title}
+                        onClick={() => 
+                            setTempFilter({
+                                ...tempFilter, 
+                                [activeFilter]: el.val
+                            })}>
+                            <div className="d-flex ac">
+                                {tempFilter[activeFilter] === el.val && <utils.use styleClass="icon--7 mr-5" svg="check" />}
+                                {el.title}
+                            </div>
                     </div>
                 );
             });
         }
 
         filterPlaceholders = filter.items[subcategory].sub.map((obj, i) => {
-            const titleVal = obj.items.find(el => props.filters[obj.val] === el.val).title;
+            const titleVal = tempFilterMain[obj.val] && obj.items.find(el => tempFilterMain[obj.val] === el.val).title;
             return (
                 <div className="d-flex fdc mob-filters__group" key={i}>
                     <span className="mob-filters__title">{obj.title}:</span>
@@ -154,19 +192,39 @@ const MobileFilters = (props) => {
             {modal && 
                 <Modal 
                     title="Filters" 
-                    click={() => setModal(false)} 
-                    icon="filter"
-                    footer>
-                        {options}
-                        {counters}
+                    click={onDiscardOverallChanges} 
+                    icon="filter">
+                        <div className="modal__body">
+                            {options}
+                            {counters}
+                        </div>
+                        <div className="modal__footer">
+                            <div className="container">
+                                <div className="d-flex jc ac">
+                                    <button className="modal__btn" onClick={() => onApplyOverallChanges()}>
+                                        Show results
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                 </Modal>
             }
             {activeFilter && 
                 <Modal 
                     title={selectedFilter.title} 
-                    click={() => setActiveFilter(null)}
-                    footer>
-                        {optionsList}
+                    click={onDiscardChanges}>
+                        <div className="modal__body">
+                            {optionsList}
+                        </div>
+                        <div className="modal__footer">
+                            <div className="container">
+                                <div className="d-flex ac jc">
+                                    <button className="modal__btn" onClick={() => onApplyFilterChange()}>
+                                        Apply
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                 </Modal>
             }
         </React.Fragment>
