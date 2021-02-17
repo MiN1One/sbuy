@@ -2,9 +2,14 @@
     @include moveDown;
     position: relative;
     background: var(--color-white-bg-secondary);
+
+    @include respond(sm) { background: #fff; }
     
     &__wrapper {
         padding: 4rem 0;
+
+        @include respond(mid) { padding: 2rem 0; }
+        @include respond(sm) { padding: 0; }
     }
 
     &__head {
@@ -29,6 +34,11 @@
         overflow: hidden;
         // border-radius: .7rem;
         flex-direction: column;
+
+        @include respond(sm) {
+            border: none;
+            box-shadow: none;
+        }
     }
 
     &__panel {
@@ -36,14 +46,23 @@
         position: sticky;
         top: 9rem;
         z-index: 1;
+
+        @include respond(mid) { margin-right: 1rem; }
+        @include respond(sm) { display: none; }
     }
     
     &__header {
         width: calc(100% - 25rem);
         border-top: none;
+
+        @include respond(mid) { width: calc(100% - 22rem); }
+        @include respond(sm) { width: 100%; }
     }
     
-    &__list { width: 25rem; }
+    &__list {
+        width: 25rem;
+        @include respond(mid) { width: 22rem; }
+    }
 
     &__item {
         
@@ -145,7 +164,7 @@
                 border-color: var(--color-red);
             }
 
-            .icon { fill: var(--color-red-opaque); }
+            .profile__icon { fill: var(--color-red); }
         }
         
         &--toggler {
@@ -174,7 +193,7 @@
                 border-color: var(--color-primary) !important;
             }
 
-            .icon { fill: var(--color-primary-opaque); }
+            .profile__icon { fill: var(--color-primary); }
         }
         
         &--img {
@@ -238,6 +257,11 @@
         padding: 2rem 3.5rem;
         border-bottom: 1px solid rgba(#000, .07);
         border-top: 1px solid rgba(#000, .07);
+
+        @include respond(sm) {
+            border-top: none;
+            padding: 2rem 0;
+        }
     }
 
     &__heading {
@@ -252,6 +276,8 @@
         justify-content: space-between;
 
         &--mid { border-top: 1px solid rgba(#000, .07); }
+
+        @include respond(sm) { padding: 2rem 0; }
     }
 
     &__figure {
@@ -264,6 +290,11 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        @include respond(mid) {
+            width: 10rem;
+            height: 10rem;
+        }
     }
 
     &__img {
@@ -284,11 +315,17 @@
         &--name {
             font-size: 3rem;
             color: initial;
+
+            @include respond(sm) { font-size: 1.7rem; }
         }
 
         &--error { color: var(--color-red); }
 
-        &:not(:last-child) { margin-bottom: 2.3rem; } 
+        &:not(:last-child) {
+            margin-bottom: 2.3rem;
+
+            @include respond(sm) { margin-bottom: 1.5rem; }
+        } 
     }
 
     &__input {
@@ -311,7 +348,8 @@
             &:focus {
                 border-radius: .7rem .7rem 0 0; 
                 width: 40rem;
-                // border-bottom-color: transparent;
+                
+                @include respond(xs) { width: 32rem; }
             }
         }
     }
@@ -322,6 +360,8 @@
         margin-bottom: .5rem;
         font-weight: 500;
         margin-bottom: 1rem;
+
+        @include respond(sm) { margin-bottom: .5rem; }
     }
 
     &__hint {
@@ -335,6 +375,11 @@
         border-top: 1px solid rgba(#000, .07);
         background-color: var(--color-light-7);
         padding: 2rem 4rem;
+
+        @include respond(sm) {
+            padding: 2rem 0;
+            background: #fff;
+        }
     }
 
     &__extra {
@@ -368,8 +413,13 @@
         transition: all .2s ease;
         display: flex;
         border-bottom: 1px solid rgba(#000, .045);
+        position: relative;
+        overflow-x: auto;
 
         &:not(:last-child) { border-bottom: 1px solid rgba(#000, .045); }
+
+        @include respond(mid) { height: 15rem; }
+        @include respond(sm) { padding: 2rem 0; }
     }
     
     &__ad-figure {
@@ -379,6 +429,8 @@
         margin-right: 2rem;
         position: relative;
         border-radius: .7rem;
+
+        @include respond(mid) { width: 14rem; }
     }
 
     &__ad-left {
@@ -412,6 +464,8 @@
             width: max-content;
             color: var(--color-black);
         }
+
+        @include respond(sm) { font-size: 1.85rem; }
     }
 
     &__ad-group {
@@ -423,16 +477,23 @@
             padding: .5rem 2rem;
             border-radius: 2rem;
             width: max-content;
+            
+            @include respond(mid) { display: none; }
         }
     }
 
-    &__ad-details {
+    &__ad-detail {
         display: flex;
         align-items: center;
         font-size: 1.3rem;
         color: var(--color-grey-dark);
 
         &:not(:last-child) { margin-right: 1rem; }
+        
+        @include respond(mid) {
+            width: 50%;
+            margin: 0 !important;
+        }
     }
 
     &__ad-separator {
@@ -440,9 +501,21 @@
         font-size: 1.45rem;
         font-weight: 300;
         color: var(--color-grey-7);
+
+        @include respond(mid) { display: none; }
     }
 
-    &__ad-badge { box-shadow: none; }
+    &__ad-badge {
+        box-shadow: none;
+        text-transform: uppercase;
+
+        @include respond(xs) {
+            position: absolute;
+            top: 2.5rem;
+            left: 9.5rem;
+            z-index: 1;
+        }
+    }
 
     &__fav-tag {
         font-size: 1.15rem;
@@ -465,6 +538,8 @@
         background: #fff;
         border-top: 1px solid rgba(#000, .1);
         height: 55rem;
+
+        @include respond(sm) { border-top: none !important; }
     }
 
     &__empty {
@@ -474,6 +549,7 @@
         height: 50rem;
         position: relative;
         color: var(--color-grey-7);
+        text-align: center;
 
         &--err { border-top: 1px solid rgba(#000, .1); }
 
@@ -506,6 +582,14 @@
         justify-content: flex-start;
         align-items: flex-start;
         padding: 3rem 4rem;
+
+        @include respond(sm) { padding: 2rem 0; }
+    }
+
+    &__btn-title {
+        margin-left: 1rem;
+
+        @include respond(mid) { display: none; }
     }
 
     &__messages-text {
@@ -521,6 +605,8 @@
         top: 50%;
         right: 4rem;
         transform: translateY(-50%);
+
+        @include respond(sm) { right: 0 }
     }
 
     &__chat {

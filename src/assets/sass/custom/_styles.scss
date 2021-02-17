@@ -102,6 +102,7 @@
     user-select: none;
     background: var(--color-primary);
     transition: all .3s ease;
+    text-transform: uppercase;
     background: linear-gradient(120deg, var(--color-primary) 0%, var(--color-tertiary) 47%);
     
     &__bull {

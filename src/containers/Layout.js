@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 import Footer from './Footer';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
-import Navigation from './Navigation';
-
-const AsyncNavigation = asyncComponent(() => import('./Navigation'));
-const AsyncMobileNav = asyncComponent(() => import('../components/MobileNav'));
 
 const Layout = (props) => {
     const [nav, setNav] = useState(null);
@@ -34,11 +31,15 @@ const Layout = (props) => {
 
     return (
         <React.Fragment>
-            {Nav && <Nav />}
+            {Nav && <Nav {...props} />}
                 {props.children}
             {(!isHome && !media.matches) ? <Footer /> : null}
         </React.Fragment>
     );
 };
 
-export default React.memo(Layout);
+const mapStateToProps = (state) => ({
+    token: state.user.token
+});
+
+export default connect(mapStateToProps)(React.memo(Layout));

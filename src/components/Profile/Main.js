@@ -29,6 +29,15 @@ export class User extends PureComponent {
         this.source = axios.CancelToken.source();
     }
 
+    onInputData = (val, name) => {
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                [name]: val
+            }
+        }));
+    }
+
     fetchData = () => {
         this.setState({ loading: true });
         axios.get('https://jsonplaceholder.typicode.com/todos', { cancelToken: this.source.token })
@@ -154,7 +163,7 @@ export class User extends PureComponent {
                             type="text" 
                             placeholder="Your name" 
                             value={this.state.data.name} 
-                            onChange={(e) => this.setState({ name: e.target.value })} />
+                            onChange={(e) => this.onInputData(e.target.value, 'name')} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Email</label>
@@ -163,7 +172,7 @@ export class User extends PureComponent {
                             type="email" 
                             placeholder="Your email" 
                             value={this.state.data.email} 
-                            onChange={(e) => this.setState({ email: e.target.value })} />
+                            onChange={(e) => this.onInputData(e.target.value, 'email')} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Company</label>
@@ -172,7 +181,7 @@ export class User extends PureComponent {
                             type="text" 
                             placeholder="Company name" 
                             value={this.state.data.company} 
-                            onChange={(e) => this.setState({ company: e.target.value })} />
+                            onChange={(e) => this.onInputData(e.target.value, 'company')} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Phone number</label>
@@ -182,8 +191,11 @@ export class User extends PureComponent {
                             placeholder="Your number" 
                             value={this.state.data.number} 
                             onChange={(e) => {
-                                if (utils.isNum(parseInt(e.target.value)) || e.target.value === '')
-                                    this.setState({ number: e.target.value });
+                                if (
+                                    utils.isNum(parseInt(e.target.value)) || 
+                                    e.target.value === '' || 
+                                    e.target.value === '+'
+                                    ) { this.onInputData(e.target.value, 'number'); }
                                 }} />
                     </div>
                 </div>
@@ -202,7 +214,7 @@ export class User extends PureComponent {
                 </div>
                 <div className="profile__content">
                     {view}
-                    <div>
+                    <div className="d-flex ac fdc">
                         <div className="pos-rel d-inline mb-1">
                             <figure className="profile__figure" ref={this.figureRef}>
                                 <img className="profile__img" alt="user" src={this.state.data.image} />
@@ -256,6 +268,15 @@ export class Company extends PureComponent {
 
         this.figureRef = React.createRef();
         this.imgRef = React.createRef();
+    }
+
+    onInputData = (val, name) => {
+        this.setState(prevState => ({
+            data: {
+                ...prevState.data,
+                [name]: val
+            }
+        }));
     }
     
     fetchData = () => {
@@ -374,7 +395,7 @@ export class Company extends PureComponent {
                             type="text" 
                             placeholder="Company name" 
                             value={this.state.data.name} 
-                            onChange={(e) => this.setState({ name: e.target.value })} />
+                            onChange={(e) => this.onInputData(e.target.value, 'name')} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Email</label>
@@ -383,15 +404,18 @@ export class Company extends PureComponent {
                             type="email" 
                             placeholder="Company email" 
                             value={this.state.data.email} 
-                            onChange={(e) => this.setState({ email: e.target.value })} />
+                            onChange={(e) => this.onInputData(e.target.value, 'email')} />
                     </div>
                     <div className="profile__text">
                         <label className="profile__title">Contact number</label>
                         <input className="profile__input input" type="text" placeholder="Company number" 
                             value={this.state.data.number} 
                             onChange={(e) => {
-                                if (utils.isNum(parseInt(e.target.value)) || e.target.value === '')
-                                    this.setState({ number: e.target.value });
+                                if (
+                                    utils.isNum(parseInt(e.target.value)) || 
+                                    e.target.value === '' || 
+                                    e.target.value === '+'
+                                    ) { this.onInputData(e.target.value, 'number'); }
                                 }} />
                     </div>
                 </div>

@@ -71,7 +71,7 @@ class Filter extends PureComponent {
 
                 return (
                     <li className="f__item" key={index}>
-                        <p className="f__title">{obj.title}</p>
+                        <p className="heading__sm">{obj.title}</p>
                         <div>
                             <div className="f__input f__input--d input" tabIndex="0">
                                 {defaultTitle}
@@ -88,7 +88,7 @@ class Filter extends PureComponent {
             counters = filter.items[subcategory].counters.map((el, i) => {
                 return (
                     <li className="f__item" key={i}>
-                        <p className="f__title">{el.title}</p>
+                        <p className="heading__sm">{el.title}</p>
                         <div className="f__group">
                             <label className="f__label">
                                 <input 
@@ -148,7 +148,7 @@ class Filter extends PureComponent {
                                 {counters}
                                 {subCatItems}
                                 <li className="f__item">
-                                    <p className="f__title">Sort by</p>
+                                    <p className="heading__sm">Sort by</p>
                                     <div>
                                         <div className="f__input f__input--d input" tabIndex="0">
                                             {sortTitle}

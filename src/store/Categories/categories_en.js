@@ -110,7 +110,7 @@ const categories = {
             { title: 'Knitting', val: 'knitting' }, 
             { title: 'Lost and found', val: 'lost_and_found' }, 
             { title: 'Other animals', val: 'other_animals' }, 
-             { title: 'Animals for free', val: 'animals_for_free'}
+            { title: 'Animals for free', val: 'animals_for_free'}
         ],
         icon: 'paw',
     },

@@ -77,4 +77,22 @@
         padding: 1rem 0;
         border-bottom: 1px solid rgba(#000, .07);
     }
+
+    &__input {
+        width: 100%;
+        border-radius: .7rem;
+        padding: 1.5rem 2rem;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    &__label { width: 100%; }
+
+    &__label:first-child &__input { border-radius: .7rem 0 0 .7rem; }
+    &__label:last-child &__input {
+        border-radius: 0 .7rem .7rem 0;
+        border-left: 1px solid rgba(#000, .07);
+    } 
 }

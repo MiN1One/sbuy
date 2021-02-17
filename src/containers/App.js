@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Main from './Main';
 import Header from './Header';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
 import LoadingScreen from '../UI/LoadingScreen';
@@ -17,6 +16,7 @@ const AsyncPost = asyncComponent(() => import('./Post'));
 const AsyncProfile = asyncComponent(() => import('../components/Profile/Profile'));
 const AsyncAllCategories = asyncComponent(() => import('../components/AllCategories'));
 const AsyncPromote = asyncComponent(() => import('../components/Promote'));
+const AsyncMain = asyncComponent(() => import('../containers/Main'));
 
 function App(props) {
   const { onImportRequisites } = props;
@@ -49,7 +49,7 @@ function App(props) {
 
   const main = (
     <Layout>
-      <Main />
+      <AsyncMain />
     </Layout>
   );
 

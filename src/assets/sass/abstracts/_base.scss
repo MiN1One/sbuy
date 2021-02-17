@@ -62,3 +62,5 @@ textarea {
 }
 
 div:focus { outline: none; }
+
+[tabindex="0"] { cursor: pointer; }

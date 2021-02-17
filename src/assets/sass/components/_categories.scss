@@ -62,7 +62,6 @@
             &--select {
                 height: 60rem;
             }
-            
         }
         
         .cat__item {
@@ -102,12 +101,15 @@
         justify-content: space-between;
         height: 5rem;
         padding: 0 1.5rem;
+
+        @include respond(mid) { padding: 0 .7rem; }
     }
 
     &__btn {
         align-items: center;
         font-size: 1.5rem;
         font-weight: 300;
+        width: max-content;
 
         &--sub {
             padding: .7rem;
@@ -187,8 +189,6 @@
         }
 
         &--cat {
-            // width: 2.7rem;
-            // height: 2.7rem;
             width: 2.4rem;
             height: 2.4rem;
             margin-right: 2rem;
@@ -208,6 +208,8 @@
         padding: 0 2rem;
         position: relative;
         transition: var(--cat-item-transition-real);
+
+        @include respond(mid) { padding: 0 1rem; }
 
         &:hover { color: #fff; }
 

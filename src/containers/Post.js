@@ -4,11 +4,12 @@ import imageCompression from 'browser-image-compression';
 import { withRouter } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
-import Backdrop from '../UI/Backdrop';
-import Dropdown from "../components/Dropdown";
-import LoadingScreen from "../UI/LoadingScreen";
+import Dropdown from '../components/Dropdown';
+import LoadingScreen from '../UI/LoadingScreen';
+import CategoriesFull from '../components/CategoriesFull';
+import asyncComponent from "../hoc/asyncComponent/asyncComponent";
 
-class Publish extends PureComponent {
+class Post extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -46,9 +47,9 @@ class Publish extends PureComponent {
             activeCat: null,
             error: null,
 
-            categories: {},
             filterObj: null,
-            loading: false
+            loading: false,
+            mobileCatComponent: null
         };
 
         this.fileRef = React.createRef();
@@ -57,22 +58,20 @@ class Publish extends PureComponent {
         if (!this.props.token) this.props.history.push('/signin');
     }
 
-    importCategories = () => {
-        import(`../store/Categories/categories_${this.props.lang}`)
-            .then(res => {
-                this.setState({ categories: res.default });
-            })
-            .catch(er => console.log(er));
-    }
-
     componentDidMount() {
-        this.importCategories();
+        const media = window.matchMedia('(max-width: 46.875em)');
+
+        const watch = () => {
+            if (media.matches) this.setState({ mobileCatComponent: asyncComponent(() => import('../components/MobileCats')) });
+        };
+
+        watch();
+        media.onchange = watch;
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.activeAfter !== prevState.activeAfter) {
-            const category = this.state.categories[this.state.activeAfter].val;
-            console.log(category);
+        if (this.state.activeAfter !== prevState.activeAfter && this.props.categories) {
+            const category = this.props.categories[this.state.activeAfter].val;
 
             this.setState({ activeSubCat: null }, () => {
                 console.log('hey')
@@ -87,7 +86,6 @@ class Publish extends PureComponent {
                     });
             });
         }
-        if (this.props.lang !== prevProps.lang) this.importCategories();
         if (!this.props.token) this.props.history.push('/signin');
     }
 
@@ -114,7 +112,6 @@ class Publish extends PureComponent {
 
     onInputDescription = (e) => this.setState({ description: e.target.value });
     onInputTitle = (e) => this.setState({ mainTitle: e.target.value });
-
 
     onChangeCurrency = (c) => this.setState({ currency: c });
     onChangeBusinessType = (type) => this.setState({ business_type: type });
@@ -226,7 +223,7 @@ class Publish extends PureComponent {
         //      return null;
         // });
         const price = this.priceInputRef.current.value;
-        let category = this.state.categories[this.state.activeAfter];
+        let category = this.props.categories[this.state.activeAfter];
         let subcategory = this.state.activeSubCat;
         
         if ((this.state.mainTitle && this.state.description && this.state.name) !== '' && (category.val && subcategory)) {
@@ -303,52 +300,9 @@ class Publish extends PureComponent {
 
         }
 
-        const catItemsArr = [];
-        let subItems = null, catItems = null;
-        if (this.state.categories) {
-            for (let key in this.state.categories) {
-                catItemsArr.push({
-                    id: key,
-                    title: this.state.categories[key].title,
-                    icon: this.state.categories[key].icon
-                });
-            }
-    
-            catItems = catItemsArr.map((el) => {
-                return (
-                    <li 
-                        className="cat__item"
-                        key={el.id}
-                        onClick={() => this.setActiveCat(el.id)}>
-                        <div className="cat__link">
-                            <div className="cat__group">
-                                <utils.useCat styleClass="cat__i cat__i--cat" svg={el.icon} />
-                                {el.title}
-                            </div>
-                            <utils.use styleClass="cat__i cat__i--arrow" svg="chevron-right" />
-                        </div>
-                    </li>
-                );
-            });
-            
-            if (this.state.activeCat) {
-                subItems = this.state.categories[this.state.activeCat].subCategories.map((el, i) => {
-                    return (
-                        <li className="cat__subitem" key={i}>
-                            <div className="cat__link cat__link--sub" onClick={() => this.onSelectSubCat(el.val)}>
-                                <utils.use styleClass="cat__i cat__i--sub" svg="chevron-right" />
-                                {el.title}
-                            </div>
-                        </li>
-                    );
-                });
-            }
-
-        }
-
         let title = null;
         if (this.state.activeSubCat && this.state.activeAfter) {
-            title = this.state.categories[this.state.activeAfter].subCategories.find(el => el.val === this.state.activeSubCat).title;
+            title = this.props.categories[this.state.activeAfter].subCategories.find(el => el.val === this.state.activeSubCat).title;
         }
 
         const numbers = this.state.numbers.slice(1).map((el, i) => {
@@ -362,6 +316,20 @@ class Publish extends PureComponent {
                     maxLength={15} />
             );
         });
+
+        let categories = <CategoriesFull 
+            clickMain={this.setActiveCat}
+            clickSub={this.onSelectSubCat} 
+            close={this.onCloseCatPop} 
+            categories={this.props.categories} />;
+
+        if (this.state.mobileCatComponent) {
+            const CategoriesMobile = this.state.mobileCatComponent;
+            categories = <CategoriesMobile
+                clickMain={this.setActiveCat}
+                clickSub={this.onSelectSubCat} 
+                categories={this.props.categories} />;
+        }
 
         return (
             <React.Fragment>
@@ -489,7 +457,7 @@ class Publish extends PureComponent {
                                     {this.props.class && <p className="post__hint post__hint--red mb-1">You cannot change category</p>}
                                     <button className="post__input post__input--cat post__input--cat-main" onClick={() => this.onOpenCatPop()}>
                                         <span className="post__val">
-                                            {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.state.categories[this.state.activeAfter].icon} />}
+                                            {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.props.categories[this.state.activeAfter].icon} />}
                                             {title ? title : 'Select category'}
                                         </span>
                                         <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-right" />
@@ -498,7 +466,7 @@ class Publish extends PureComponent {
                                         <React.Fragment>
                                             <div className="post__catselected post__input mt-1" onClick={() => this.onOpenCatPop()}>
                                                 <ul className="post__list">
-                                                    <li className="post__item">{this.state.categories[this.state.activeAfter].title}</li>
+                                                    <li className="post__item">{this.props.categories[this.state.activeAfter].title}</li>
                                                     <li className="post__item">{title}</li>
                                                 </ul>
                                                 <button className="post__btn post__btn--catitems">
@@ -528,9 +496,8 @@ class Publish extends PureComponent {
                                                 <div className="post__double-form">
                                                     <input type="text" placeholder="Price" className="post__input post__input--price mr-1" ref={this.priceInputRef} />
                                                     <div className="pos-rel">
-                                                        <div className="post__input post__input--cat post__input--drop" tabIndex="0">
+                                                        <div className="jc post__input post__input--cat post__input--drop" tabIndex="0">
                                                             {this.state.currency.toUpperCase()}
-                                                            <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-down" />
                                                         </div>
                                                         <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                             <div className="dropdown__item" onClick={() => this.onChangeCurrency('usd')}>
@@ -598,7 +565,6 @@ class Publish extends PureComponent {
                                             onChange={(e) => this.onInputNumber(e.target.value, 0)} 
                                             maxLength={15} />
                                         <button className="post__input jc d-flex" onClick={() => this.onAddNumber()}>
-                                            Add
                                             <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="plus" />
                                         </button>
                                     </div>
@@ -633,31 +599,7 @@ class Publish extends PureComponent {
                     </div>
                 </section>
 
-                {(this.state.showCat && !this.props.class) &&
-                    <div className="cat__container">
-                        <Backdrop z={96} click={this.onCloseCatPop} />
-                        {this.state.activeCat && <Backdrop z={9} click={this.unsetActiveCat} />}
-                        <div className="cat cat--fix">
-                            <ul className="cat__list cat__list--select">{catItems}</ul>
-                            {this.state.activeCat && 
-                                <div className="cat__panel">
-                                    <div className="cat__subhead">
-                                        <h2 className="cat__heading cat__heading--sub">
-                                            {this.state.categories[this.state.activeCat].title}
-                                            <utils.useCat styleClass="cat__i--large" svg={this.state.categories[this.state.activeCat].icon} />
-                                        </h2>
-                                        <button className="cat__btn cat__btn--sub" onClick={() => this.unsetActiveCat()}>
-                                            <utils.use styleClass="cat__i cat__i--close" svg="x" />
-                                        </button>
-                                    </div>
-                                    <ul className="cat__sublist">
-                                        {subItems}
-                                    </ul>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                }
+                {(this.state.showCat && !this.props.class) && categories}
             </React.Fragment>
         );
     }
@@ -665,13 +607,8 @@ class Publish extends PureComponent {
 
 const mapStateToProps = state => ({
     lang: state.localization.lang,
-    token: state.user.token
+    token: state.user.token,
+    categories: state.localization.translations.categoriesList
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Publish));
+export default connect(mapStateToProps)(withRouter(Post));

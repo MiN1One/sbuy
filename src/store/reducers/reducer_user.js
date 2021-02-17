@@ -2,7 +2,8 @@ import actionTypes from '../actions/actionTypes';
 
 const initialState = {
     favorites: JSON.parse(localStorage.getItem('favorite_ads_sbuy')) || [],
-    token: localStorage.getItem('auth-token'),
+    token: 'dkfjgndkfjnjf',
+    // token: localStorage.getItem('auth-token'),
 };
 
 const reducer = (state = initialState, action) => {

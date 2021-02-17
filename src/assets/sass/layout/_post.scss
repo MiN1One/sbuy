@@ -1,11 +1,16 @@
 .post {
+    @include moveDown;
     width: 100%;
-    margin-top: 7rem;
     background: var(--color-white-bg-secondary);
 
     &--edit {
         margin: 0;
         background: #fff;
+
+        .container {
+            padding: 0!important;
+            width: auto !important;
+        }
 
         .post__figure {
             background: var(--color-white-bg-secondary);
@@ -20,6 +25,11 @@
         .post__wrapper {
             padding: 0 4rem;
             padding-top: 3rem;
+
+            @include respond(sm) {
+                padding: 0;
+                padding-top: 1.5rem;
+            }
         }
 
         .post__group {
@@ -28,14 +38,22 @@
 
             &:nth-child(3n) { margin-right: 3rem !important; }
             &:nth-child(2n) { margin-right: 0 !important; }
-
+            
             &--details {
                 flex-wrap: wrap;
-
+                
                 & > div {
                     width: 100%;
                     margin-right: 0;
                 }
+            }
+            
+            @include respond(mid) {
+                width: calc((100% - 1rem) / 2);
+                margin-right: 1rem;
+    
+                &:nth-child(3n) { margin-right: 1rem !important; }
+                &:nth-child(2n) { margin-right: 0 !important; }
             }
         }
 
@@ -60,6 +78,11 @@
         .post__footer {
             position: static;
             padding: 0 4rem;
+
+            @include respond(sm) {
+                background: #fff;
+                padding: 0;
+            }
         }
     }
 
@@ -123,7 +146,7 @@
         margin-right: 3rem;
 
         &--details {
-            width: 100%;
+            width: 100% !important;
             margin-right: 0;
             display: flex;
             flex-wrap: wrap;
@@ -141,6 +164,21 @@
         }
 
         &:nth-child(3n) { margin-right: 0; }
+        
+        @include respond(mid) {
+            width: calc((100% - 6rem) / 2);
+            margin-right: 6rem;
+            
+            &:nth-child(3n) { margin-right: 6rem; }
+            &:nth-child(2n) { margin-right: 0; }
+        }
+        
+        @include respond(sm) {
+            width: calc((100% - 1rem) / 2);
+            margin-right: 1rem;
+            
+            &:nth-child(3n) { margin-right: 1rem; }
+        }
     }
 
     &__label {
@@ -184,6 +222,12 @@
                 box-shadow: .5rem 1rem 2rem rgba(#000,.1);
                 width: 50rem;
                 transform: translate(-15%, 0);
+
+                @include respond(sm) { 
+                    width: 100%;
+                    transform: translate(0);
+                    box-shadow: none;
+                }
             }
         }
 
@@ -207,6 +251,11 @@
         }
 
         &--btn:focus { border-radius: .7rem; }
+
+        @include respond(sm) {
+            height: auto;
+            padding: 1.3rem 1.75rem;
+        }
     }
 
     &__input--drop:focus + &__dropdown {
@@ -389,6 +438,11 @@
         bottom: 0;
         left: 0;
         z-index: 10;
+
+        @include respond(sm) {
+            position: static;
+            background: var(--color-white-bg-secondary);
+        }
     }
 
     &__footwrap {

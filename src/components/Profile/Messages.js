@@ -105,48 +105,16 @@ export const Inbox = (props) => {
                 <li className="profile__messages-item">
                     <Link to={`/user/messages/conversation/123`} className="profile__messages-link">
                         <span className="profile__messages-text profile__messages-text--name">Someone</span>
-                        <span className="profile__messages-text">{utils.limitStrAny('Some message from someone regjrengjkerngjsjgn jdgnjdkn', 40, true)}</span>
+                        <span className="profile__messages-text">{utils.limitStrAny('Some message from someone regjrengjkerngjsjgn jdgnjdkn', 20, true)}</span>
                     </Link>
                     <div className="profile__messages-btn">
                         <button className="profile__btn profile__btn--control">
-                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="trash-2" />
-                            Add to spam
+                            <utils.use styleClass="profile__icon profile__icon--small" svg="trash-2" />
+                            <span className="profile__btn-title">Add to spam</span>
                         </button>
                         <button className="profile__btn profile__btn--control">
-                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="edit" />
-                            Reply
-                        </button>
-                    </div>
-                </li>
-                <li className="profile__messages-item">
-                    <Link to={`/user/messages/conversation/123`} className="profile__messages-link">
-                        <span className="profile__messages-text profile__messages-text--name">Someone</span>
-                        <span className="profile__messages-text">{utils.limitStrAny('Some message from someone regjrengjkerngjsjgn jdgnjdkn', 40, true)}</span>
-                    </Link>
-                    <div className="profile__messages-btn">
-                        <button className="profile__btn profile__btn--control">
-                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="trash-2" />
-                            Add to spam
-                        </button>
-                        <button className="profile__btn profile__btn--control">
-                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="edit" />
-                            Reply
-                        </button>
-                    </div>
-                </li>
-                <li className="profile__messages-item">
-                    <Link to={`/user/messages/conversation/123`} className="profile__messages-link">
-                        <span className="profile__messages-text profile__messages-text--name">Someone</span>
-                        <span className="profile__messages-text">{utils.limitStrAny('Some message from someone regjrengjkerngjsjgn jdgnjdkn', 40, true)}</span>
-                    </Link>
-                    <div className="profile__messages-btn">
-                        <button className="profile__btn profile__btn--control">
-                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="trash-2" />
-                            Add to spam
-                        </button>
-                        <button className="profile__btn profile__btn--control">
-                            <utils.use styleClass="profile__icon profile__icon--small mr-1" svg="edit" />
-                            Reply
+                            <utils.use styleClass="profile__icon profile__icon--small" svg="edit" />
+                            <span className="profile__btn-title">Reply</span>
                         </button>
                     </div>
                 </li>

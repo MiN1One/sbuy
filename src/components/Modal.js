@@ -14,14 +14,14 @@ const Modal = (props) => {
         <React.Fragment>
             <Backdrop z="98" click={props.click} />
             <div className="modal">
-                <div className="container modal__container h-100">
+                <div className="container h-100">
                     <div className="modal__head">
                         <h5 className="modal__title">
                             {(props.icon && !props.cat) && 
-                                <utils.use styleClass="icon icon--dark mr-1" svg={props.icon} />
+                                <utils.use styleClass="icon icon--dark mr-5" svg={props.icon} />
                             }
                             {(props.cat && props.icon) && 
-                                <utils.useCat styleClass="icon icon--dark mr-1" svg={props.icon} />
+                                <utils.useCat styleClass="icon icon--dark mr-5" svg={props.icon} />
                             }
                             {props.title}
                         </h5>

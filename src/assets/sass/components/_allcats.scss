@@ -3,17 +3,23 @@
     background: var(--color-white-bg-secondary);
     width: 100%;
 
+    @include respond(sm) { background: #fff; }
+
     &__wrapper {
         width: 100%;
         background: #fff;
         border-right: 1px solid rgba(#000, .1);
         border-left: 1px solid rgba(#000, .1);
+
+        @include respond(sm) { border: none; }
     }
 
     &__breadcrumbs {
         padding: 2rem;
         border-bottom: 1px solid rgba(#000, .07);
         font-size: 1.4rem;
+
+        @include respond(sm) { padding: 2rem 0; }
     }
 
     &__list {

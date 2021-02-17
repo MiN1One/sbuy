@@ -1,11 +1,23 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
 import Modal from './Modal';
 
 const MobileCats = (props) => {
     const [activeCategory, setActiveCategory] = useState(null);
+    const history = useHistory();
+
+    const onClickMainCat = (id) => {
+        setActiveCategory(id);
+        if (props.clickMain) props.clickMain(id);
+    };
+
+    const onClickSubCat = (sub) => {
+        if (props.clickSub) props.clickSub(sub);
+        else history.push(`/categories/${props.categories[activeCategory].val}/${sub}`);
+        setActiveCategory(null);
+    };
 
     let catItems = null, subItems = null, title = null;
     if (props.categories) {
@@ -24,7 +36,8 @@ const MobileCats = (props) => {
                 <li 
                     className="m-cats__item"
                     key={el.id}
-                    onClick={() => setActiveCategory(el.id)}>
+                    onClick={() => onClickMainCat(el.id)}
+                    tabIndex="0">
                     <div className="m-cats__link">
                         <div className="d-flex ac">
                             <utils.useCat styleClass="m-cats__i m-cats__i--cat" svg={el.icon} />
@@ -39,18 +52,17 @@ const MobileCats = (props) => {
         if (activeCategory) {
             subItems = props.categories[activeCategory].subCategories.map((el, i) => {
                 return (
-                    <div className="modal__item" key={i}>
-                        <Link to={`/categories/${props.categories[activeCategory].val}/${el.val}?page=1`} className="m-cats__link m-cats__link--sub">
+                    <li className="modal__item" key={i} tabIndex="0">
+                        <div className="m-cats__link m-cats__link--sub" onClick={() => onClickSubCat(el.val)}>
                             {el.title}
                             <utils.use styleClass="m-cats__i" svg="chevron-right" />
-                        </Link>
-                    </div>
+                        </div>
+                    </li>
                 );
             });
 
             title = props.categories[activeCategory].title;
         }
-
     }
 
     return (

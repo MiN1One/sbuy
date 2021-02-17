@@ -9,11 +9,7 @@ const MobileNav = (props) => {
     const [sideNav, setSideNav] = useState(false);
     const [scroll, setScroll] = useState(0);
 
-    const trackScroll = () => {
-        setTimeout(() => {
-            setScroll(document.documentElement.scrollTop);
-        }, 250);
-    };
+    const trackScroll = () => setScroll(document.documentElement.scrollTop);
 
     useEffect(() => {
         document.addEventListener('scroll', trackScroll);
@@ -22,18 +18,11 @@ const MobileNav = (props) => {
     }, []);
 
     const prevScroll = useRef();
-    const prevUrl = useRef();
-    useEffect(() => {
-        prevScroll.current = scroll;
-        prevUrl.current = props.location.pathname;
-    });
+    useEffect(() => prevScroll.current = scroll);
 
-    const { pathname } = props.location;
-    
     useEffect(() => {
-        if (prevUrl.current !== props.location.pathname) setSideNav(false);
-        console.log(pathname)
-    }, [pathname]);
+        setSideNav(false);
+    }, [props.location]);
 
     const burgerClass = ['m-nav__burger'];
     if (sideNav) {
@@ -43,35 +32,72 @@ const MobileNav = (props) => {
 
     const navBottomClass = ['m-nav__bottom'];
     if (prevScroll.current < scroll) navBottomClass.push('m-nav__bottom--hide');
-    
-    let view = (
-        <React.Fragment>
-            <Link to="/signin" className="m-nav__link">Sign in</Link>
-        </React.Fragment>
-    );
-    if (props.token) {
-
-    }
 
     return (
         <nav role="navigation" className="m-nav">
             <div className={burgerClass.join(' ')}>
-                <div className="container">
+                <div className="container h-100">
                     <div className="m-nav__head">
-                        <button className="m-nav__btn" onClick={() => setSideNav(false)}>
+                        <Logo />
+                        <button onClick={() => setSideNav(false)}>
                             <utils.use styleClass="icon icon--dark" svg="x" />
                         </button>
-                        <Logo />
                     </div>
-                    <div className="m-nav__body">
-                        
+                    <div className="modal__body">
+                        <ul className="modal__list" style={{ height: 'calc(100% - 10rem - 6rem)' }}>
+                            <li className="modal__item">
+                                <Link to="/all" className="m-nav__link">
+                                    Categories
+                                </Link>
+                            </li>
+                            {props.token && 
+                                <>
+                                    <li className="modal__item">
+                                        <Link to="/user/profile" className="m-nav__link">
+                                            My profile
+                                        </Link>
+                                    </li>
+                                    <li className="modal__item">
+                                        <Link to="/user/ads" className="m-nav__link">
+                                            My ads
+                                        </Link>
+                                    </li>
+                                    <li className="modal__item">
+                                        <Link to="/user/messages" className="m-nav__link">
+                                            Messages
+                                        </Link>
+                                    </li>
+                                    <li className="modal__item">
+                                        <Link to="/user/favorites" className="m-nav__link">
+                                            Favorites
+                                        </Link>
+                                    </li>
+                                    <li className="modal__item">
+                                        <Link to="/user/settings" className="m-nav__link">
+                                            Settings
+                                        </Link>
+                                    </li>
+                                    <li className="modal__item">
+                                        <Link to="/user/payments" className="m-nav__link">
+                                            Payments
+                                        </Link>
+                                    </li>
+                                </>
+                            }
+                            <Language />
+                            <li className="modal__item">
+                                <Link to="/info#sitemap" className="m-nav__link">
+                                    Sitemap
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
-                    <div className="m-nav__footer">
-                        <div className="container">
-                            <div className="d-flex ac jc">
+                    <div className="modal__footer">
+                        <div className="container h-100">
+                            <div className="d-flex ac jc h-100">
                                 {!props.token 
-                                    ? <button className="modal__btn">Sign in</button> 
-                                    : <button className="modal__btn">Advert</button>
+                                    ? <Link to="/signin" className="modal__btn">Sign in</Link> 
+                                    : <Link to="/post-new" className="modal__btn">Advert</Link>
                                 }
                             </div>
                         </div>
@@ -97,7 +123,7 @@ const MobileNav = (props) => {
                                 My profile
                             </Link>
                             : <Link to="/signin" className="m-nav__link">
-                                <utils.use styleClass="icon icon--dark" svg="user" />
+                                <utils.use styleClass="icon icon--dark" svg="log-in" />
                                 Sign in
                             </Link>
                         }
@@ -109,7 +135,7 @@ const MobileNav = (props) => {
                             <utils.use styleClass="icon icon--dark" svg="plus" />
                             Advert
                         </Link>
-                        <Link to="/user/favorites" className="m-nav__link">
+                        <Link to="/user/messages" className="m-nav__link">
                             <utils.use styleClass="icon icon--dark" svg="mail" />
                             Messages
                         </Link>

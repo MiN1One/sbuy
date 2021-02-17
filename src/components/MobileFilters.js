@@ -74,15 +74,15 @@ const MobileFilters = (props) => {
             const defaultTitle = tempFilterMain[obj.val] && obj.items.find(el => el.val === tempFilterMain[obj.val]).title;
 
             return (
-                <div className="f__item m-0 mb-2" key={index} onClick={() => setActiveFilter(obj.val)}>
-                    <p className="f__title">{obj.title}</p>
-                    <div>
-                        <div className="f__input f__input--d input" tabIndex="0">
+                <li className="modal__item fdc afs" key={index} onClick={() => setActiveFilter(obj.val)}>
+                    <p className="heading__sm">{obj.title}</p>
+                    <div className="w-100">
+                        <div className="mob-filters__input input" tabIndex="0">
                             {defaultTitle}
-                            <utils.use styleClass="f__icon f__icon--arrow" svg="chevron-right" />
+                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                         </div>
                     </div>
-                </div>
+                </li>
             );
 
         });
@@ -91,13 +91,13 @@ const MobileFilters = (props) => {
 
         counters = filter.items[subcategory].counters.map((el, i) => {
             return (
-                <div className="f__item m-0 mb-2" key={i}>
-                    <p className="f__title">{el.title}</p>
-                    <div className="f__group">
-                        <label className="f__label">
+                <li className="modal__item fdc afs" key={i}>
+                    <p className="heading__sm">{el.title}</p>
+                    <div className="d-flex">
+                        <label className="mob-filters__label">
                             <input 
                                 type="text" 
-                                className="f__input f__input--small input" 
+                                className="mob-filters__input mob-filters__input--sm input" 
                                 placeholder="from" 
                                 onChange={(e) => onSetTempCounter(el.val, el.start, e.target.value)} 
                                 value={tempFilterMain[el.val] && tempFilterMain[el.val][el.start]} />
@@ -105,10 +105,10 @@ const MobileFilters = (props) => {
                                 <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
                             </button>
                         </label>
-                        <label className="f__label">
+                        <label className="mob-filters__label">
                             <input 
                                 type="text" 
-                                className="f__input f__input--small f__input--border input" 
+                                className="mob-filters__input mob-filters__input--sm input" 
                                 placeholder="to" 
                                 onChange={(e) => onSetTempCounter(el.val, el.end, e.target.value)} 
                                 value={tempFilterMain[el.val] && tempFilterMain[el.val][el.end]} />
@@ -117,7 +117,7 @@ const MobileFilters = (props) => {
                             </button>
                         </label>
                     </div>
-                </div>
+                </li>
             )
         });
 
@@ -127,7 +127,7 @@ const MobileFilters = (props) => {
 
             optionsList = selectedFilter.items.map((el, i) => {
                 return (
-                    <div 
+                    <li 
                         className={`modal__item${tempFilter[activeFilter] === el.val ? ' modal__item--active' : ''}`}
                         key={i} 
                         onClick={() => 
@@ -139,7 +139,7 @@ const MobileFilters = (props) => {
                                 {tempFilter[activeFilter] === el.val && <utils.use styleClass="icon--7 mr-5" svg="check" />}
                                 {el.title}
                             </div>
-                    </div>
+                    </li>
                 );
             });
         }
@@ -147,7 +147,7 @@ const MobileFilters = (props) => {
         filterPlaceholders = filter.items[subcategory].sub.map((obj, i) => {
             const titleVal = tempFilterMain[obj.val] && obj.items.find(el => tempFilterMain[obj.val] === el.val).title;
             return (
-                <div className="d-flex fdc mob-filters__group" key={i}>
+                <div className="d-flex fdc mob-filters__group afs" key={i}>
                     <span className="mob-filters__title">{obj.title}:</span>
                     <button className="mob-filters__placeholder" onClick={() => setActiveFilter(obj.val)}>{titleVal}</button>
                 </div>
@@ -195,8 +195,10 @@ const MobileFilters = (props) => {
                     click={onDiscardOverallChanges} 
                     icon="filter">
                         <div className="modal__body">
-                            {options}
-                            {counters}
+                            <ul className="modal__list" style={{ height: 'calc(100% - 6rem - 7rem)' }}>
+                                {counters}
+                                {options}
+                            </ul>
                         </div>
                         <div className="modal__footer">
                             <div className="container">
@@ -214,7 +216,9 @@ const MobileFilters = (props) => {
                     title={selectedFilter.title} 
                     click={onDiscardChanges}>
                         <div className="modal__body">
-                            {optionsList}
+                            <ul className="modal__list">
+                                {optionsList}
+                            </ul>
                         </div>
                         <div className="modal__footer">
                             <div className="container">

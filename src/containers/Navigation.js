@@ -10,6 +10,7 @@ import Categories from '../components/Categories';
 import Backdrop from '../UI/Backdrop';
 import * as actions from '../store/actions';
 import axios from 'axios';
+import CategoriesFull from '../components/CategoriesFull';
 
 class Navigation extends PureComponent {
     constructor(props) {
@@ -145,18 +146,22 @@ class Navigation extends PureComponent {
 
         return (
             <React.Fragment>
-                {this.state.showCat &&
+                {/* {this.state.showCat &&
                     <div className="cat__container">
-                        <Backdrop z={96} click={this.onCloseCategories} />
-                        <Categories class="cat--fix" clickItem={this.onCloseCategories} {...this.props} />
+                    <Categories class="cat--fix" clickItem={this.onCloseCategories} {...this.props} />
                     </div>
+                } */}
+                {this.state.showCat &&
+                    <>
+                        <CategoriesFull {...this.props} close={this.onCloseCategories} />
+                    </>
                 }
                 <header className="nav">
                     <div className="container">
                         <nav role="navigation" className="nav__wrapper">
                             <div className="nav__list">
                                 <Logo classOver="nav__item" classImg="logo__figure--nav" />
-                                <Language dropClass="dropdown--close dropdown--left-fix" />
+                                <Language class="nav__item--lang" dropClass="dropdown--close dropdown--left-fix" />
                             </div>
                             <div className="nav__list">
                                 <div className="nav__item">

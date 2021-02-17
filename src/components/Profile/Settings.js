@@ -19,10 +19,7 @@ const Settings = (props) => {
     const emailInputRef = useRef();
 
     const prevRegionRef = useRef();
-    useEffect(() => {
-        prevRegionRef.current = region;
-    });
-
+    useEffect(() => prevRegionRef.current = region);
     const prevRegion = prevRegionRef.current;
 
     const onTogglePass = (e) => {
