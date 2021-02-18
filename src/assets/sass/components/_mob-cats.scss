@@ -1,5 +1,22 @@
 .m-cats {
     width: 100%;
+    background: #fff;
+
+    &--fixed {
+        position: fixed;
+        overflow-y: auto;
+        top: 0;
+        left: 0;
+        height: 100vh;        
+        z-index: 1;
+    }
+
+    &__head {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 3rem;
+        padding-bottom: 1.5rem;
+    }
 
     &__wrapper {
         width: 100%;

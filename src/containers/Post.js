@@ -49,24 +49,26 @@ class Post extends PureComponent {
 
             filterObj: null,
             loading: false,
-            mobileCatComponent: null
+            categoriesComponent: null
         };
 
         this.fileRef = React.createRef();
         this.priceInputRef = React.createRef();
 
+        this.media = window.matchMedia('(max-width: 46.9375em)');
+
         if (!this.props.token) this.props.history.push('/signin');
     }
 
     componentDidMount() {
-        const media = window.matchMedia('(max-width: 46.875em)');
 
         const watch = () => {
-            if (media.matches) this.setState({ mobileCatComponent: asyncComponent(() => import('../components/MobileCats')) });
+            if (this.media.matches) this.setState({ categoriesComponent: asyncComponent(() => import('../components/MobileCats')) });
+            else this.setState({ categoriesComponent: asyncComponent(() => import('../components/CategoriesFull')) });
         };
 
         watch();
-        media.onchange = watch;
+        this.media.onchange = watch;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -82,7 +84,7 @@ class Post extends PureComponent {
                         });
                     })
                     .catch(er => {
-                        
+                        console.error(er);
                     });
             });
         }
@@ -317,18 +319,20 @@ class Post extends PureComponent {
             );
         });
 
-        let categories = <CategoriesFull 
+        const Categories = this.state.categoriesComponent && this.state.categoriesComponent;
+        let categories = <Categories 
             clickMain={this.setActiveCat}
             clickSub={this.onSelectSubCat} 
             close={this.onCloseCatPop} 
             categories={this.props.categories} />;
 
-        if (this.state.mobileCatComponent) {
-            const CategoriesMobile = this.state.mobileCatComponent;
-            categories = <CategoriesMobile
+        if (this.media.matches) {
+            categories = <Categories
                 clickMain={this.setActiveCat}
                 clickSub={this.onSelectSubCat} 
-                categories={this.props.categories} />;
+                categories={this.props.categories} 
+                fixed
+                close={this.onCloseCatPop} />;
         }
 
         return (

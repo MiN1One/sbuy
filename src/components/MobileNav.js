@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
 import Logo from '../components/Logo';
@@ -8,12 +8,12 @@ import Language from './Language';
 const MobileNav = (props) => {
     const [sideNav, setSideNav] = useState(false);
     const [scroll, setScroll] = useState(0);
+    const location = useLocation();
 
     const trackScroll = () => setScroll(document.documentElement.scrollTop);
 
     useEffect(() => {
         document.addEventListener('scroll', trackScroll);
-        
         return () => document.removeEventListener('scroll', trackScroll);
     }, []);
 
@@ -22,7 +22,7 @@ const MobileNav = (props) => {
 
     useEffect(() => {
         setSideNav(false);
-    }, [props.location]);
+    }, [location.pathname]);
 
     const burgerClass = ['m-nav__burger'];
     if (sideNav) {
@@ -114,40 +114,42 @@ const MobileNav = (props) => {
                     </div>
                 </div>
             </div>
-            <div className={navBottomClass.join(' ')}>
-                <div className="container h-100">
-                    <div className="m-nav__wrapper">
-                        {props.token 
-                            ? <Link to="/user/profile" className="m-nav__link">
-                                <utils.use styleClass="icon icon--dark" svg="user" />
-                                My profile
+            {!location.pathname.includes('post-new') &&
+                <div className={navBottomClass.join(' ')}>
+                    <div className="container h-100">
+                        <div className="m-nav__wrapper">
+                            {props.token 
+                                ? <Link to="/user/profile" className="m-nav__link">
+                                    <utils.use styleClass="icon icon--dark" svg="user" />
+                                    My profile
+                                </Link>
+                                : <Link to="/signin" className="m-nav__link">
+                                    <utils.use styleClass="icon icon--dark" svg="log-in" />
+                                    Sign in
+                                </Link>
+                            }
+                            <button className="m-nav__link">
+                                <utils.use styleClass="icon icon--dark" svg="search" />
+                                Search
+                            </button>
+                            <Link to="/post-new" className="m-nav__link">
+                                <utils.use styleClass="icon icon--dark" svg="plus" />
+                                Advert
                             </Link>
-                            : <Link to="/signin" className="m-nav__link">
-                                <utils.use styleClass="icon icon--dark" svg="log-in" />
-                                Sign in
+                            <Link to="/user/messages" className="m-nav__link">
+                                <utils.use styleClass="icon icon--dark" svg="mail" />
+                                Messages
                             </Link>
-                        }
-                        <button className="m-nav__link">
-                            <utils.use styleClass="icon icon--dark" svg="search" />
-                            Search
-                        </button>
-                        <Link to="/post-new" className="m-nav__link">
-                            <utils.use styleClass="icon icon--dark" svg="plus" />
-                            Advert
-                        </Link>
-                        <Link to="/user/messages" className="m-nav__link">
-                            <utils.use styleClass="icon icon--dark" svg="mail" />
-                            Messages
-                        </Link>
-                        <Link to="/user/favorites" className="m-nav__link">
-                            <utils.use styleClass="icon icon--dark" svg="folder" />
-                            Favorites
-                        </Link>
+                            <Link to="/user/favorites" className="m-nav__link">
+                                <utils.use styleClass="icon icon--dark" svg="folder" />
+                                Favorites
+                            </Link>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </nav>
     );
 };
 
-export default React.memo(withRouter(MobileNav));
+export default React.memo(MobileNav);

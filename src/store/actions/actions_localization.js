@@ -20,3 +20,8 @@ export const importRequisites = (requisite, list) => ({
     requisite,
     list
 });
+
+export const addSearchLocation = (location) => ({
+    type: actionTypes.ADD_SEARCH_LOCATION,
+    location
+});

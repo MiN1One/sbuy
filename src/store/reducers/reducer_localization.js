@@ -5,7 +5,7 @@ const systemLanguage = navigator.language.split('-')[0];
 const initialState = {
     lang: localStorage.getItem('SBUY_LANGUAGE') || systemLanguage,
     location: 'Tashkent',
-    searchLocation: localStorage.getItem('SBUY_SEARCH_LOCATION') || 'all',
+    searchLocation: JSON.parse(localStorage.getItem('SBUY_SEARCH_LOCATION')) || ['all'],
     translations: {
         regionsList: null,
         categoriesList: null,
@@ -23,8 +23,8 @@ const reducer = (state = initialState, action) => {
             return { ...state, lang: action.lang };
             
         case actionTypes.CHANGE_SEARCH_LOC: 
-            localStorage.setItem('SBUY_SEARCH_LOCATION', action.location);
-            return { ...state, searchLocation: action.location };
+            localStorage.setItem('SBUY_SEARCH_LOCATION', JSON.stringify([action.location]));
+            return { ...state, searchLocation: [action.location] };
 
         case actionTypes.IMPORT_REQUISITES: 
             return {
@@ -34,6 +34,28 @@ const reducer = (state = initialState, action) => {
                     [action.requisite]: action.list
                 }
             }
+        
+        case actionTypes.ADD_SEARCH_LOCATION:
+            let newArr = [action.location];
+            if (action.location !== 'all') {
+                const exists = state.searchLocation.findIndex(el => el === action.location) !== -1;
+                console.log(exists);
+                
+                if (exists && state.searchLocation.length > 1) {
+                    newArr = state.searchLocation.filter(el => {
+                        if (el !== action.location || el !== 'all') return el;
+                        else return null;
+                    });
+                    console.log(newArr);
+                } else {
+                    if (state.searchLocation[0] !== action.location) {
+                        newArr = [...state.searchLocation, action.location];
+                    }
+                }
+            }
+
+            console.log(newArr);
+            return { ...state, searchLocation: newArr };
 
         default: return state;
     }

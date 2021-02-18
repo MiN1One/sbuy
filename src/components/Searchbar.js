@@ -9,25 +9,28 @@ import Modal from './Modal';
 
 const Searchbar = (props) => {
     const [modal, setModal] = useState(false);
+    const [search, setSearch] = useState('');
 
     const onPerformSearch = (e) => {
         if (e) e.preventDefault();
         
         // ------------------------
-
+        if (search !== '') props.onFilterByOptions('search', search);
         // ..........
     };
 
     const changeSearchLocation = (location) => {
-        props.onChangeSearchLoc(location);
+        props.onChangeSearchLocation(location);
         onPerformSearch();
         if (modal) setModal(false);
     };
 
+
     let regions = null, regionTitle = null;
     if (props.regions) {
 
-        regionTitle = props.regions.find(el => el.val === props.searchLocation).title;
+        if (props.searchLocation.length === 1) 
+            regionTitle = props.regions.find(el => el.val === props.searchLocation[0]).title;
         
         regions = props.regions.map((el, i) => {
             if (el.title === regionTitle) {
@@ -47,7 +50,7 @@ const Searchbar = (props) => {
                     onClick={() => changeSearchLocation(el.val)}
                     key={i}>
                         <div className="d-flex ac">
-                            <utils.use styleClass="s__icon--clear mr-1" svg="zoom-in" />
+                            <utils.use styleClass="s__icon--clear mr-1" svg="plus" />
                             {el.title}
                         </div>
                 </li>
@@ -69,12 +72,16 @@ const Searchbar = (props) => {
                                         type="text"
                                         placeholder="Search..."
                                         id="search"
-                                        onChange={(ev) => props.onChangeSearchInput(ev.target.value)}
-                                        value={props.search} />
+                                        // onChange={(ev) => props.onChangeSearchInput(ev.target.value)}
+                                        onChange={(ev) => setSearch(ev.target.value)}
+                                        value={search} />
                                     <button 
                                         className="s__btn s__btn--map s__btn--clear" 
                                         type="button" 
-                                        onClick={() => props.onChangeSearchInput('')}>
+                                        onClick={() => {
+                                            setSearch('');
+                                            props.onFilterByOptions('search', '');
+                                            }}>
                                         <utils.use styleClass="s__icon s__icon--map s__icon--clear" svg="x" />
                                     </button>
                                 </label>
@@ -95,7 +102,8 @@ const Searchbar = (props) => {
                             </form>
                             <RegionsDropdown 
                                 class="dropdown--full dropdown--close s__dropdown" 
-                                click={changeSearchLocation} />
+                                click={changeSearchLocation} 
+                                multi={props.onAddSearchLocation} />
                         </div>
                     </div>
                 </div>
@@ -118,8 +126,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onChangeSearchLoc: (loc) => dispatch(actions.changeSearchLoc(loc)),
-    onChangeSearchInput: (search) => dispatch(actions.changeSearchInput(search))
+    onChangeSearchLocation: (loc) => dispatch(actions.changeSearchLoc(loc)),
+    onChangeSearchInput: (search) => dispatch(actions.changeSearchInput(search)),
+    onFilterByOptions: (param, val) => dispatch(actions.filterByOptions(param, val)),
+    onAddSearchLocation: (loc) => dispatch(actions.addSearchLocation(loc))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Searchbar));

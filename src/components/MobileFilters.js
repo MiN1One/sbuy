@@ -3,7 +3,6 @@ import { withRouter, Link } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
 import Modal from '../components/Modal';
-import Dropdown from '../components/Dropdown';
 
 const MobileFilters = (props) => {
     const [modal, setModal] = useState(false);
@@ -101,8 +100,8 @@ const MobileFilters = (props) => {
                                 placeholder="from" 
                                 onChange={(e) => onSetTempCounter(el.val, el.start, e.target.value)} 
                                 value={tempFilterMain[el.val] && tempFilterMain[el.val][el.start]} />
-                            <button className="f__btn f__btn--abs" onClick={() => onSetTempCounter(el.val, el.start, '')}>
-                                <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
+                            <button className="mob-filters__btn--abs" onClick={() => onSetTempCounter(el.val, el.start, '')}>
+                                <utils.use styleClass="icon--7 icon--dark" svg="x" />
                             </button>
                         </label>
                         <label className="mob-filters__label">
@@ -112,8 +111,8 @@ const MobileFilters = (props) => {
                                 placeholder="to" 
                                 onChange={(e) => onSetTempCounter(el.val, el.end, e.target.value)} 
                                 value={tempFilterMain[el.val] && tempFilterMain[el.val][el.end]} />
-                            <button className="f__btn f__btn--abs" onClick={() => onSetTempCounter(el.val, el.end, '')}>
-                                <utils.use styleClass="f__icon f__icon--arrow" svg="x" />
+                            <button className="mob-filters__btn--abs" onClick={() => onSetTempCounter(el.val, el.end, '')}>
+                                <utils.use styleClass="icon--7 icon--dark" svg="x" />
                             </button>
                         </label>
                     </div>

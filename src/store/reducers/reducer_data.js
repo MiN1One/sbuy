@@ -23,6 +23,7 @@ const initialState = {
         price: ['', ''],
         type: 'all',
         sort: 'date',
+        search: ''
     },
     vendorAds: [
         { title: 'Discover Everything', img: car },

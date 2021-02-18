@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import * as utils from '../utilities/utilities';
@@ -7,6 +7,13 @@ import Modal from './Modal';
 const MobileCats = (props) => {
     const [activeCategory, setActiveCategory] = useState(null);
     const history = useHistory();
+
+    useEffect(() => {
+        if (props.fixed) {
+            document.documentElement.style.overflow = 'hidden';
+            return () => document.documentElement.style.overflow = 'auto';
+        }
+    }, [props.fixed]);
 
     const onClickMainCat = (id) => {
         setActiveCategory(id);
@@ -66,13 +73,20 @@ const MobileCats = (props) => {
     }
 
     return (
-        <div className="m-cats">
+        <div className={`m-cats ${props.fixed ? 'm-cats--fixed' : ''}`}>
             <div className="container">
                 <div className="m-cats__wrapper">
-                    <Link to="/all" className="m-cats__btn" onClick={() => {}}>
-                        <utils.use styleClass="m-cats__i icon icon--dark mr-5" svg="grid" />
-                        All Categories
-                    </Link>
+                    {!props.fixed  
+                        ? <Link to="/all" className="m-cats__btn" onClick={() => {}}>
+                            <utils.use styleClass="m-cats__i icon icon--dark mr-5" svg="grid" />
+                            All Categories
+                        </Link>
+                        : <div className="m-cats__head">
+                            <button onClick={() => props.close()}>
+                                <utils.use styleClass="icon icon--dark" svg="x" />
+                            </button>
+                        </div>
+                    }
                     <ul className="m-cats__list">{catItems}</ul>
                     {activeCategory && 
                         <Modal 

@@ -63,4 +63,8 @@ textarea {
 
 div:focus { outline: none; }
 
-[tabindex="0"] { cursor: pointer; }
+[tabindex="0"] {
+  cursor: pointer;
+
+  &:focus { outline: none; }
+}

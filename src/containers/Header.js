@@ -56,7 +56,7 @@ class Header extends Component {
             this.setState({ loadingVendor: false, error: er });
         }
 
-        const media = window.matchMedia('(min-width: 46.875em)');
+        const media = window.matchMedia('(min-width: 46.9375em)');
         const watch = () => {
             if (media.matches) this.setState({ categoryComp: asyncComponent(() => import('../components/Categories')) });
             else this.setState({ categoryComp: asyncComponent(() => import('../components/MobileCats')) });

@@ -19,6 +19,14 @@
         font-weight: 500;
         text-transform: uppercase;
         margin-left: .7rem;
+
+        &--abs {
+            display: flex;
+            position: absolute;
+            top: 1.5rem;
+            right: 1rem;
+            z-index: 1;
+        }
     }
 
     &__link {
@@ -86,9 +94,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+
+        &--sm { padding-right: 3rem; }
     }
 
-    &__label { width: 100%; }
+    &__input:placeholder-shown + &__btn--abs {
+        display: none;
+    }
+
+    &__label {
+        position: relative;
+        width: 100%;
+    }
 
     &__label:first-child &__input { border-radius: .7rem 0 0 .7rem; }
     &__label:last-child &__input {

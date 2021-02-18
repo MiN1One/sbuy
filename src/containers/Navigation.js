@@ -6,11 +6,11 @@ import Language from '../components/Language';
 import * as utils from '../utilities/utilities';
 import Logo from '../components/Logo';
 import Dropdown from '../components/Dropdown';
-import Categories from '../components/Categories';
-import Backdrop from '../UI/Backdrop';
 import * as actions from '../store/actions';
 import axios from 'axios';
-import CategoriesFull from '../components/CategoriesFull';
+import asyncComponent from '../hoc/asyncComponent/asyncComponent';
+
+const AsyncCategoriesFull = asyncComponent(() => import('../components/CategoriesFull'));
 
 class Navigation extends PureComponent {
     constructor(props) {
@@ -146,15 +146,8 @@ class Navigation extends PureComponent {
 
         return (
             <React.Fragment>
-                {/* {this.state.showCat &&
-                    <div className="cat__container">
-                    <Categories class="cat--fix" clickItem={this.onCloseCategories} {...this.props} />
-                    </div>
-                } */}
                 {this.state.showCat &&
-                    <>
-                        <CategoriesFull {...this.props} close={this.onCloseCategories} />
-                    </>
+                    <AsyncCategoriesFull {...this.props} close={this.onCloseCategories} />
                 }
                 <header className="nav">
                     <div className="container">
