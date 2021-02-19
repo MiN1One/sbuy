@@ -259,3 +259,13 @@
 }
 
 .link-underline { border-bottom: 1.5px solid rgba(#000, .1); }
+
+.label {
+    
+    &__primary {
+        color: var(--color-black);
+        font-size: inherit;
+
+        &:hover { color: var(--color-primary); }
+    }
+}

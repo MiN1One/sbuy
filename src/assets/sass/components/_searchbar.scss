@@ -13,7 +13,11 @@
         justify-content: flex-start;
         align-items: center;
 
-        @include respond(sm) { height: 8rem; }
+        @include respond(sm) {
+            height: 8rem;
+            justify-content: center;
+            position: static;
+        }
     }
 
     &__logo {
@@ -27,6 +31,10 @@
         left: 50%;
         transform: translate(-50%, -50%);
 
+        @include respond(sm) {
+            position: static;
+            transform: translate(0);
+        }
         @include respond(ss) { width: 100%; }
     }
 

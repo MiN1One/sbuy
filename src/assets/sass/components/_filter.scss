@@ -226,6 +226,7 @@
     &__topline {
         font-size: 1.5rem;
         position: sticky;
+        will-change: transform;
         top: 7rem;
         border-bottom: 1px solid rgba(#000, .07);
         z-index: 8;

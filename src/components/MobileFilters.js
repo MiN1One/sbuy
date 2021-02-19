@@ -86,7 +86,20 @@ const MobileFilters = (props) => {
 
         });
 
-        if (props.regions) regionTitle = props.regions.find(el => el.val === props.searchLocation).title; 
+        if (props.regions) {
+            if (props.searchLocation.length > 1) 
+                regionTitle = props.regions.find(el => el.val === props.searchLocation[0]).title;
+            else {
+                regionTitle = [];
+                props.searchLocation.forEach(item => {
+                    const itemTitle = props.regions.find(el => el.val === item).title;
+                    regionTitle = [...regionTitle, itemTitle];
+                });
+                regionTitle = regionTitle.filter(el => {
+                    return el && el;
+                }).join(', ');
+            }
+        } 
 
         counters = filter.items[subcategory].counters.map((el, i) => {
             return (

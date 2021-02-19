@@ -5,7 +5,6 @@ import * as actions from '../store/actions';
 import Logo from '../components/Logo';
 import * as utils from '../utilities/utilities';
 import RegionsDropdown from './RegionsDropdown';
-import Modal from './Modal';
 
 const Searchbar = (props) => {
     const [modal, setModal] = useState(false);
@@ -26,11 +25,23 @@ const Searchbar = (props) => {
     };
 
 
-    let regions = null, regionTitle = null;
+    let regions = null, regionTitle = [];
     if (props.regions) {
 
         if (props.searchLocation.length === 1) 
             regionTitle = props.regions.find(el => el.val === props.searchLocation[0]).title;
+        else {
+            props.searchLocation.forEach(item => {
+                const elTitle = props.regions.find(el => item === el.val).title;
+
+                regionTitle = [...regionTitle, elTitle];
+            });
+            regionTitle = regionTitle.filter(el => {
+                return el && el;
+            }).join(', ');
+
+            regionTitle = utils.limitStrLength(regionTitle, 20);
+        }
         
         regions = props.regions.map((el, i) => {
             if (el.title === regionTitle) {
@@ -44,6 +55,7 @@ const Searchbar = (props) => {
                         </div>
                     </li>
             }
+
             return (
                 <li 
                     className="modal__item"
@@ -72,7 +84,6 @@ const Searchbar = (props) => {
                                         type="text"
                                         placeholder="Search..."
                                         id="search"
-                                        // onChange={(ev) => props.onChangeSearchInput(ev.target.value)}
                                         onChange={(ev) => setSearch(ev.target.value)}
                                         value={search} />
                                     <button 
@@ -103,18 +114,13 @@ const Searchbar = (props) => {
                             <RegionsDropdown 
                                 class="dropdown--full dropdown--close s__dropdown" 
                                 click={changeSearchLocation} 
-                                multi={props.onAddSearchLocation} />
+                                multi={props.onAddSearchLocation}
+                                close={() => setModal(false)}
+                                show={modal} />
                         </div>
                     </div>
                 </div>
             </div>
-            {modal && 
-                <Modal click={() => setModal(false)} title="Search location" icon="map-pin">
-                    <div className="modal__body">
-                        <ul className="modal__list">{regions}</ul>
-                    </div>
-                </Modal>
-            }
         </React.Fragment>
     );
 };

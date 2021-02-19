@@ -37,24 +37,18 @@ const reducer = (state = initialState, action) => {
         
         case actionTypes.ADD_SEARCH_LOCATION:
             let newArr = [action.location];
-            if (action.location !== 'all') {
-                const exists = state.searchLocation.findIndex(el => el === action.location) !== -1;
-                console.log(exists);
-                
-                if (exists && state.searchLocation.length > 1) {
-                    newArr = state.searchLocation.filter(el => {
-                        if (el !== action.location || el !== 'all') return el;
-                        else return null;
-                    });
-                    console.log(newArr);
-                } else {
-                    if (state.searchLocation[0] !== action.location) {
-                        newArr = [...state.searchLocation, action.location];
-                    }
-                }
+            const exists = state.searchLocation.findIndex(el => el === action.location) !== -1;
+            
+            if (exists && state.searchLocation.length > 1) {
+                newArr = state.searchLocation.filter(el => {
+                    if (el === action.location || el === 'all') return null;
+                    else return el;
+                });
+            } else if (state.searchLocation[0] !== action.location) {
+                newArr = [...state.searchLocation, action.location].filter(el => el !== 'all');
             }
 
-            console.log(newArr);
+            localStorage.setItem('SBUY_SEARCH_LOCATION', JSON.stringify(newArr));
             return { ...state, searchLocation: newArr };
 
         default: return state;

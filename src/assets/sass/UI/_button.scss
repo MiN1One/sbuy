@@ -182,4 +182,31 @@
         opacity: .55;
         cursor: default;
     }
+
+    &__check {
+        width: 2rem;
+        height: 2rem;
+        background: var(--color-white-bg-secondary);
+        border-radius: .3rem;
+        align-items: center;
+        justify-content: center;
+
+        &:hover, 
+        &:focus {
+            background: var(--color-primary);
+
+            svg { fill: #fff; }
+        }
+
+        svg {
+            fill: var(--color-grey-7);
+            width: 1.6rem;
+            height: 1.6rem;
+        }
+
+        &--active {
+            background: var(--color-primary);
+            svg { fill: #fff; }
+        }
+    }
 }
