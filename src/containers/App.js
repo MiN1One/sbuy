@@ -19,7 +19,19 @@ const AsyncPromote = asyncComponent(() => import('../components/Promote'));
 const AsyncMain = asyncComponent(() => import('../containers/Main'));
 
 function App(props) {
-  const { onImportRequisites } = props;
+  const { onImportRequisites, onMatchSmallMedia } = props;
+
+  const mediaSM = window.matchMedia('(max-width: 46.875em)');
+  const watch = () => {
+    if (mediaSM.matches) onMatchSmallMedia(true);
+    else onMatchSmallMedia(false);
+  };
+
+  useEffect(() => {
+    // --------- MATCH SMALL MEDIA ---------
+    watch();
+    mediaSM.onchange = watch;
+  }, []);
 
   useEffect(() => {
     // --------- IMPORT REGIONS ---------
@@ -125,7 +137,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onImportRequisites: (req, list) => dispatch(actions.importRequisites(req, list))
+  onImportRequisites: (req, list) => dispatch(actions.importRequisites(req, list)),
+  onMatchSmallMedia: (val) => dispatch(actions.matchSmallMedia(val)) 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

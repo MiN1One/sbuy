@@ -55,28 +55,28 @@ class Post extends PureComponent {
         this.fileRef = React.createRef();
         this.priceInputRef = React.createRef();
 
-        this.media = window.matchMedia('(max-width: 46.9375em)');
-
         if (!this.props.token) this.props.history.push('/signin');
     }
 
+    watchMedia = () => {
+        if (this.props.mobile) this.setState({ categoriesComponent: asyncComponent(() => import('../components/MobileCats')) });
+        else this.setState({ categoriesComponent: asyncComponent(() => import('../components/CategoriesFull')) });
+    }
+
     componentDidMount() {
-
-        const watch = () => {
-            if (this.media.matches) this.setState({ categoriesComponent: asyncComponent(() => import('../components/MobileCats')) });
-            else this.setState({ categoriesComponent: asyncComponent(() => import('../components/CategoriesFull')) });
-        };
-
-        watch();
-        this.media.onchange = watch;
+        this.watchMedia();
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.activeAfter !== prevState.activeAfter && this.props.categories) {
+        if (prevProps.mobile !== this.props.mobile) this.watchMedia();
+        if (
+            (this.state.activeAfter !== prevState.activeAfter && this.props.categories) ||
+            (this.state.activeAfter && this.props.lang !== prevProps.lang && this.props.categories)
+           )
+        {
             const category = this.props.categories[this.state.activeAfter].val;
 
             this.setState({ activeSubCat: null }, () => {
-                console.log('hey')
                 import(`../store/PostFilters/${this.props.lang}/${category}`)
                     .then(filter => {
                         this.setState({ filterObj: filter.default }, () => {
@@ -156,8 +156,6 @@ class Post extends PureComponent {
         }, () => {
             const photoContainers = Array.from(document.querySelectorAll('.post__figure'));
             photoContainers[index].querySelector('.post__img').remove();
-
-            console.log(this.state.images);
 
             this.state.images.forEach((el, i) => this.appendImage(photoContainers[i], el));
 
@@ -326,7 +324,7 @@ class Post extends PureComponent {
             close={this.onCloseCatPop} 
             categories={this.props.categories} />;
 
-        if (this.media.matches) {
+        if (this.props.mobile) {
             categories = <Categories
                 clickMain={this.setActiveCat}
                 clickSub={this.onSelectSubCat} 
@@ -534,11 +532,11 @@ class Post extends PureComponent {
                                     <div className="post__group">{subOptions}</div>
                                     <div className="post__group">{inputItems}</div>
                                 </div>
-                                <div className="post__group post__group--des">
+                                <div className="post__group post__group--description">
                                     <p className="post__title mb-1">Personalized description</p>
                                     <label className="post__label">
                                         <textarea 
-                                            className="post__input post__input--des" 
+                                            className="post__input post__input--description" 
                                             placeholder=" " 
                                             value={this.state.description}
                                             onChange={(e) => this.onInputDescription(e)}
@@ -612,7 +610,8 @@ class Post extends PureComponent {
 const mapStateToProps = state => ({
     lang: state.localization.lang,
     token: state.user.token,
-    categories: state.localization.translations.categoriesList
+    categories: state.localization.translations.categoriesList,
+    mobile: state.data.mediaSmall
 });
 
 export default connect(mapStateToProps)(withRouter(Post));

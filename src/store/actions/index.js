@@ -12,7 +12,8 @@ export {
     setLoading,
     handleError,
     filterByOptions,
-    filterByCounters
+    filterByCounters,
+    matchSmallMedia
 } from './actions_data';
 
 export {

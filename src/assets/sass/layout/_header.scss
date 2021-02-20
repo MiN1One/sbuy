@@ -12,7 +12,7 @@
     }
 
     &__container {
-        @include respond(sm) { padding: 0 !important; }
+        @include respond(mid) { padding: 0 !important; }
     }
     
     &__mainwrap {
@@ -29,7 +29,11 @@
     
     &__list {
         width: 70%;
-        height: 53rem;
+        height: 55rem;
+        
+        @include respond(lg) {
+            height: 50vw;
+        }
 
         @include respond(sm) {
             width: 100%;
@@ -94,5 +98,4 @@
         height: 2.5rem;
         fill: var(--color-light-7);
     }
-    // &__loading { margin-top: -7.5rem; }
 }

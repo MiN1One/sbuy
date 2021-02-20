@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../store/actions';
@@ -24,8 +24,7 @@ const Searchbar = (props) => {
         if (modal) setModal(false);
     };
 
-
-    let regions = null, regionTitle = [];
+    let regionTitle = [];
     if (props.regions) {
 
         if (props.searchLocation.length === 1) 
@@ -42,32 +41,6 @@ const Searchbar = (props) => {
 
             regionTitle = utils.limitStrLength(regionTitle, 20);
         }
-        
-        regions = props.regions.map((el, i) => {
-            if (el.title === regionTitle) {
-                return <li 
-                    className="modal__item modal__item--active"
-                    onClick={() => changeSearchLocation(el.val)}
-                    key={i}>
-                        <div className="d-flex ac">
-                            <utils.use styleClass="s__icon--clear s__icon--active mr-1" svg="check" />
-                            {el.title}
-                        </div>
-                    </li>
-            }
-
-            return (
-                <li 
-                    className="modal__item"
-                    onClick={() => changeSearchLocation(el.val)}
-                    key={i}>
-                        <div className="d-flex ac">
-                            <utils.use styleClass="s__icon--clear mr-1" svg="plus" />
-                            {el.title}
-                        </div>
-                </li>
-            );
-        });
     }
 
     return (
@@ -111,16 +84,19 @@ const Searchbar = (props) => {
                                     <utils.use styleClass="s__icon" svg="search" />
                                 </button>
                             </form>
-                            <RegionsDropdown 
+                            {!props.mobile && <RegionsDropdown 
                                 class="dropdown--full dropdown--close s__dropdown" 
                                 click={changeSearchLocation} 
-                                multi={props.onAddSearchLocation}
-                                close={() => setModal(false)}
-                                show={modal} />
+                                multi={props.onAddSearchLocation} />}
                         </div>
                     </div>
                 </div>
             </div>
+            {props.mobile && <RegionsDropdown 
+                click={changeSearchLocation} 
+                multi={props.onAddSearchLocation}
+                close={() => setModal(false)}
+                show={modal} />}
         </React.Fragment>
     );
 };
@@ -128,7 +104,8 @@ const Searchbar = (props) => {
 const mapStateToProps = (state) => ({
     searchLocation: state.localization.searchLocation,
     search: state.data.search,
-    regions: state.localization.translations.regionsList
+    regions: state.localization.translations.regionsList,
+    mobile: state.data.mediaSmall
 });
 
 const mapDispatchToProps = (dispatch) => ({

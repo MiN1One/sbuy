@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import $ from 'jquery';
 
 import * as utils from '../utilities/utilities';
 import Logo from '../components/Logo';
@@ -11,10 +12,23 @@ const MobileNav = (props) => {
     const location = useLocation();
 
     const trackScroll = () => setScroll(document.documentElement.scrollTop);
+    function slideItems() {
+        if ($(this.nextSibling).is(':hidden')) $(this.nextSibling).slideDown({ duration: 250 });
+        else $(this.nextSibling).slideUp({ duration: 250 });
+    };
 
     useEffect(() => {
+        Array.from(document.querySelectorAll('.modal__item--drop')).forEach(el => {
+            el.addEventListener('click', slideItems);
+        });
+
         document.addEventListener('scroll', trackScroll);
-        return () => document.removeEventListener('scroll', trackScroll);
+        return () => {
+            document.removeEventListener('scroll', trackScroll);
+            Array.from(document.querySelectorAll('.modal__item--drop')).forEach(el => {
+                el.removeEventListener('click', slideItems);
+            })
+        } 
     }, []);
 
     const prevScroll = useRef();
@@ -23,6 +37,12 @@ const MobileNav = (props) => {
     useEffect(() => {
         setSideNav(false);
     }, [location.pathname]);
+
+    useEffect(() => {
+        Array.from(document.querySelectorAll('.modal__slide')).forEach(el => {
+            if ($(el).is(':visible')) $(el).slideUp();
+        });
+    }, [sideNav]);
 
     const burgerClass = ['m-nav__burger'];
     if (sideNav) {
@@ -44,50 +64,96 @@ const MobileNav = (props) => {
                         </button>
                     </div>
                     <div className="modal__body">
-                        <ul className="modal__list" style={{ height: 'calc(100% - 10rem - 6rem)' }}>
+                        <ul className="modal__list modal__list--wfoot">
                             <li className="modal__item">
                                 <Link to="/all" className="m-nav__link">
-                                    Categories
+                                    <div className="d-flex ac">
+                                        <utils.use styleClass="icon--7 icon--dark mr-1" svg="menu" />
+                                        Categories
+                                    </div>
+                                    <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                 </Link>
                             </li>
                             {props.token && 
                                 <>
-                                    <li className="modal__item">
-                                        <Link to="/user/profile" className="m-nav__link">
-                                            My profile
-                                        </Link>
+                                    <li className="modal__item modal__item--drop">
+                                        <div className="m-nav__link">
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="user" />
+                                                My profile
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
+                                        </div>
                                     </li>
-                                    <li className="modal__item">
+                                    {/* <li className="modal__slide">
+                                        <Link to="/user/profile">
+                                            Main
+                                        </Link>
+                                    </li> */}
+                                    <li className="modal__item modal__item--drop">
                                         <Link to="/user/ads" className="m-nav__link">
-                                            My ads
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="layout" />
+                                                My ads
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </Link>
                                     </li>
-                                    <li className="modal__item">
+                                    <li className="modal__item modal__item--drop">
                                         <Link to="/user/messages" className="m-nav__link">
-                                            Messages
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="mail" />
+                                                Messages
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </Link>
                                     </li>
                                     <li className="modal__item">
                                         <Link to="/user/favorites" className="m-nav__link">
-                                            Favorites
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="heart" />
+                                                Favorites
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </Link>
                                     </li>
                                     <li className="modal__item">
                                         <Link to="/user/settings" className="m-nav__link">
-                                            Settings
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="settings" />
+                                                Settings
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </Link>
                                     </li>
                                     <li className="modal__item">
                                         <Link to="/user/payments" className="m-nav__link">
-                                            Payments
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="credit-card" />
+                                                Payments
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </Link>
+                                    </li>
+                                    <li className="modal__item modal__item--last">
+                                        <button className="m-nav__link" onClick={() => props.onLogOut()}>
+                                            <div className="d-flex ac">
+                                                <utils.use styleClass="icon--7 icon--dark mr-1" svg="log-out" />
+                                                Log out
+                                            </div>
+                                            <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
+                                        </button>
                                     </li>
                                 </>
                             }
                             <Language />
                             <li className="modal__item">
-                                <Link to="/info#sitemap" className="m-nav__link">
-                                    Sitemap
+                                <Link to="/about#sitemap" className="m-nav__link">
+                                    <div className="d-flex ac">
+                                        <utils.use styleClass="icon--7 icon--dark mr-1" svg="map" />
+                                        Sitemap
+                                    </div>
+                                    <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                 </Link>
                             </li>
                         </ul>

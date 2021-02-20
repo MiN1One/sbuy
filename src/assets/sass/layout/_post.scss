@@ -153,14 +153,14 @@
             flex-direction: row;
         }
 
-        &--des {
-            width: calc(100% - 100% / 3 - 3rem);
-            margin-right: 0;
-        }
-
         &:nth-child(2) {
             position: relative;
             z-index: 1;
+        }
+
+        &--description {
+            width: calc(100% - 100% / 3 - 3rem);
+            margin-right: 0;
         }
 
         &:nth-child(3n) { margin-right: 0; }
@@ -207,12 +207,6 @@
             padding: 1.5rem 2.5rem;
         }
 
-        &--des {
-            height: 30rem;
-            resize: none;
-            padding: 1.5rem;
-        }
-
         &--price { width: 21rem; }
 
         &--title {
@@ -223,7 +217,7 @@
                 width: 50rem;
                 transform: translate(-15%, 0);
 
-                @include respond(sm) { 
+                @include respond(mid) { 
                     width: 100%;
                     transform: translate(0);
                     box-shadow: none;
@@ -252,9 +246,15 @@
 
         &--btn:focus { border-radius: .7rem; }
 
-        @include respond(sm) {
+        @include respond(mid) {
             height: auto;
             padding: 1.3rem 1.75rem;
+        }
+
+        &--description {
+            height: 30rem;
+            resize: none;
+            padding: 1.5rem;
         }
     }
 
@@ -439,7 +439,7 @@
         left: 0;
         z-index: 10;
 
-        @include respond(sm) {
+        @include respond(mid) {
             position: static;
             background: var(--color-white-bg-secondary);
         }

@@ -7,43 +7,35 @@ import * as utils from '../utilities/utilities';
 import Modal from './Modal';
 
 const RegionsDropdown = (props) => {
-    const [mobile, setMobile] = useState(false);
-    const media = window.matchMedia('(max-width: 46.9375em)');
-    const watch = () => {
-        if (media.matches) setMobile(true);
-        else setMobile(false);
-    };
-
-    useEffect(() => {
-        watch();
-        media.onchange = watch;
-    }, []);
 
     let locations = null;
-    const itemClass = mobile ? 'modal__item' : 'dropdown__item dropdown__item--grid';
+    const itemClass = props.mobile ? 'modal__item' : 'dropdown__item dropdown__item--grid';
 
     if (props.regions) {
-        const regionsArr = props.forSets ? props.regions.filter(el => el.val !== 'all') : props.regions;
+        const regionsArr = !props.multi ? props.regions.filter(el => el.val !== 'all') : props.regions;
         locations = regionsArr.map((el, i) => {
-            if (el.val === 'all') return (
-                <li 
-                    className={itemClass} 
-                    onClick={() => props.click(el.val)} 
-                    key={i}>
-                    <span>{el.title}</span>
-                </li>
-            );
 
             const active = props.searchLocation.findIndex(item => el.val === item) !== -1;
 
+            if (el.val === 'all') return (
+                <li 
+                    className={`${itemClass} ${active && 'modal__item--active'}`} 
+                    onClick={() => props.click(el.val)} 
+                    key={i}>
+                    <span className="w-100">{el.title}</span>
+                </li>
+            );
+
             return (
                 <li className={itemClass} key={i}>
-                    {props.multi && 
-                        <button className={`btn__check ${active && 'btn__check--active'} mr-1`} onClick={() => props.multi(el.val)}>
-                            <utils.use svg={active ? 'minus' : 'plus'} />
-                        </button>
-                    }
-                    <span onClick={() => props.click(el.val)}>{el.title}</span>
+                    <div className="d-flex ac w-100">
+                        {props.multi && 
+                            <button className={`btn__check ${active && 'btn__check--active'} mr-1`} onClick={() => props.multi(el.val)}>
+                                <utils.use svg={active ? 'minus' : 'plus'} />
+                            </button>
+                        }
+                        <span className="w-100" onClick={() => props.click(el.val)}>{el.title}</span>
+                    </div>
                 </li>
             );
         });
@@ -59,11 +51,20 @@ const RegionsDropdown = (props) => {
                             {locations}
                         </ul>
                     </div>
+                    {/* <div className="modal__footer">
+                        <div className="container">
+                            <div className="d-flex jc ac">
+                                <button className="modal__btn" onClick={() => onApplyChanges()}>
+                                    Show results
+                                </button>
+                            </div>
+                        </div>
+                    </div> */}
             </Modal>;
 
     return (
         <>
-            {!mobile 
+            {!props.mobile 
                 ? <Dropdown class={props.class}>
                     <ul className="dropdown__wrap">
                         {locations}
@@ -78,7 +79,8 @@ const RegionsDropdown = (props) => {
 const mapStateToProps = (state) => ({
     lang: state.localization.lang,
     searchLocation: state.localization.searchLocation,
-    regions: state.localization.translations.regionsList
+    regions: state.localization.translations.regionsList,
+    mobile: state.data.mediaSmall
 });
 
 export default connect(mapStateToProps)(React.memo(RegionsDropdown));

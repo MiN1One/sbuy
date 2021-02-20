@@ -69,8 +69,7 @@ class adview extends PureComponent {
         const root = document.documentElement;
         root.style.setProperty('--cat-item-transition', 'none');
         root.style.setProperty('--cat-item-transition-real', 'none');
-        
-        document.body.style.overflow = 'hidden';
+        root.style.overflow = 'hidden';
     }
     
     componentDidUpdate(prevProps, prevState) {
@@ -88,8 +87,7 @@ class adview extends PureComponent {
         const root = document.documentElement;
         root.style.setProperty('--cat-item-transition', 'all .3s ease');
         root.style.setProperty('--cat-item-transition-real', 'all .1s ease');
-
-        document.body.style.overflow = 'initial';
+        root.style.overflow = 'auto';
     }
 
     onLikeAd = (id) => {
@@ -130,7 +128,7 @@ class adview extends PureComponent {
             i = degrees.findIndex(el => el === this.state.rotate) + 1;
         }
         if (i > degrees.length - 1) i = 0;
-        this.setState({ rotate: degrees[i] }, () => console.log(this.state.rotate));
+        this.setState({ rotate: degrees[i] });
     } 
 
     onSendMessage = (e) => {

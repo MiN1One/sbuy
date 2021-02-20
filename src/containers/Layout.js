@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
+import * as actions from '../store/actions';
 import Footer from './Footer';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
 
 const Layout = (props) => {
     const [nav, setNav] = useState(null);
-
-    const media = window.matchMedia('(max-width: 46.875em)');
-
-    const checkForMobileMedia = () => {
-        if (media.matches) setNav(asyncComponent(() => import('../components/MobileNav')));
-        else setNav(asyncComponent(() => import('./Navigation')));
-    };
     
     useEffect(() => {
-        checkForMobileMedia();
-        media.onchange = checkForMobileMedia;
-    }, []);
+        if (props.mobile) setNav(asyncComponent(() => import('../components/MobileNav')));
+        else setNav(asyncComponent(() => import('./Navigation')));
+    }, [props.mobile]);
 
     window.mobileCheck = () => {
         let check = false;
@@ -33,13 +27,22 @@ const Layout = (props) => {
         <React.Fragment>
             {Nav && <Nav {...props} />}
                 {props.children}
-            {(!isHome && !media.matches) ? <Footer /> : null}
+            {(!isHome && !props.mobile) ? <Footer /> : null}
         </React.Fragment>
     );
 };
 
 const mapStateToProps = (state) => ({
-    token: state.user.token
+    lang: state.localization.lang,
+    favorites: state.user.favorites,
+    token: state.user.token,
+    categories: state.localization.translations.categoriesList,
+    mobile: state.data.mediaSmall
 });
 
-export default connect(mapStateToProps)(React.memo(Layout));
+const mapDispatchToProps = (dispatch) => ({
+    onLogOut: () => dispatch(actions.logOut()),
+    onLogin: (token) => dispatch(actions.logIn(token))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Layout));

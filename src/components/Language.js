@@ -7,19 +7,7 @@ import Dropdown from './Dropdown';
 import Modal from '../components/Modal';
 
 const Language = (props) => {
-    const media = window.matchMedia('(max-width: 46.875em)');
-    const [mobile, setMobile] = useState(false);
     const [modal, setModal] = useState(false);
-
-    const watch = () => {
-        if (media.matches) setMobile(true);
-        else setMobile(false); 
-    };
-
-    useEffect(() => {
-        watch();
-        media.onchange = watch;
-    }, []);
 
     const langs = [
         {
@@ -37,7 +25,7 @@ const Language = (props) => {
     ];
 
     const langItems = langs.map((el, i) => {
-        if (mobile) {
+        if (props.mobile) {
             return (
                 <div 
                     className={`modal__item${el.val === props.lang ? ' modal__item--active' : ''}`}
@@ -59,11 +47,15 @@ const Language = (props) => {
     
     const langTitle = langs.find(el => el.val === props.lang).title;
 
-    if (mobile) {
+    if (props.mobile) {
         return (
             <>
                 <div className={`language modal__item ${props.class || ''}`} onClick={() => setModal(true)}>
-                    Language: {langTitle}
+                    <div className="d-flex ac">
+                        <utils.use styleClass="icon--7 icon--dark mr-1" svg="globe" />
+                        Language: {langTitle}
+                    </div>
+                    <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                 </div>
                 {modal && 
                     <Modal 
@@ -95,7 +87,8 @@ const Language = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    lang: state.localization.lang
+    lang: state.localization.lang,
+    mobile: state.data.mediaSmall
 });
 
 const mapDispatchToProps = (dispatch) => ({

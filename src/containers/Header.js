@@ -41,7 +41,13 @@ class Header extends Component {
         }
     }
 
+    watchMedia = () => {
+        if (this.props.mobile) this.setState({ categoryComp: asyncComponent(() => import('../components/MobileCats')) });
+        else this.setState({ categoryComp: asyncComponent(() => import('../components/Categories')) });
+    }
+
     async componentDidMount() {
+        this.watchMedia();
         try {
             this.setState({ loading: true, loadingVendor: true });
             const vendorAds = await axios('https://jsonplaceholder.typicode.com/todos');
@@ -55,19 +61,11 @@ class Header extends Component {
             console.log(er);
             this.setState({ loadingVendor: false, error: er });
         }
-
-        const media = window.matchMedia('(min-width: 46.9375em)');
-        const watch = () => {
-            if (media.matches) this.setState({ categoryComp: asyncComponent(() => import('../components/Categories')) });
-            else this.setState({ categoryComp: asyncComponent(() => import('../components/MobileCats')) });
-        };
-
-        watch();
-        media.onchange = watch;
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         this.swiper.update();
+        if (prevProps.mobile !== this.props.mobile) this.watchMedia();
     }
 
     onShowMore = async () => {
@@ -157,7 +155,8 @@ const mapStateToProps = state => ({
     data: state.data.data,
     lang: state.localization.lang,
     categories: state.localization.translations.categoriesList,
-    loading: state.data.loading
+    loading: state.data.loading,
+    mobile: state.data.mediaSmall
 });
 
 const mapDispatchToProps = (dispatch) => ({

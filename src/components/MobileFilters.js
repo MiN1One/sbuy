@@ -9,6 +9,7 @@ const MobileFilters = (props) => {
     const [activeFilter, setActiveFilter] = useState(null);
     const [tempFilterMain, setTempFilterMain] = useState({});
     const [tempFilter, setTempFilter] = useState({});
+    const [fromPlaceholder, setFromPlaceholder] = useState(false);
 
     useEffect(() => {
         setTempFilter({ ...props.filters });
@@ -39,9 +40,16 @@ const MobileFilters = (props) => {
     };
 
     const onApplyFilterChange = () => {
-        setTempFilterMain(tempFilter);
-        setActiveFilter(null);
-    };  
+        if (fromPlaceholder) {
+            setTempFilterMain(tempFilter);
+            onApplyOverallChanges();
+            setFromPlaceholder(false);
+            setActiveFilter(null);
+        } else {
+            setTempFilterMain(tempFilter);
+            setActiveFilter(null);
+        }
+    };
     
     const onApplyOverallChanges = () => {
         for (let key in tempFilterMain) onFilterByOptions(key, tempFilter[key]);
@@ -161,7 +169,7 @@ const MobileFilters = (props) => {
             return (
                 <div className="d-flex fdc mob-filters__group afs" key={i}>
                     <span className="mob-filters__title">{obj.title}:</span>
-                    <button className="mob-filters__placeholder" onClick={() => setActiveFilter(obj.val)}>{titleVal}</button>
+                    <button className="mob-filters__placeholder" onClick={() => {setActiveFilter(obj.val); setFromPlaceholder(true)}}>{titleVal}</button>
                 </div>
             );
         });
@@ -207,7 +215,7 @@ const MobileFilters = (props) => {
                     click={onDiscardOverallChanges} 
                     icon="filter">
                         <div className="modal__body">
-                            <ul className="modal__list" style={{ height: 'calc(100% - 6rem - 7rem)' }}>
+                            <ul className="modal__list modal__list--wfoot">
                                 {counters}
                                 {options}
                             </ul>
@@ -228,7 +236,7 @@ const MobileFilters = (props) => {
                     title={selectedFilter.title} 
                     click={onDiscardChanges}>
                         <div className="modal__body">
-                            <ul className="modal__list">
+                            <ul className="modal__list modal__list--wfoot">
                                 {optionsList}
                             </ul>
                         </div>

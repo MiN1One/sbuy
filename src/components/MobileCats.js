@@ -22,7 +22,7 @@ const MobileCats = (props) => {
 
     const onClickSubCat = (sub) => {
         if (props.clickSub) props.clickSub(sub);
-        else history.push(`/categories/${props.categories[activeCategory].val}/${sub}`);
+        else history.push(`/categories/${props.categories[activeCategory].val}/${sub}?page=1`);
         setActiveCategory(null);
     };
 

@@ -30,4 +30,8 @@ export const filterByOptions = (name, val) => ({
     val
 });
 
+export const matchSmallMedia = (val) => ({
+    type: actionTypes.ON_MATCH_SMALL_MEDIA,
+    value: val
+});
 

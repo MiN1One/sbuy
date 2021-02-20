@@ -10,7 +10,6 @@ import LoadingScreen from '../../UI/LoadingScreen';
 
 export const Conversation = () => {
     const [loading, setLoading] = useState(false);
-
     const [message, setMessage] = useState('');
 
     const [messagesAll, setMessagesAll] = useState([

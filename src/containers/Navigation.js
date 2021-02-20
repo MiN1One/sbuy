@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 import Language from '../components/Language';
 import * as utils from '../utilities/utilities';
 import Logo from '../components/Logo';
 import Dropdown from '../components/Dropdown';
-import * as actions from '../store/actions';
 import axios from 'axios';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
 
@@ -199,16 +197,4 @@ class Navigation extends PureComponent {
     }
 }
 
-const mapStateToProps = (state) => ({
-    lang: state.localization.lang,
-    favorites: state.user.favorites,
-    token: state.user.token,
-    categories: state.localization.translations.categoriesList
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    onLogOut: () => dispatch(actions.logOut()),
-    onLogin: (token) => dispatch(actions.logIn(token))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(Navigation)));
+export default withRouter(React.memo(Navigation));

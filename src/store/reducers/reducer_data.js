@@ -34,6 +34,7 @@ const initialState = {
     loadingLazy: false,
     error: null,
     search: '',
+    mediaSmall: false,
     data: [
         {
             id: 'someId_1',
@@ -154,6 +155,8 @@ const reducer = (state = initialState, action) => {
                     [action.name]: newArr
                 }
             }
+        
+        case actionTypes.ON_MATCH_SMALL_MEDIA: return { ...state, mediaSmall: action.value }
         
         default: return state;
     }

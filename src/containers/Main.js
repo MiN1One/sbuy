@@ -55,26 +55,23 @@ class Main extends PureComponent {
             });
     }
 
+    watchMedia = () => {
+        if (this.props.mobile) this.setState({
+            pagesInterval: 3,
+            filterComponent: asyncComponent(() => import('../components/MobileFilters'))
+        });
+        else this.setState({
+            pagesInterval: 5,
+            filterComponent: asyncComponent(() => import('../components/Filter'))
+        });
+    }
+
     async componentDidMount() {
         this.importFilters();
         this.setPageIfNone();
         const data = await this.fetchData();
 
-        const media = window.matchMedia('(max-width: 46.875em)');
-
-        const watch = () => {
-            if (media.matches) this.setState({
-                pagesInterval: 3,
-                filterComponent: asyncComponent(() => import('../components/MobileFilters'))
-            });
-            else this.setState({
-                pagesInterval: 5,
-                filterComponent: asyncComponent(() => import('../components/Filter'))
-            });
-        };
-        
-        watch();
-        media.onchange = watch;
+        this.watchMedia();
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -83,6 +80,7 @@ class Main extends PureComponent {
             // this.setState({ data });
         }
         if (!utils.objectEqual(this.props.match.params, prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
+        if (prevProps.mobile !== this.props.mobile) this.watchMedia();
     }
 
     onGoToPage = (page) => {
@@ -280,7 +278,8 @@ const mapStateToProps = (state) => ({
     type: state.data.filters.type,
     sort: state.data.filters.sort,
     filtersList: state.localization.translations.filtersList,
-    regions: state.localization.translations.regionsList
+    regions: state.localization.translations.regionsList,
+    mobile: state.data.mediaSmall
 });
 
 const mapDispatchToProps = (dispatch) => ({

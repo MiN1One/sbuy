@@ -39,9 +39,9 @@ const Payments = (props) => {
         <React.Fragment>
             <div className="profile__titlebar">
                 <h2 className="heading heading__2 profile__heading">Payments</h2>
+                <h5 className="heading heading__5">Total balance: 1561,56 som</h5>
             </div>
             <div className="profile__content">
-                <h5 className="heading heading__5">Total balance: 1561,56 som</h5>
                 {view}
             </div>
         </React.Fragment>
