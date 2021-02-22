@@ -2,32 +2,32 @@
 
     @if $breakpoint == xl {
         // 1200
-        @media (min-width: 75em) { @content };
+        @media screen and (min-width: 75em) { @content };
     }
 
     @if $breakpoint == lg {
         // 1140
-        @media (max-width: 71.25em) { @content };
+        @media screen and (max-width: 71.25em) { @content };
     }
 
     @if $breakpoint == mid {
         // 980
-        @media (max-width: 61.25em) { @content };
+        @media only screen and (max-width: 61.25em) { @content };
     }
 
     @if $breakpoint == sm {
-        // 750
-        @media (max-width: 46.875em) { @content };
+        // 768
+        @media only screen and (max-width: 48em) { @content };
     }
 
     @if $breakpoint == xs {
         // 555
-        @media (max-width: 34.6875em) { @content };
+        @media only screen and (max-width: 34.6875em) { @content };
     }
 
     @if $breakpoint == ss {
         // 500
-        @media (max-width: 31.25em) { @content };
+        @media only screen and (max-width: 31.25em) { @content };
     }
 
     @if $breakpoint == mss {

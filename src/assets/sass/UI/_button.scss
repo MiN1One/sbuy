@@ -158,6 +158,10 @@
         background: #fff;
         box-shadow: 0 0 1.5rem rgba(#000, .05);
         backface-visibility: hidden;
+        padding: 2rem 2.5rem !important;
+        width: max-content;
+
+        @include respond(sm) { padding: 2rem !important; }
 
         &:hover,
         &:focus {

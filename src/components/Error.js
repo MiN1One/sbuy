@@ -15,15 +15,16 @@ const Error = (props) => {
             <div className="e__bottom">
                 <Link to="/" className="btn btn__white e__link">
                     <utils.use styleClass="e__i e__i--sm" svg="home" />
-                    Home
+                    <span className="e__title">Home</span>
+                    
                 </Link>
                 <Link className="btn btn__white e__link" to="/about#troubleshooting">
                     <utils.use styleClass="e__i e__i--sm" svg="tool" />
-                    Troubleshooting
+                    <span className="e__title">Troubleshooting</span>
                 </Link>
                 <Link to="/about#contact" className="btn btn__white e__link">
                     <utils.use styleClass="e__i e__i--sm" svg="phone-call" />
-                    Contact
+                    <span className="e__title">Contact</span>
                 </Link>
             </div>
         </div>
@@ -39,15 +40,15 @@ const Error = (props) => {
                 <div className="e__bottom">
                     <Link to="/" className="btn btn__white e__link">
                         <utils.use styleClass="e__i e__i--sm" svg="home" />
-                        Home
+                        <span className="e__title">Home</span>
                     </Link>
                     <button className="btn btn__white e__link" onClick={() => props.history.goBack()}>
                         <utils.use styleClass="e__i e__i--sm" svg="corner-up-left" />
-                        Go back
+                        <span className="e__title">Go back</span>
                     </button>
                     <Link to="/sitemap" className="btn btn__white e__link">
                         <utils.use styleClass="e__i e__i--sm" svg="map" />
-                        Sitemap
+                        <span className="e__title">Sitemap</span>
                     </Link>
                 </div>
             </div>
@@ -64,15 +65,15 @@ const Error = (props) => {
                 <div className="e__bottom">
                     <Link to="/" className="btn btn__white e__link">
                         <utils.use styleClass="e__i e__i--sm" svg="home" />
-                        Home
+                        <span className="e__title">Home</span>
                     </Link>
                     <Link className="btn btn__white e__link" to="/about#troubleshooting">
                         <utils.use styleClass="e__i e__i--sm" svg="tool" />
-                        Troubleshooting
+                        <span className="e__title">Troubleshooting</span>
                     </Link>
                     <Link to="/about#contact" className="btn btn__white e__link">
                         <utils.use styleClass="e__i e__i--sm" svg="phone-call" />
-                        Contact
+                        <span className="e__title">Contact</span>
                     </Link>
                 </div>
             </div>

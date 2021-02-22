@@ -1,6 +1,7 @@
 .e {
+    @include moveDown;
     width: 100%;
-    height: calc(100vh - 7rem);
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,7 +20,6 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
         position: relative;
         width: 100%;
         height: 100%;
@@ -34,6 +34,8 @@
     &__top {
         margin-bottom: 4rem;
         flex-direction: column;
+
+        @include respond(sm) { margin-bottom: 2rem; }
     }
 
     &__i {
@@ -45,6 +47,8 @@
             height: 2rem;
             fill: var(--color-grey-dark);
             margin-right: .7rem;
+        
+            @include respond(sm) { margin: 0; }
         }
     }
 
@@ -57,5 +61,11 @@
         padding: 2rem 2.7rem;
 
         &:not(:last-child) { margin-right: 2rem; }
+
+        @include respond(sm) { padding: 2rem; }
+    }
+
+    &__title {
+        @include respond(sm) { display: none; }
     }
 }

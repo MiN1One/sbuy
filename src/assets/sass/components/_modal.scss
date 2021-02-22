@@ -74,6 +74,19 @@
             .icon { fill: #fff; }
         }
 
+        &--drop {
+            flex-direction: column;
+            justify-content: initial;
+            align-items: initial;
+        }
+
+        &--slide {
+            display: none;
+            width: 100%;
+            margin-top: 1rem !important;
+            margin-bottom: 0 !important;
+        }
+
         @include respond(ss) {
             width: 100%;
             margin: 0;
@@ -87,14 +100,10 @@
         }
     }
 
-    &__slide {
-        display: none;
-        width: 100%;
-        margin-right: 0;
-    }
-
     &__item a,
     &__item .m-nav__link,
+    &__item--slide a,
+    &__item--slide .m-nav__link,
     &__slide a,
     &__slide .m-nav__link {
         width: 100%;

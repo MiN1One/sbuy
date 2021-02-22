@@ -31,9 +31,9 @@
         width: 70%;
         height: 55rem;
         
-        @include respond(lg) {
-            height: 50vw;
-        }
+        @include respond(lg) { height: 50vw; }
+
+        @include respond(mid) { height: 48rem; }
 
         @include respond(sm) {
             width: 100%;

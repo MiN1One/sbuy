@@ -25,11 +25,6 @@
         .post__wrapper {
             padding: 0 4rem;
             padding-top: 3rem;
-
-            @include respond(sm) {
-                padding: 0;
-                padding-top: 1.5rem;
-            }
         }
 
         .post__group {
@@ -46,14 +41,6 @@
                     width: 100%;
                     margin-right: 0;
                 }
-            }
-            
-            @include respond(mid) {
-                width: calc((100% - 1rem) / 2);
-                margin-right: 1rem;
-    
-                &:nth-child(3n) { margin-right: 1rem !important; }
-                &:nth-child(2n) { margin-right: 0 !important; }
             }
         }
 
@@ -79,10 +66,7 @@
             position: static;
             padding: 0 4rem;
 
-            @include respond(sm) {
-                background: #fff;
-                padding: 0;
-            }
+            @include respond(sm) { background: #fff !important; }
         }
     }
 
@@ -145,39 +129,50 @@
         width: calc((100% - 3rem * 2) / 3);
         margin-right: 3rem;
 
-        &--details {
-            width: 100% !important;
-            margin-right: 0;
-            display: flex;
-            flex-wrap: wrap;
-            flex-direction: row;
-        }
-
         &:nth-child(2) {
             position: relative;
             z-index: 1;
         }
 
+        &:nth-child(3n) { margin-right: 0; }
+
         &--description {
             width: calc(100% - 100% / 3 - 3rem);
             margin-right: 0;
         }
-
-        &:nth-child(3n) { margin-right: 0; }
         
         @include respond(mid) {
-            width: calc((100% - 6rem) / 2);
-            margin-right: 6rem;
+            width: calc((100% - 6rem) / 2) !important;
+            margin-right: 6rem !important;
             
-            &:nth-child(3n) { margin-right: 6rem; }
-            &:nth-child(2n) { margin-right: 0; }
+            &:nth-child(3n) { margin-right: 6rem !important; }
+            &:nth-child(2n) { margin-right: 0 !important; }
         }
         
         @include respond(sm) {
-            width: calc((100% - 1rem) / 2);
-            margin-right: 1rem;
+            width: calc((100% - 1rem) / 2) !important;
+            margin-right: 1rem !important;
             
-            &:nth-child(3n) { margin-right: 1rem; }
+            &:nth-child(3n) { margin-right: 1rem !important; }
+        }
+
+        @include respond(xs) {
+            width: 100% !important;
+            margin-right: 0 !important;
+        }
+
+        &--title {
+            @include respond(xs) { order: -1 !important; }
+        }
+
+        &--details {
+            width: 100%;
+            margin-right: 0;
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+
+            @include respond(mid) { width: 100% !important; }
         }
     }
 
@@ -218,9 +213,9 @@
                 transform: translate(-15%, 0);
 
                 @include respond(mid) { 
-                    width: 100%;
-                    transform: translate(0);
-                    box-shadow: none;
+                    width: 100% !important;
+                    transform: translate(0) !important;
+                    box-shadow: none !important;
                 }
             }
         }
@@ -247,8 +242,8 @@
         &--btn:focus { border-radius: .7rem; }
 
         @include respond(mid) {
-            height: auto;
-            padding: 1.3rem 1.75rem;
+            height: auto !important;
+            padding: 1.3rem 1.75rem !important;
         }
 
         &--description {
@@ -334,9 +329,7 @@
         }
     }
 
-    &__input--cat:hover &__icon--cat {
-        fill: var(--color-primary-opaque);
-    }
+    &__input--cat:hover &__icon--cat { fill: var(--color-primary-opaque); }
 
     &__double-form {
         display: flex;
@@ -440,8 +433,8 @@
         z-index: 10;
 
         @include respond(mid) {
-            position: static;
-            background: var(--color-white-bg-secondary);
+            position: static !important;
+            background: var(--color-white-bg-secondary) !important;
         }
     }
 

@@ -61,9 +61,7 @@
     }
 }
 
-[data-favorite=true] svg {
-    fill: var(--color-red);
-}
+[data-favorite=true] svg { fill: var(--color-red) !important; }
 
 .gradient {
     position: relative;
@@ -117,9 +115,7 @@
     height: 2.2rem;
     fill: var(--color-grey-a5);
 
-    &--fill {
-        fill: var(--color-yellow);
-    }
+    &--fill { fill: #fed330; }
 }
 
 .anim-linkp {
@@ -242,20 +238,20 @@
 
 .icon {
     transition: all .15s ease-in-out !important;
-    
-    &--dark { fill: var(--color-grey-dark) !important; }
-
-    &--7 {
-        width: 1.7rem;
-        height: 1.7rem;
-    }
-
-    &--red { fill: var(--color-red-opaque) !important; }
 
     @include respond(sm) {
         width: 2.2rem;
         height: 2.2rem;
     }
+    
+    &--dark { fill: var(--color-grey-dark) !important; }
+
+    &--7 {
+        width: 1.7rem !important;
+        height: 1.7rem !important;
+    }
+
+    &--red { fill: var(--color-red-opaque) !important; }
 }
 
 .link-underline { border-bottom: 1.5px solid rgba(#000, .1); }

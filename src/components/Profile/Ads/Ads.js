@@ -170,7 +170,7 @@ const PromotedAds = React.memo((props) => {
                 <div>
                     <FcPositiveDynamic className="profile__icon--large mb-1" />
                     Nothing here to display
-                    <Link to="/promote" className="btn btn__white mt-2">
+                    <Link to="/ads/promote" className="btn btn__white mt-2">
                         <utils.use styleClass="icon icon--dark mr-1" svg="trending-up" />
                         Promote
                     </Link>

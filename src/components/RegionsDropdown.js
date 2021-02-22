@@ -19,7 +19,7 @@ const RegionsDropdown = (props) => {
 
             if (el.val === 'all') return (
                 <li 
-                    className={`${itemClass} ${active && 'modal__item--active'}`} 
+                    className={`${itemClass} ${(active && props.mobile) && 'modal__item--active'}`} 
                     onClick={() => props.click(el.val)} 
                     key={i}>
                     <span className="w-100">{el.title}</span>
@@ -46,20 +46,11 @@ const RegionsDropdown = (props) => {
                 click={props.close}
                 title="Search Region"
                 icon="map-pin">
-                    <div class="modal__body">
+                    <div className="modal__body">
                         <ul className="modal__list">
                             {locations}
                         </ul>
                     </div>
-                    {/* <div className="modal__footer">
-                        <div className="container">
-                            <div className="d-flex jc ac">
-                                <button className="modal__btn" onClick={() => onApplyChanges()}>
-                                    Show results
-                                </button>
-                            </div>
-                        </div>
-                    </div> */}
             </Modal>;
 
     return (

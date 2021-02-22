@@ -59,8 +59,8 @@ class Post extends PureComponent {
     }
 
     watchMedia = () => {
-        if (this.props.mobile) this.setState({ categoriesComponent: asyncComponent(() => import('../components/MobileCats')) });
-        else this.setState({ categoriesComponent: asyncComponent(() => import('../components/CategoriesFull')) });
+        if (this.props.mobile && !this.props.class) this.setState({ categoriesComponent: asyncComponent(() => import('../components/MobileCats')) });
+        else if (!this.props.mobile) this.setState({ categoriesComponent: asyncComponent(() => import('../components/CategoriesFull')) });
     }
 
     componentDidMount() {
@@ -318,19 +318,22 @@ class Post extends PureComponent {
         });
 
         const Categories = this.state.categoriesComponent && this.state.categoriesComponent;
-        let categories = <Categories 
-            clickMain={this.setActiveCat}
-            clickSub={this.onSelectSubCat} 
-            close={this.onCloseCatPop} 
-            categories={this.props.categories} />;
-
-        if (this.props.mobile) {
-            categories = <Categories
+        let categories = null;
+        if (!this.props.class && Categories) {
+            categories = <Categories 
                 clickMain={this.setActiveCat}
                 clickSub={this.onSelectSubCat} 
-                categories={this.props.categories} 
-                fixed
-                close={this.onCloseCatPop} />;
+                close={this.onCloseCatPop} 
+                categories={this.props.categories} />;
+    
+            if (this.props.mobile) {
+                categories = <Categories
+                    clickMain={this.setActiveCat}
+                    clickSub={this.onSelectSubCat} 
+                    categories={this.props.categories} 
+                    fixed
+                    close={this.onCloseCatPop} />;
+            }
         }
 
         return (
@@ -438,7 +441,7 @@ class Post extends PureComponent {
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt nec nibh non porta. Donec.
                                     </p>
                                 </div>
-                                <div className="post__group">
+                                <div className="post__group post__group--title">
                                     <p className="post__title mb-1">Main title</p>
                                     <label className="post__label">
                                         <input

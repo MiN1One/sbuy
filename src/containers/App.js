@@ -21,7 +21,7 @@ const AsyncMain = asyncComponent(() => import('../containers/Main'));
 function App(props) {
   const { onImportRequisites, onMatchSmallMedia } = props;
 
-  const mediaSM = window.matchMedia('(max-width: 46.875em)');
+  const mediaSM = window.matchMedia('(max-width: 48em)');
   const watch = () => {
     if (mediaSM.matches) onMatchSmallMedia(true);
     else onMatchSmallMedia(false);
@@ -113,7 +113,7 @@ function App(props) {
         <Route path="/post-new" exact>{post}</Route>
         <Route path="/all" exact>{allCategories}</Route>
         <Route path="/all/:category" exact>{main}</Route>
-        <Route path="/promote" exact><AsyncPromote /></Route>
+        <Route path="/ads/promote" exact><AsyncPromote /></Route>
         <Route path="/user/:section">{profile}</Route>
         <Route path="/categories/:category/:subcategory">{main}</Route>
         <Route path="/" exact>{header}</Route>

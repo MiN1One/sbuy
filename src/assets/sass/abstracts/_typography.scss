@@ -20,7 +20,9 @@ body {
     &__2 {
         font-size: 3.5rem;
         font-weight: 400;
-        color: var(--color-black);
+        color: var(--color-black); 
+
+        @include respond(sm) { font-size: 2.5rem; }
     }
 
     &__3 {
