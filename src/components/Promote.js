@@ -27,22 +27,22 @@ const Promote = (props) => {
                                 </figure>
                             </div>
                             <div className="promote__card-body">
-                                <div className="promote__feature">
+                                <span className="promote__feature">
                                     <FcPlanner className="promote__icon--sm" />
                                     3 days premium plan
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcHighPriority className="promote__icon--sm" />
                                     Some advantage 2
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcHighPriority className="promote__icon--sm" />
                                     Some advantage 3
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcOk className="promote__icon--sm" />
                                     Some advantage 4
-                                </div>
+                                </span>
                             </div>
                             <button className="btn btn__primary promote__card-btn">
                                 $1.99
@@ -56,22 +56,22 @@ const Promote = (props) => {
                                 </figure>
                             </div>
                             <div className="promote__card-body">
-                                <div className="promote__feature">
+                                <span className="promote__feature">
                                     <FcPlanner className="promote__icon--sm" />
                                     14 days premium plan
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcOk className="promote__icon--sm" />
                                     Some advantage 2
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcOk className="promote__icon--sm" />
                                     Some advantage 3
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcOk className="promote__icon--sm" />
                                     Some advantage 4
-                                </div>
+                                </span>
                             </div>
                             <button className="btn btn__secondary promote__card-btn">
                                 $5.99
@@ -85,22 +85,22 @@ const Promote = (props) => {
                                 </figure>
                             </div>
                             <div className="promote__card-body">
-                                <div className="promote__feature">
+                                <span className="promote__feature">
                                     <FcPlanner className="promote__icon--sm" />
                                     7 days premium plan
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcOk className="promote__icon--sm" />
                                     Some advantage 2
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcHighPriority className="promote__icon--sm" />
                                     Some advantage 3
-                                </div>
-                                <div className="promote__feature">
+                                </span>
+                                <span className="promote__feature">
                                     <FcOk className="promote__icon--sm" />
                                     Some advantage 4
-                                </div>
+                                </span>
                             </div>
                             <button className="btn btn__primary promote__card-btn">
                                 $3.99

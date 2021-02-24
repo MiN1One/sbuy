@@ -342,12 +342,14 @@ class Post extends PureComponent {
                 <section className={`post ${this.props.class || ''}`}>
                     <div className="container">
                         <div className="post__wrapper">
-                            <div className="post__head">
-                                <h2 className="heading heading__2 mb-1">Post new add</h2>
-                                <span className="post__text">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id tellus a eros vulputate euismod in at orci. Ut felis ipsum, bibendum vitae elit viverra, consectetur tincidunt lorem. Donec lectus.
-                                </span>
-                            </div>
+                            {!this.props.class && 
+                                <div className="post__head">
+                                    <h2 className="heading heading__2 mb-1">Post new add</h2>
+                                    <span className="post__text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id tellus a eros vulputate euismod in at orci. Ut felis ipsum, bibendum vitae elit viverra, consectetur tincidunt lorem. Donec lectus.
+                                    </span>
+                                </div>
+                            }
                             {this.state.error && <p className="post__hint post__hint--red mb-2">{this.state.error}</p>}
                             <div className="post__main">
                                 <div className="post__group">

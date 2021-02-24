@@ -16,10 +16,7 @@
         height: 100%;
     }
 
-    &__top {
-        // justify-content: flex-start;
-        border-bottom: 1px solid rgba(#000, .07);
-    }
+    &__top { border-bottom: 1px solid rgba(#000, .07); }
 
     &__bottom {
         z-index: 100;

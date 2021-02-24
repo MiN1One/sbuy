@@ -11,6 +11,7 @@ import * as actions from '../store/actions';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
 
 const AsyncAdview = asyncComponent(() => import('../components/Adview'));
+const AsyncMobileAdview = asyncComponent(() => import('../components/MobileAdview'));
 
 class Main extends PureComponent {
     state = {
@@ -72,6 +73,7 @@ class Main extends PureComponent {
         const data = await this.fetchData();
 
         this.watchMedia();
+        console.log(this.state.currentPage);
     }
 
     async componentDidUpdate(prevProps, prevState) {
@@ -80,6 +82,7 @@ class Main extends PureComponent {
             // this.setState({ data });
         }
         if (!utils.objectEqual(this.props.match.params, prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
+        console.log(this.state.currentPage);
         if (prevProps.mobile !== this.props.mobile) this.watchMedia();
     }
 
@@ -202,7 +205,12 @@ class Main extends PureComponent {
         if (!this.state.loading) {
             view = (
                 <React.Fragment>
-                    <Route path="/categories/:category/:subcategory/:id" exact component={AsyncAdview} />
+                    <Route path="/categories/:category/:subcategory/:id" exact>
+                        {this.props.mobile 
+                            ? <AsyncMobileAdview {...this.props} />
+                            : <AsyncAdview {...this.props} />
+                        }
+                    </Route>
                     <main className="main">
                         <div className="container">
                             <div className="main__wrapper">
@@ -279,7 +287,8 @@ const mapStateToProps = (state) => ({
     sort: state.data.filters.sort,
     filtersList: state.localization.translations.filtersList,
     regions: state.localization.translations.regionsList,
-    mobile: state.data.mediaSmall
+    mobile: state.data.mediaSmall,
+    categories: state.localization.translations.categoriesList
 });
 
 const mapDispatchToProps = (dispatch) => ({

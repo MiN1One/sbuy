@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import SwiperCore, { Scrollbar, Mousewheel, Pagination, Navigation } from 'swiper';
-import { connect } from 'react-redux';
 import Rating from 'react-rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
@@ -21,7 +20,7 @@ import axios from 'axios';
 
 SwiperCore.use([Scrollbar, Mousewheel, Pagination, Navigation]);
 
-class adview extends PureComponent {
+class Adview extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -72,7 +71,7 @@ class adview extends PureComponent {
         root.style.overflow = 'hidden';
     }
     
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.match.params.id !== this.props.match.params.id) {
             this.fetchData();
             this.swiper.update();
@@ -118,8 +117,8 @@ class adview extends PureComponent {
     onGoFullScreen = () => this.setState({ fullScreen: true });
     onCloseFullScreen = () => this.setState({ fullScreen: false });
 
-    onReachBeginSwiper = () => this.setState({ swiperBegin: true, swiperEnd: false }, () => console.log(this.state.swiperBegin, this.state.swiperEnd));
-    onReachEndSwiper = () => this.setState({ swiperBegin: false, swiperEnd: true }, () => console.log(this.state.swiperBegin, this.state.swiperEnd));
+    onReachBeginSwiper = () => this.setState({ swiperBegin: true, swiperEnd: false });
+    onReachEndSwiper = () => this.setState({ swiperBegin: false, swiperEnd: true });
 
     onRotate = () => {
         let i = 0;
@@ -188,21 +187,25 @@ class adview extends PureComponent {
     }
 
     render() {
-        let category = `/${this.props.match.params.category}`;
-        let subcategory = this.props.match.params.subcategory;
-        
+        const category = this.props.match.params.category;
+        const subcategory = this.props.match.params.subcategory;
+        const categories = this.props.categories || null;
+
         let routes = null;
-        if (this.props.match.params.category && this.props.match.params.subcategory) {
+        if (categories) {
+            const categoryTitle = categories[category].title;
+            const subcategoryTitle = categories[category].subCategories.find(el => el.val === subcategory).title;
+            
             routes = (
                 <React.Fragment>
-                    <Link to={category} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.capitalize(utils.parseUrl(utils.formatRouteString(category)))}</Link>
-                    <Link to={`${category}/${subcategory}`} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.capitalize(utils.parseUrl(utils.formatRouteString(subcategory)))}</Link>
+                    <Link to={`/${category}`} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{categoryTitle}</Link>
+                    <Link to={`/${category}/${subcategory}`} className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{subcategoryTitle}</Link>
                 </React.Fragment>
             );
         }
 
         let rotateDegClass = '';
-        if (this.state.rotate) rotateDegClass = `adview__rotate--${this.state.rotate}`;
+        if (this.state.rotate) rotateDegClass = `rotate--${this.state.rotate}`;
 
         const topGradientClass = ['adview__gradient adview__gradient--top'];
         const bottomGradientClass = ['adview__gradient'];
@@ -219,8 +222,7 @@ class adview extends PureComponent {
                     height="100%"
                     className="adview__img"
                     src={el}
-                    alt={i}
-                    />
+                    alt={i} />
             </SwiperSlide>
         ));
         
@@ -228,25 +230,24 @@ class adview extends PureComponent {
             <React.Fragment>
                 {this.props.data.map((el, i) => {
                     return (
-                        <Link to={`${category}/${subcategory}/${el.id}`} className="adview__card adview__box adview__box--card" key={i}>
-                            <figure className="adview__figure adview__figure--card mr-2">
+                        <Link to={`${category}/${subcategory}/${el.id}`} className="adview__card" key={i}>
+                            <figure className="adview__card-figure">
                                 <LazyLoadImage 
                                     className="adview__img adview__img--card"
                                     src={el.img[0]}
                                     width="100%"
-                                    height="100%"
-                                    />
+                                    height="100%" />
                             </figure>
-                            <div className="adview__group adview__group--col w-max afs">
-                                <span className="adview__subheading adview__subheading--card mb-1">{utils.limitStrAny(el.title, 15, true)}</span>
+                            <div className="adview__group fdc w-max afs">
+                                <span className="adview__subheading adview__subheading--card mb-1">{utils.limitStrAny(el.title, 11, false)}</span>
                                 <span className="adview__title mb-5">{el.date}</span>
                                 <span className="adview__title mb-5">{el.location}</span>
-                                <span className="price-tag">{el.price}</span>
+                                <span className="price-tag adview__card-price">{el.price}</span>
                             </div>
                         </Link>
-                    )
+                    );
                 })}
-                <button className="adview__card adview__card--btn">See all</button>
+                <button className="adview__card-btn">See all</button>
             </React.Fragment>
         );
 
@@ -288,11 +289,10 @@ class adview extends PureComponent {
                                 <div className="container">
                                     <div className="adview__head">
                                         <div className="adview__group">
-                                            <Link to="/" className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">Home</Link>
                                             {routes}
                                             <span className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto">{utils.limitStrAny(ad.title, 15, true)}</span>
                                         </div>
-                                        <div className="adview__group">
+                                        <div className="adview__group adview__group--nav">
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto afs" onClick={() => this.onClickPrev()}>
                                                 <utils.use styleClass="icon--7" svg="chevron-left" />
                                                 Previous Ad
@@ -322,24 +322,24 @@ class adview extends PureComponent {
                                                     onImagesReady={() => this.swiper.update()}
                                                     onSlideChange={(sw) => this.setState({ activeSwiperImage: sw.activeIndex })}
                                                     preventInteractionOnTransition={true}>
-                                                    {images}
-                                                    <button className="adview__btn adview__btn--abs adview__btn--left" id="left">
-                                                        <utils.use styleClass="icon--7" svg="chevron-left" />
-                                                    </button>
-                                                    <button className="adview__btn adview__btn--abs adview__btn--right" id="right">
-                                                        <utils.use styleClass="icon--7" svg="chevron-right" />
-                                                    </button>
-                                                    <div className="adview__group adview__group--abs">
-                                                        <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner mr-2 pos-rel no-transition" onClick={() => this.onRotate()}>
-                                                            <utils.use styleClass="icon--7" svg="rotate-cw" />
-                                                            <Tooltip>Rotate the photo</Tooltip>
+                                                        {images}
+                                                        <button className="adview__btn adview__btn--abs adview__btn--left" id="left">
+                                                            <utils.use styleClass="icon--7" svg="chevron-left" />
                                                         </button>
-                                                        <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner pos-rel no-transition" onClick={() => this.onGoFullScreen()}>
-                                                            <utils.use styleClass="icon--7" svg="maximize" />
-                                                            <Tooltip>Full Screen</Tooltip>
+                                                        <button className="adview__btn adview__btn--abs adview__btn--right" id="right">
+                                                            <utils.use styleClass="icon--7" svg="chevron-right" />
                                                         </button>
-                                                    </div>
-                                                    <div className="swiper-pagination"></div>
+                                                        <div className="adview__group adview__group--abs">
+                                                            <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner mr-2 pos-rel no-transition" onClick={() => this.onRotate()}>
+                                                                <utils.use styleClass="icon--7" svg="rotate-cw" />
+                                                                <Tooltip>Rotate the photo</Tooltip>
+                                                            </button>
+                                                            <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner pos-rel no-transition" onClick={() => this.onGoFullScreen()}>
+                                                                <utils.use styleClass="icon--7" svg="maximize" />
+                                                                <Tooltip>Full Screen</Tooltip>
+                                                            </button>
+                                                        </div>
+                                                        <div className="swiper-pagination"></div>
                                                 </Swiper>
                                                 <div className="adview__details mb-2">
                                                     <div className="adview__group sb">
@@ -376,12 +376,12 @@ class adview extends PureComponent {
                                                 </div>
                                             </div>
                                             <div className="adview__box adview__box--description">
-                                                <div className="adview__subhead sb mb-2">
-                                                    <h2 className="heading heading__2 adview__subheading">Description</h2>
+                                                <div className="adview__description-head">
+                                                    <h2 className="heading heading__2 d-flex">Description</h2>
                                                     <p className="adview__title">Number of views: 153&nbsp;&nbsp;|&nbsp;&nbsp;Edited at 13:16</p>
                                                 </div>
-                                                <div className="adview__group adview__group--col afs mb-1">
-                                                    <p className="adview__title adview__title--mid mb-1">Secifications:</p>
+                                                <div className="adview__group fdc afs mb-1">
+                                                    <p className="heading heading__5 mb-1">Secifications:</p>
                                                     <ul className="adview__group adview__group--wrap">
                                                         <li className="tag tag__types mb-1">Camera: 100MP</li>
                                                         <li className="tag tag__types mb-1">CPU: Snapdragon 865</li>
@@ -392,8 +392,8 @@ class adview extends PureComponent {
                                                         <li className="tag tag__types mb-1">RAM: 8GB</li>
                                                     </ul>
                                                 </div>
-                                                <div className="adview__group adview__group--col afs">
-                                                    <p className="adview__title adview__title--mid mb-1">Personalized description:</p>
+                                                <div className="adview__group fdc afs">
+                                                    <p className="heading heading__5 mb-1">Personalized description:</p>
                                                     <p className="adview__text">
                                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra odio vel risus consequat feugiat. Vivamus nec lorem auctor felis suscipit ullamcorper sit amet non orci. Sed ornare justo eu arcu convallis venenatis. Sed luctus maximus viverra. Nullam sit amet urna fermentum, dignissim urna semper, auctor mi. Mauris pulvinar porta augue, sodales ultricies urna placerat vitae.
                                                     </p>
@@ -449,7 +449,7 @@ class adview extends PureComponent {
                                             </div>
                                             {this.state.showMessageBar && 
                                                 <div className="adview__box adview__box--message">
-                                                    <div className="adview__group adview__group--sb mb-1">
+                                                    <div className="adview__group sb mb-1">
                                                         <p className="adview__title" ref={this.mesTitleRef}>Write your message:</p>
                                                         <button className="adview__btn adview__btn--sm adview__btn--rel pos-rel" onClick={() => this.onHideMessageBar()}>
                                                             <utils.use styleClass="icon--7" svg="x" />
@@ -484,7 +484,6 @@ class adview extends PureComponent {
                                                 <span className={bottomGradientClass.join(' ')}></span>
                                                 <SwiperSlide className="adview__cards">
                                                     {adsFrom}
-                                                    
                                                 </SwiperSlide>
                                                 <div className="swiper-scrollbar" id="scrollbar-2"></div>
                                             </Swiper>
@@ -500,14 +499,4 @@ class adview extends PureComponent {
     }
 }
 
-const mapStateToProps = state => ({
-    lang: state.localization.lang,
-    favorites: state.user.favorites,
-    data: state.data.data
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    onSetFavorites: (list) => dispatch(actions.setFavorites(list))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(adview)));
+export default withRouter(React.memo(Adview));

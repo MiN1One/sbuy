@@ -113,7 +113,11 @@ class Navigation extends PureComponent {
                         </Link>
                     </li>
                 </ul>
-                <button className="dropdown__btn dropdown__btn--grey" onClick={() => this.props.onLogOut()}>Log out</button>
+                <button 
+                    className="dropdown__btn dropdown__btn--grey" 
+                    onClick={() => this.props.onLogOut()}>
+                        Log out
+                </button>
             </Dropdown>
         );
         if (!this.props.token) {

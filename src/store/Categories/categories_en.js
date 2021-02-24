@@ -1,5 +1,5 @@
 const categories = {
-    kids: {
+    for_kids: {
         val: 'for_kids',
         title: 'For kids',
         subCategories: [
@@ -14,7 +14,7 @@ const categories = {
         ],
         icon: 'child_friendly'
     },
-    real: {
+    real_estate: {
         val: 'real_estate',
         title: 'Real estate',
         subCategories: [
@@ -26,7 +26,7 @@ const categories = {
         ],
         icon: 'home'
     },
-    tech: {
+    electronics: {
         val: 'electronics',
         title: 'Electronics',
         subCategories: [
@@ -51,7 +51,7 @@ const categories = {
         ],
         icon: 'devices'
     },
-    trans: {
+    transport_auto: {
         val: 'transport_auto',
         title: 'Transport / Auto',
         subCategories: [
@@ -114,7 +114,7 @@ const categories = {
         ],
         icon: 'paw',
     },
-    home: {
+    home_and_garden: {
         val: 'home_and_garden',
         title: 'Home & garden',
         subCategories: [
@@ -132,7 +132,7 @@ const categories = {
         ],
         icon: 'tree'
     },
-    business: {
+    business_and_services: {
         val: 'business_and_services',
         title: 'Business & services',
         subCategories: [
@@ -157,7 +157,7 @@ const categories = {
         ],
         icon: 'truck2'
     },
-    fashion: {
+    fashion_and_style: {
         val: 'fashion_and_style',
         title: 'Fashion & style',
         subCategories: [
@@ -170,7 +170,7 @@ const categories = {
         ],
         icon: 'black-tie'
     },
-    sports: {
+    sports_hobby_and_comfort: {
         val: 'sports_hobby_and_comfort',
         title: 'Sports / Hobby & Comfort',
         subCategories: [

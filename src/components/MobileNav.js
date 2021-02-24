@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useParams, withRouter } from 'react-router-dom';
 import $ from 'jquery';
 
 import * as utils from '../utilities/utilities';
@@ -10,6 +10,7 @@ const MobileNav = (props) => {
     const [sideNav, setSideNav] = useState(false);
     const [scroll, setScroll] = useState(0);
     const location = useLocation();
+    const params = useParams();
 
     const trackScroll = () => setScroll(document.documentElement.scrollTop);
     function slideItems() {
@@ -37,6 +38,7 @@ const MobileNav = (props) => {
 
     useEffect(() => {
         setSideNav(false);
+        if (utils.getQueryParamValue('cat')) prevScroll.current = -1; 
     }, [location.pathname]);
 
     useEffect(() => {
@@ -86,12 +88,12 @@ const MobileNav = (props) => {
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/profile" className="modal__link">
+                                            <Link to="/user/profile" className="m-nav__link">
                                                 Main
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/company" className="modal__link">
+                                            <Link to="/user/company" className="m-nav__link">
                                                 Company
                                             </Link>
                                         </div>
@@ -105,17 +107,17 @@ const MobileNav = (props) => {
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/ads" className="modal__link">
+                                            <Link to="/user/ads" className="m-nav__link">
                                                 Active
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/ads/inactive" className="modal__link">
+                                            <Link to="/user/ads/inactive" className="m-nav__link">
                                                 Inactive
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/ads/promoted" className="modal__link">
+                                            <Link to="/user/ads/promoted" className="m-nav__link">
                                                 Promoted
                                             </Link>
                                         </div>
@@ -129,17 +131,17 @@ const MobileNav = (props) => {
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/messages" className="modal__link">
+                                            <Link to="/user/messages" className="m-nav__link">
                                                 Inbox
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/messages/sentbox" className="modal__link">
+                                            <Link to="/user/messages/sentbox" className="m-nav__link">
                                                 Sentbox
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/messages/spam" className="modal__link">
+                                            <Link to="/user/messages/spam" className="m-nav__link">
                                                 Spam
                                             </Link>
                                         </div>

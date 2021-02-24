@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
-import * as actions from '../store/actions';
 import Dropdown from './Dropdown';
 import * as utils from '../utilities/utilities';
 import Modal from './Modal';

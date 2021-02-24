@@ -107,8 +107,8 @@
     &__rounded {
         position: absolute;
         top: 50%;
-        left: 8%;
-        transform: translate(-50%, -50%);
+        left: 4%;
+        transform: translateY(-50%);
         z-index: 5;
         background: rgba(#000, .5);
         padding: .7rem;
@@ -118,7 +118,10 @@
 
         &:not(.btn__rounded--disabled):hover { background: rgba(#000, .9) }
 
-        &--right { left: 92%; }
+        &--right {
+            right: 4%;
+            left: initial;
+        }
 
         &--disabled {
             opacity: .5;
