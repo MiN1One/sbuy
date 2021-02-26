@@ -9,15 +9,6 @@ import { connect } from 'react-redux';
 
 class Card extends PureComponent {
 
-    onLikeAd = (id) => {
-        let newList = null;
-        const exists = this.props.favorites.find(el => el === id);
-        if (exists) newList = this.props.favorites.filter(el => el !== id);
-        else newList = [...this.props.favorites, id];
-        localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
-        this.props.onSetFavorites(newList);
-    }
-
     render() {
         const pathname = this.props.match.url === '/' ? '/premium/' : `${this.props.match.url}/`;
     
@@ -49,8 +40,11 @@ class Card extends PureComponent {
                         <span className="price-tag">{utils.formatPrice(this.props.data.price)}</span>
                     </div>
                 </Link>
-                <button className="card__btn" data-favorite={isFavorite ? true : false} onClick={() => this.onLikeAd(this.props.data.id)}>
-                    {isFavorite ? <FaHeart className="card__icon icon" /> : <FaRegHeart className="card__icon icon" />}
+                <button 
+                    className="card__btn" 
+                    data-favorite={isFavorite ? true : false} 
+                    onClick={() => this.props.onSetFavorites(this.props.data.id)}>
+                        {isFavorite ? <FaHeart className="card__icon icon" /> : <FaRegHeart className="card__icon icon" />}
                 </button>
             </div>
         );
@@ -62,7 +56,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onSetFavorites: (list) => dispatch(actions.setFavorites(list))
+    onSetFavorites: (ad) => dispatch(actions.setFavorites(ad))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(withRouter(Card)));

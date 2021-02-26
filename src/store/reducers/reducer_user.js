@@ -9,7 +9,16 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
 
-        case actionTypes.ON_SET_FAVORITES: return { ...state, favorites: action.list };
+        case actionTypes.ON_SET_FAVORITES: 
+            let newList = null;
+
+            const exists = state.favorites.find(el => el === action.ad);
+
+            if (exists) newList = state.favorites.filter(el => el !== action.ad);
+            else newList = [...state.favorites, action.ad];
+
+            localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
+            return { ...state, favorites: newList };
 
         case actionTypes.ON_LOG_IN: return { ...state, token: action.token };
 

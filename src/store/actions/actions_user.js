@@ -1,7 +1,6 @@
-import { type } from 'jquery';
 import actionTypes from './actionTypes';
 
-export const setFavorites = (list) => ({ type: actionTypes.ON_SET_FAVORITES, list });
+export const setFavorites = (ad) => ({ type: actionTypes.ON_SET_FAVORITES, ad });
 
 export const logOut = () => ({ type: actionTypes.ON_LOG_OUT });
 

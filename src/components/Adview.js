@@ -4,6 +4,7 @@ import { SwiperSlide, Swiper } from 'swiper/react';
 import SwiperCore, { Scrollbar, Mousewheel, Pagination, Navigation } from 'swiper';
 import Rating from 'react-rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
@@ -87,15 +88,6 @@ class Adview extends PureComponent {
         root.style.setProperty('--cat-item-transition', 'all .3s ease');
         root.style.setProperty('--cat-item-transition-real', 'all .1s ease');
         root.style.overflow = 'auto';
-    }
-
-    onLikeAd = (id) => {
-        let newList = null;
-        const exists = this.props.favorites.find(el => el === id);
-        if (exists) newList = this.props.favorites.filter(el => el !== id);
-        else newList = [...this.props.favorites, id];
-        localStorage.setItem('favorite_ads_sbuy', JSON.stringify(newList));
-        this.props.onSetFavorites(newList);
     }
 
     onNextImage = (img) => {
@@ -367,8 +359,11 @@ class Adview extends PureComponent {
                                                             <button 
                                                                 className="adview__btn adview__btn--rel DTool pos-rel no-transition" 
                                                                 data-favorite={isFavorite} 
-                                                                onClick={() => this.onLikeAd(ad.id)}>
-                                                                    <utils.use styleClass="icon--7" svg="heart" />
+                                                                onClick={() => this.props.onSetFavorites(ad.id)}>
+                                                                    {isFavorite
+                                                                        ? <FaHeart className="icon--7" />
+                                                                        : <FaRegHeart className="icon--7" />
+                                                                    }
                                                                     <Tooltip>{!isFavorite ? 'Add to favourites' : 'Remove from favorites'}</Tooltip>
                                                             </button>
                                                         </div>

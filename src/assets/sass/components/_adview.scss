@@ -146,7 +146,7 @@
             border-radius: 0;
             border: none;
             width: auto;
-            height: 41vw;
+            height: 45vw;
         }
     }
 
@@ -373,9 +373,9 @@
     }
 
     &__numbox {
-        opacity: 1 !important;
-        visibility: visible !important;
-        padding: 3rem 2rem !important;
+        opacity: 1;
+        visibility: visible;
+        padding: 3rem 2rem;
     }
 
     &__description-head {

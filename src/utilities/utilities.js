@@ -68,8 +68,9 @@ export const limitStrAny = (str, limitLength, space) => {
     return str;
 };
 
-export const getQueryParamValue = (name) => {
-    const queries = window.location.search.substring(1).split('&');
+export const getQueryParamValue = (name, locationObj) => {
+    let queries = window.location.search.substring(1).split('&');
+    if (locationObj) queries = locationObj.substring(1).split('&');
     let value = null;
     queries.forEach(el => {
         const query = el.split('=');

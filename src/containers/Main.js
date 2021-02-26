@@ -17,7 +17,7 @@ class Main extends PureComponent {
     state = {
         loading: false,
         data: [...this.props.data],
-        currentPage: parseInt(utils.getQueryParamValue('page')),
+        currentPage: parseInt(utils.getQueryParamValue('page', this.props.location.search)),
         numberOfPages: 41,
         pagesInterval: 5,
         filterComponent: null
@@ -207,8 +207,8 @@ class Main extends PureComponent {
                 <React.Fragment>
                     <Route path="/categories/:category/:subcategory/:id" exact>
                         {this.props.mobile 
-                            ? <AsyncMobileAdview {...this.props} />
-                            : <AsyncAdview {...this.props} />
+                            ? <AsyncMobileAdview {...this.props} page={this.state.currentPage} />
+                            : <AsyncAdview {...this.props} page={this.state.currentPage} />
                         }
                     </Route>
                     <main className="main">
@@ -292,7 +292,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onSetFavorites: (list) => dispatch(actions.setFavorites(list)),
+    onSetFavorites: (ad) => dispatch(actions.setFavorites(ad)),
     onLoading: () => dispatch(actions.setLoading()),
     onImportRequisites: (req, list) => dispatch(actions.importRequisites(req, list)),
     onFilterByCountersDispatch: (name, index, val) => dispatch(actions.filterByCounters(name, index, val)),

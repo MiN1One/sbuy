@@ -7,7 +7,7 @@ import * as utils from '../utilities/utilities';
 const Error = (props) => {
 
     let view = (
-        <div className="e__main">
+        <div className={`e__main ${props.class || ''}`}>
             <div className="e__top">
                 <FcBrokenLink className="e__i mb-2" />
                 <h2 className="heading heading__2">Oops, Something went wrong</h2>
@@ -31,7 +31,7 @@ const Error = (props) => {
     );
     if (props.notFound) {
         view = (
-            <div className="e__main">
+            <div className={`e__main ${props.class || ''}`}>
                 <div className="e__top">
                     <FcMediumPriority className="e__i mb-2" />
                     <h2 className="heading heading__2 mb-1">Sorry, Page is not found</h2>

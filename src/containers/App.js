@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -20,6 +20,11 @@ const AsyncMain = asyncComponent(() => import('../containers/Main'));
 
 function App(props) {
   const { onImportRequisites, onMatchSmallMedia } = props;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() =>{
+    setMounted(true);
+  }, []);
 
   const mediaSM = window.matchMedia('(max-width: 48em)');
   const watch = () => {
@@ -27,11 +32,11 @@ function App(props) {
     else onMatchSmallMedia(false);
   };
 
-  useEffect(() => {
+  if (!mounted) {
     // --------- MATCH SMALL MEDIA ---------
     watch();
     mediaSM.onchange = watch;
-  }, []);
+  }
 
   useEffect(() => {
     // --------- IMPORT REGIONS ---------
