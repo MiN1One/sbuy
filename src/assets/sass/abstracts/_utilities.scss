@@ -23,6 +23,8 @@
     height: 100% !important;
 }
 
+.w-50 { width: 50% !important; }
+
 .no-transition { 
     transition: none !important; 
     & > * { transition: none !important; }

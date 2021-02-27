@@ -18,6 +18,8 @@
 
   &--small { font-size: 3.5px; }
 
+  &--mid { font-size: 4.5px; }
+
   &--grey::after,
   &--grey::before { background: var(--color-light-7) !important; }
 }

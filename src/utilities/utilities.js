@@ -138,3 +138,15 @@ export const objectEqual = (object1, object2) => {
 
     return true;
 };
+
+export const onCopyToClipboard = (val) => {
+    const el = document.createElement('textarea');
+    el.value = val;
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    el.setSelectionRange(0, 99999);
+    document.execCommand('copy');
+    document.body.removeChild(el);
+};

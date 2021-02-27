@@ -5,19 +5,19 @@ import SwiperCore, { Scrollbar, Mousewheel, Pagination, Navigation } from 'swipe
 import Rating from 'react-rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import axios from 'axios';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/scrollbar/scrollbar.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/navigation/navigation.scss';
 
-import * as actions from '../store/actions';
 import * as utils from '../utilities/utilities';
 import avatar from '../assets/images/32.jpg';
 import Backdrop from '../UI/Backdrop';
 import Tooltip from '../UI/Tooltip';
 import LoadingScreen from '../UI/LoadingScreen';
-import axios from 'axios';
+import LoadingSub from '../UI/LoadingSub';
 
 SwiperCore.use([Scrollbar, Mousewheel, Pagination, Navigation]);
 
@@ -35,7 +35,8 @@ class Adview extends PureComponent {
             fullScreen: false,
             swiperBegin: true,
             swiperEnd: false,
-            activeSwiperImage: 0
+            activeSwiperImage: 0,
+            loadingMes: false
         }
 
         this.categoryPath = `${this.props.match.params.category}/${this.props.match.params.subcategory}`;
@@ -124,6 +125,7 @@ class Adview extends PureComponent {
 
     onSendMessage = (e) => {
         e.preventDefault();
+
         if (this.state.message) {
             this.mesTitleRef.current.textContent = 'Your message is sent!';
             setTimeout(() => {
@@ -134,23 +136,11 @@ class Adview extends PureComponent {
 
     closePopup = () => {
         if (!this.props.match.params.category && !this.props.match.params.subcategory) this.props.history.goBack();
-        else this.props.history.replace('/categories/' + this.categoryPath);
+        else this.props.history.replace(`/categories/${this.categoryPath}?page=${this.props.page ? this.props.page : '1'}`);
     }
 
     onShowMessageBar = () => this.setState({ showMessageBar: true });
     onHideMessageBar = () => this.setState({ showMessageBar: false });
-
-    onCopyNum = (val) => {
-        const el = document.createElement('textarea');
-        el.value = val;
-        el.style.position = 'absolute';
-        el.style.left = '-9999px';
-        document.body.appendChild(el);
-        el.select();
-        el.setSelectionRange(0, 99999);
-        document.execCommand('copy');
-        document.body.removeChild(el);
-    }
 
     onHideNum = () => this.setState({ showNum: false });
     
@@ -415,8 +405,7 @@ class Adview extends PureComponent {
                                                             fractions={2} 
                                                             emptySymbol={<utils.useStars styleClass="rating" svg="star-empty" />}
                                                             fullSymbol={<utils.useStars styleClass="rating rating--fill" svg="star-full" />}
-                                                            onChange={(r) => this.setState({ rating: r })}
-                                                            />
+                                                            onChange={(r) => this.setState({ rating: r })} />
                                                         <span>{(Math.round(this.state.rating * 100) / 100).toFixed(1)}</span>
                                                     </span>
                                                 </span>
@@ -430,8 +419,8 @@ class Adview extends PureComponent {
                                                             <Backdrop z={98} click={this.onHideNum} />
                                                             <Tooltip class="adview__numbox" click={this.onHideNum}>
                                                                 <span className="adview__number">+684 655985 2656</span>
-                                                                <button className="adview__btn adview__btn--clip ml-1" onClick={() => this.onCopyNum('+684 655985 2656')} title="Copy number">
-                                                                    <utils.use styleClass="icon--7 ml-5" svg="clipboard" />
+                                                                <button className="adview__btn adview__btn--clip ml-1" onClick={() => utils.onCopyToClipboard('+684 655985 2656')} title="Copy number">
+                                                                    <utils.use styleClass="icon--7" svg="clipboard" />
                                                                 </button>
                                                             </Tooltip>
                                                         </React.Fragment>
@@ -439,27 +428,53 @@ class Adview extends PureComponent {
                                                 </div>
                                                 <button className="adview__btn--main adview__item btn btn__secondary" onClick={() => this.onShowMessageBar()}>
                                                     Write a message
-                                                    <utils.use styleClass="icon--7 icon ml-5" svg="edit-2" />
+                                                    <utils.use styleClass="icon--7 ml-5" svg="edit-2" />
                                                 </button>
                                             </div>
                                             {this.state.showMessageBar && 
                                                 <div className="adview__box adview__box--message">
-                                                    <div className="adview__group sb mb-1">
-                                                        <p className="adview__title" ref={this.mesTitleRef}>Write your message:</p>
-                                                        <button className="adview__btn adview__btn--sm adview__btn--rel pos-rel" onClick={() => this.onHideMessageBar()}>
-                                                            <utils.use styleClass="icon--7" svg="x" />
-                                                        </button>
-                                                    </div>
-                                                    <form className="adview__form" onSubmit={(e) => this.onSendMessage(e)}>
-                                                        <div className="adview__input-box">
-                                                            <textarea autoFocus required className="adview__input mr-5" placeholder="Message..." type="text" onChange={(e) => this.setState({ message: e.target.value })} value={this.state.message} />
-                                                            {this.state.message !== '' && <span className="adview__title mt-1">{300 - this.state.message.length} characters left</span>}
-                                                        </div>
-                                                        <button className="wh-auto btn btn__primary btn__primary--outline">
-                                                            Send
-                                                            <utils.use styleClass="icon--7 icon ml-5" svg="send" />
-                                                        </button>
-                                                    </form>
+                                                    {this.state.loadingMes
+                                                        ? <LoadingSub class="loader--mid" />
+                                                        : <>
+                                                            <div className="d-flex ac sb w-100 mb-1">
+                                                                <p className="adview__title" ref={this.mesTitleRef}>Write your message:</p>
+                                                                <button className="adview__btn adview__btn--sm adview__btn--rel pos-rel" onClick={() => this.onHideMessageBar()}>
+                                                                    <utils.use styleClass="icon--7" svg="x" />
+                                                                </button>
+                                                            </div>
+                                                            <form className="d-flex fdc w-100" onSubmit={(e) => this.onSendMessage(e)}>
+                                                                <div className="d-flex fdc afs mb-1">
+                                                                    <textarea 
+                                                                        autoFocus 
+                                                                        required 
+                                                                        className="adview__input mr-5" 
+                                                                        placeholder="Message..." 
+                                                                        type="text" 
+                                                                        onChange={(e) => this.setState({ message: e.target.value })} 
+                                                                        value={this.state.message} />
+                                                                    {this.state.message !== '' && 
+                                                                        <span className="adview__title mt-1">
+                                                                            {300 - this.state.message.length} characters left
+                                                                        </span>
+                                                                    }
+                                                                </div>
+                                                                <div className="d-flex">
+                                                                    <input className="d-none" type="file" ref={(el) => this.fileRef = el} />
+                                                                    <button 
+                                                                        type="button" 
+                                                                        className="btn btn__primary btn__primary--outline mr-5 w-50"
+                                                                        onClick={() => this.fileRef.current.click()}>
+                                                                        Attach
+                                                                        <utils.use styleClass="icon--7 icon ml-5" svg="paperclip" />
+                                                                    </button>
+                                                                    <button type="submit" className="btn btn__primary btn__primary--outline w-50">
+                                                                        Send
+                                                                        <utils.use styleClass="icon--7 icon ml-5" svg="send" />
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </>
+                                                    }
                                                 </div>
                                             }
                                             <Swiper

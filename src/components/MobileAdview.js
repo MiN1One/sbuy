@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useHistory, useLocation, useParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination } from 'swiper';
 import Rating from 'react-rating';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -14,8 +15,8 @@ import avatar from '../assets/images/32.jpg';
 import Modal from './Modal';
 import LoadingScreen from '../UI/LoadingScreen';
 import * as utils from '../utilities/utilities';
+import LoadingSub from '../UI/LoadingSub';
 import Backdrop from '../UI/Backdrop';
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 SwiperCore.use([Navigation, Pagination]);
 
@@ -24,12 +25,18 @@ const MobileAdview = (props) => {
     const location = useLocation();
     const params = useParams();
 
+    const attachmentRef = useRef();
+    const messageRef = useRef();
+    const modalRef = useRef();
+
     const [swiper, setSwiper] = useState(null);
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [fullscreen, setFullscreen] = useState(false);
 
     const [loading, setLoading] = useState(false);
+    const [loadingMes, setLoadingMes] = useState(false);
+
     const [adId, setAdId] = useState();
     const [adIndex, setAdIndex] = useState(null);
     const [data, setData] = useState(null);
@@ -38,13 +45,10 @@ const MobileAdview = (props) => {
     const [messagePop, setMessagePop] = useState(false);
 
     useEffect(() => {
-
-    }, [props.lang]);
-
-    useEffect(() => {
         setAdId(params.id);
         const index = props.data.findIndex(el => el.id === params.id);
         setAdIndex(index);
+        if (modalRef.current) modalRef.current.scrollTop = 0
     }, [params.id, props.data]);
 
     useEffect(() => {
@@ -52,7 +56,11 @@ const MobileAdview = (props) => {
     });
 
     const onCloseModal = () => {
-        history.push(`/categories/${params.category}/${params.subcategory}?page=${props.page}`);
+        history.push(`/categories/${params.category}/${params.subcategory}?page=${props.page ? props.page : '1'}`);
+    };
+
+    const onSendMessage = () => {
+
     };
 
     if (loading) {
@@ -66,7 +74,6 @@ const MobileAdview = (props) => {
     const ad = adIndex && props.data[adIndex];
     let adImages = null,
         adsFrom = null;
-
 
     const onMoveToNextImg = () => {
         if (ad.img.length - 1 > activeImageIndex) 
@@ -157,7 +164,7 @@ const MobileAdview = (props) => {
                 title={utils.limitStrAny(ad.title, 20, false)}
                 click={onCloseModal}>
                     <div className="modal__body">
-                        <div className="modal__list modal__list--wfoot">
+                        <div className="modal__list modal__list--wfoot" ref={modalRef} id="m-adview-container">
                             <div className="m-adview__body">
                                 <Swiper
                                     className="m-adview__img-list"
@@ -184,7 +191,6 @@ const MobileAdview = (props) => {
                                             <button 
                                                 className={`m-adview__btn-rounded ${isFavorite ? 'm-adview__btn-rounded--active' : ''}`} 
                                                 onClick={() => props.onSetFavorites(adId)}>
-                                                    {/* <utils.use styleClass="icon--7" svg="heart" /> */}
                                                     {isFavorite
                                                         ? <FaHeart className="icon--7" />
                                                         : <FaRegHeart className="icon--7" />
@@ -310,6 +316,27 @@ const MobileAdview = (props) => {
                                                 <utils.use styleClass="icon icon--dark" svg="x" /> 
                                             </button>
                                         </div>
+                                        <div className="modal__float-body">
+                                            {loadingMes
+                                                ? <LoadingSub class="loader--mid" />
+                                                : <>
+                                                    <div className="d-flex fdc">
+                                                        <span className="m-adview__subtext mb-5">Write you message:</span>
+                                                        <textarea type="text" className="modal__textarea mr-5" ref={messageRef} />
+                                                    </div>
+                                                    <div className="d-flex modal__float-body--mss">
+                                                        <input className="d-none" type="file" ref={attachmentRef} />
+                                                        <button className="btn btn__primary mr-5" onClick={() => attachmentRef.current.click()} >
+                                                            <utils.use styleClass="icon--7" svg="paperclip" />
+                                                        </button>
+                                                        <button className="btn btn__primary" onClick={() => onSendMessage()}>
+                                                            <utils.use styleClass="icon--7 mr-5" svg="edit-2" />
+                                                            Send
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                                 <div className={`modal__float ${phonePop ? 'modal__float--show' : ''}`}>
@@ -321,20 +348,30 @@ const MobileAdview = (props) => {
                                             </button>
                                         </div>
                                         <div className="modal__float-body">
-                                            <div className="d-flex fdc">
-                                                <figure className="modal__figure mr-2">
+                                            <div className="d-flex fdc ac mr-15">
+                                                <figure className="modal__figure mb-15">
                                                     <img className="modal__img" src={avatar} alt={avatar} />
                                                 </figure>
-                                                <figcaption className="m-adview__pop-text">John Doe</figcaption>
+                                                <figcaption className="modal__float-text">John Doe</figcaption>
                                             </div>
-                                            <div>
-                                                <div className="modal__item">
-                                                    <span className="m-adview__subtext">Phone number:</span>
-                                                    <span className="m-adview__pop-text">+65468484648</span>
+                                            <div className="d-flex fdc">
+                                                <div className="d-flex fdc mb-1">
+                                                    <span className="m-adview__subtext mb-5">Phone number:</span>
+                                                    <div className="d-flex">
+                                                        <span className="modal__float-text modal__float-text--withbtn">+65468484648</span>
+                                                        <button className="modal__float-btn" onClick={() => utils.onCopyToClipboard('+65468484648')}>
+                                                            <utils.use styleClass="icon--7" svg="clipboard" />
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div className="modal__item">
-                                                    <span className="m-adview__subtext">Email address:</span>
-                                                    <span className="m-adview__pop-text">johndoe@mail.eu</span>
+                                                <div className="d-flex fdc">
+                                                    <span className="m-adview__subtext mb-5">Email address:</span>
+                                                    <div className="d-flex">
+                                                        <span className="modal__float-text modal__float-text--withbtn">johndoe@mail.eu</span>
+                                                        <button className="modal__float-btn" onClick={() => utils.onCopyToClipboard('johndoe@mail.eu')}>
+                                                            <utils.use styleClass="icon--7" svg="clipboard" />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

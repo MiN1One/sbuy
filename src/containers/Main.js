@@ -39,7 +39,10 @@ class Main extends PureComponent {
     }
 
     setPageIfNone = () => {
-        if (!parseInt(utils.getQueryParamValue('page')) || isNaN(this.state.currentPage)) {
+        if ((!parseInt(utils.getQueryParamValue('page')) || isNaN(this.state.currentPage)) && 
+            !this.props.match.params.id
+           ) 
+        {
             this.setState({ page: 1 }, () => {
                 this.props.history.push('?page=1');
             });
@@ -81,8 +84,10 @@ class Main extends PureComponent {
             const data = await this.fetchData();
             // this.setState({ data });
         }
+
+        if (isNaN(this.state.currentPage) || !this.state.currentPage) this.setState({ currentPage: 1 });
+
         if (!utils.objectEqual(this.props.match.params, prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
-        console.log(this.state.currentPage);
         if (prevProps.mobile !== this.props.mobile) this.watchMedia();
     }
 

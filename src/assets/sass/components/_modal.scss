@@ -144,8 +144,8 @@
         transition: transform .3s ease;
         width: 100%;
         z-index: 100;
-        border-bottom: 1px solid rgba(#000, .09);
-        border-top: 1px solid rgba(#000, .09);
+        border-bottom: 1px solid rgba(#000, .07);
+        border-top: 1px solid rgba(#000, .07);
         box-shadow: 0 -.5rem .5rem rgba(#000, .03);
         
         &--show { transform: translateY(-6rem); }
@@ -156,20 +156,58 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid rgba(#000, .07);
     }
 
     &__float-body {
         display: flex;
+        padding-bottom: 3rem;
+        align-items: flex-end;
         justify-content: center;
-        padding: 3rem 0;
+
+        @include respond(mss) {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &--mss {
+            @include respond(mss) { margin-top: 1rem; }
+        }
+    }
+
+    &__float-text {
+        font-size: 1.75rem;
+        font-size: 300;
+        color: var(--color-black);
+        border: 1px solid rgba(#000, .07);
+        border-radius: 3rem;
+        width: max-content;
+        padding: .75rem 1.75rem;
+        
+        &--withbtn {
+            border-radius: 3rem 0 0 3rem;
+            padding: .75rem 2rem;
+            width: 18rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: clip;
+            // min-width: 25rem;
+        }
+    }
+
+    &__float-btn {
+        background: var(--color-primary);
+        border-radius: 0 3rem 3rem 0;
+        padding: .7rem 1.25rem;
+        display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     &__figure {
-        width: 10rem;
-        height: 10rem;
+        width: 8.5rem;
+        height: 8.5rem;
         border-radius: 50%;
+        border: 3px solid var(--color-primary-opaque);
         overflow: hidden;
     }
 
@@ -177,5 +215,13 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
+    }
+
+    &__textarea {
+        border: 1px solid rgba(#000, .07);
+        border-radius: .7rem;
+        padding: .5rem;
+        width: 20rem;
+        max-height: 3.5rem;
     }
 }

@@ -49,6 +49,7 @@ input,
 textarea {
   border: none;
   font-family: 'Inter', sans-serif;
+  resize: none;
 
   &:focus { outline: none; }
 

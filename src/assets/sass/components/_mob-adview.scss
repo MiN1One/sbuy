@@ -141,7 +141,7 @@
         border: 1px solid rgba(#000, .07);
         border-radius: .7rem;
 
-        @include respond(xs) { height: 22.5rem; }
+        @include respond(xs) { height: 23.5rem; }
     }
 
     &__card {
@@ -233,12 +233,6 @@
         position: relative;
         z-index: 2;
         width: auto;
-        height: auto;
-    }
-
-    &__pop-text {
-        font-size: 1.9rem;
-        font-size: 300;
-        color: var(--color-black);
+        height: 50vw;
     }
 }
