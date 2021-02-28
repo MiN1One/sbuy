@@ -12,11 +12,6 @@ export const handleError = (e) => ({
 
 export const setLoading = () => ({ type: actionTypes.ON_SET_LOADING });
 
-export const setLoadingForLazy = (val) => ({
-    type: actionTypes.ON_SET_LOADING_LAZY,
-    val
-});
-
 export const filterByCounters = (name, index, val) => ({
     type: actionTypes.ON_FILTER_BY_COUNTERS,
     name,

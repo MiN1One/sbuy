@@ -7,7 +7,6 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import * as utils from '../../utilities/utilities';
 import LoadingScreen from '../../UI/LoadingScreen';
 
-
 export const Conversation = () => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
@@ -51,7 +50,7 @@ export const Conversation = () => {
                     value={message} />
                 <button className="btn btn__secondary btn__secondary--outline profile__btn-send">
                     Send
-                    <utils.use styleClass="icon ml-5" svg="send" />
+                    <utils.use styleClass="icon--7 icon--dark ml-5" svg="send" />
                 </button>
             </div>
         </React.Fragment>

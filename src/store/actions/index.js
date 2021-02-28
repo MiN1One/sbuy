@@ -3,12 +3,12 @@ export {
     changeLanguage,
     changeSearchLoc,
     importRequisites,
-    addSearchLocation
+    addSearchLocation,
+    setLoadingMain
 } from './actions_localization';
 
 export {
     changeSearchInput,
-    setLoadingForLazy,
     setLoading,
     handleError,
     filterByOptions,

@@ -31,7 +31,6 @@ const initialState = {
         { title: 'Discover Everything', img: int2 }
     ],
     loading: false,
-    loadingLazy: false,
     error: null,
     search: '',
     mediaSmall: false,
@@ -130,9 +129,6 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ON_CATCH_ERROR: return { ...state, error: action.error }
 
         case actionTypes.ON_SET_LOADING: return { ...state, loading: true }
-
-        case actionTypes.ON_SET_LOADING_LAZY: return { ...state, loadingLazy: action.val }
-
 
         case actionTypes.ON_FILTER_BY_OPTIONS: return {
             ...state, 

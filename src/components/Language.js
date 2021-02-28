@@ -53,7 +53,7 @@ const Language = (props) => {
                 <div className={`language modal__item ${props.class || ''}`} onClick={() => setModal(true)}>
                     <div className="d-flex ac">
                         <utils.use styleClass="icon--7 icon--dark mr-1" svg="globe" />
-                        Language: {langTitle}
+                        {props.base}: {langTitle}
                     </div>
                     <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                 </div>
@@ -79,7 +79,7 @@ const Language = (props) => {
                 <utils.use styleClass="nav__icon nav__icon--arrow" svg="chevron-down" />
             </div>
             <Dropdown class={props.dropClass}>
-                <p className="dropdown__title">Language:</p>
+                <p className="dropdown__title">{props.base}:</p>
                 {langItems}
             </Dropdown>
         </div>
@@ -88,7 +88,8 @@ const Language = (props) => {
 
 const mapStateToProps = (state) => ({
     lang: state.localization.lang,
-    mobile: state.data.mediaSmall
+    mobile: state.data.mediaSmall,
+    base: state.localization.translations.base.lang
 });
 
 const mapDispatchToProps = (dispatch) => ({

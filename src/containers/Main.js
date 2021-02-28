@@ -133,6 +133,9 @@ class Main extends PureComponent {
     }
 
     render() {
+        // --------- TRANSLATIONS VIA PROPS ---------
+        const t = this.props.base;
+
         const premiumArr = this.state.data.filter(el => el.premium === true);
         const premium = premiumArr.map((el, i) => <Card data={el} key={i} />);
 
@@ -221,20 +224,20 @@ class Main extends PureComponent {
                             <div className="main__wrapper">
                                 <div className="main__head">
                                     <div className="main__group">
-                                        <h2 className="heading heading__2 main__heading mb-5 mr-1">Premiuim ads</h2>
-                                        <Link to="/all" className="filter__btn filter__btn--close main__link">See all</Link>
+                                        <h2 className="heading heading__2 main__heading mb-5 mr-1">{t.premium_ads}</h2>
+                                        <Link to="/all" className="filter__btn filter__btn--close main__link">{t.see_all}</Link>
                                     </div>
-                                    <span className="main__subhead">Found 1,354 ads in this category</span>
+                                    <span className="main__subhead">{t.found_ads[0]} 1,354 {t.found_ads[1]}</span>
                                 </div>
                                 <div className="main__list">{premium}</div>
                                 <div className="main__head">
-                                    <h2 className="heading heading__2 main__heading mb-5">Usual ads</h2>
-                                    <span className="main__subhead">Found 4,635 ads in this category</span>
+                                    <h2 className="heading heading__2 main__heading mb-5">{t.usual_ads}</h2>
+                                    <span className="main__subhead">{t.found_ads[0]} 4,635 {t.found_ads[1]}</span>
                                 </div>
                                 <div className="main__list">{usualAds}</div>
                                 <div className="main__pagination">
                                     <div>
-                                        <span className="main__subhead d-flex mb-1">Page: </span>
+                                        <span className="main__subhead d-flex mb-1">{t.page}: </span>
                                         <div className="d-flex ac">
                                             {this.state.currentPage !== 1 && 
                                                 <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPagePrev()}>
@@ -252,12 +255,12 @@ class Main extends PureComponent {
                                         </div>
                                     </div>
                                     <button className="btn btn__primary btn__primary--outline main__btn" onClick={() => this.onLoadMore()}>
-                                        Load more
+                                        {t.show_more}
                                         <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                     </button>
                                 </div>
                                 <button className="btn btn__primary btn__primary--outline main__btn main__btn--mobile mt-2" onClick={() => this.onLoadMore()}>
-                                    Load more
+                                    {t.show_more}
                                     <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                 </button>
                             </div>
@@ -293,7 +296,10 @@ const mapStateToProps = (state) => ({
     filtersList: state.localization.translations.filtersList,
     regions: state.localization.translations.regionsList,
     mobile: state.data.mediaSmall,
-    categories: state.localization.translations.categoriesList
+    categories: state.localization.translations.categoriesList,
+
+    // translations
+    base: state.localization.translations.base
 });
 
 const mapDispatchToProps = (dispatch) => ({

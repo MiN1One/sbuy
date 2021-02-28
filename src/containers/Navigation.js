@@ -59,6 +59,9 @@ class Navigation extends PureComponent {
     }
 
     render() {
+        // ---------- TRANSLATIONS VIA PROPS ---------
+        const t = this.props.base;
+
         const signClass = ['nav__item nav__item--hoverable'];
         if (this.state.inputFocused) signClass.push('nav__item--keep');
 
@@ -68,47 +71,47 @@ class Navigation extends PureComponent {
 
         let userDrop = (
             <Dropdown class="dropdown--right-fix">
-                <p className="dropdown__title">Profile:</p>
+                <p className="dropdown__title">{t.profile}:</p>
                 <ul className="dropdown__list">
                     <li className="dropdown__item">
                         <Link to="/user/profile" className="dropdown__link message-badge">
-                            My profile
+                            {t.my_profile}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
                         <Link to="/user/ads" className="dropdown__link message-badge">
-                            My Ads
+                            {t.my_ads}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
                         <Link to="/user/messages" className="dropdown__link message-badge">
-                            Messages
+                            {t.messages}
                             <span className="message-badge__counter">3</span>
                         </Link>
                     </li>
                     <li className="dropdown__item">
                         <Link to="/user/settings" className="dropdown__link message-badge">
-                            Settings
+                            {t.settings}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
                         <Link to="/user/payments" className="dropdown__link message-badge">
-                            Payments
+                            {t.payments}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
                         <Link to="/user/favorites" className="dropdown__link message-badge">
-                            Favorites
+                            {t.favorites}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
                         <Link to="/user/promotions" className="dropdown__link message-badge">
-                            Promotions
+                            {t.promotions}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
@@ -116,7 +119,7 @@ class Navigation extends PureComponent {
                 <button 
                     className="dropdown__btn dropdown__btn--grey" 
                     onClick={() => this.props.onLogOut()}>
-                        Log out
+                        {t.logout}
                 </button>
             </Dropdown>
         );
@@ -124,7 +127,7 @@ class Navigation extends PureComponent {
             userDrop = (
                 <Dropdown class="dropdown--w-auto">
                     <div className="dropdown__link dropdown__link--col">
-                        <p className="nav__info nav__info--bold">Sign in</p>
+                        <p className="nav__info nav__info--bold">{t.sign}</p>
                         <form className="nav__form" onSubmit={(e) => this.onLogin(e)}>
                             <input 
                                 className="nav__input input" 
@@ -138,7 +141,7 @@ class Navigation extends PureComponent {
                                 onFocus={() => this.onFocus()} 
                                 onBlur={() => this.onBlur()} 
                                 ref={this.passwordRef} />
-                            <button className="btn btn__primary dropdown__btn--sign" onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} >Sign in</button>
+                            <button className="btn btn__primary dropdown__btn--sign" onFocus={() => this.onFocus()} onBlur={() => this.onBlur()} >{t.sign}</button>
                             <p className="nav__info">Do not have an account? <Link to="/signup" className="nav__info--high">Sign up</Link></p>
                         </form>
                     </div>
@@ -161,7 +164,7 @@ class Navigation extends PureComponent {
                             <div className="nav__list">
                                 <div className="nav__item">
                                     <Link to="/user/favorites" className="nav__link">
-                                        <span className="nav__title nav__title--user">Favorites</span>
+                                        <span className="nav__title nav__title--user">{t.favorites}</span>
                                         <div className="d-flex ac jc">
                                             <utils.use styleClass="nav__icon m-0" svg="folder" />
                                             {this.props.favorites.length > 0 && <div className="ml-5">{this.props.favorites.length}</div>}
@@ -171,7 +174,7 @@ class Navigation extends PureComponent {
                                 <div className={signClass.join(' ')}>
                                     <Link to={this.props.token ? '/user/profile' : '/signin'} className="nav__link">
                                         <utils.use styleClass="nav__icon nav__icon--arrow" svg="chevron-down" />
-                                        <span className="nav__title nav__title--user">{this.props.token ? 'My profile' : 'Sign in'}</span>
+                                        <span className="nav__title nav__title--user">{this.props.token ? t.my_profile : t.sign}</span>
                                         <div className="nav__iconbox">
                                             <utils.use styleClass="nav__icon nav__icon--abs nav__icon--white" svg="user" />
                                             {this.props.token && <span className="message-badge__empty"></span>}
@@ -182,13 +185,13 @@ class Navigation extends PureComponent {
                                 
                                 {isNotPost && 
                                     <Link to="/post-new" className="btn btn__primary nav__btn">
-                                        <span className="nav__title nav__title--white">Advert</span>
+                                        <span className="nav__title nav__title--white">{t.advert}</span>
                                         <utils.use styleClass="nav__icon nav__icon--white" svg="plus" />
                                     </Link>
                                 }
                                 {isNotHome && 
                                     <button className="btn btn__secondary nav__btn" onClick={() => this.onOpenCategories()}>
-                                        <span className="nav__title nav__title--white">Categories</span>
+                                        <span className="nav__title nav__title--white">{t.categories}</span>
                                         <utils.use styleClass="nav__icon nav__icon--white" svg="menu" />
                                     </button>
                                 }

@@ -5,6 +5,9 @@ import * as utils from '../utilities/utilities';
 import Modal from '../components/Modal';
 
 const MobileFilters = (props) => {
+    // ---------- TRANSLATIONS VIA PROPS ---------
+    const t = props.base;
+
     const [modal, setModal] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);
     const [tempFilterMain, setTempFilterMain] = useState({});
@@ -185,7 +188,7 @@ const MobileFilters = (props) => {
                     <div className="mob-filters__wrapper">
                         <div className="mob-filters__placeholders">
                             <div className="d-flex fdc mob-filters__group">
-                                <span className="mob-filters__title">Search location:</span>
+                                <span className="mob-filters__title">{t.search_region}:</span>
                                 <div className="mob-filters__placeholder">
                                     <utils.use styleClass="mob-filters__i--sm mr-5" svg="map-pin" />
                                     {regionTitle}
@@ -195,7 +198,7 @@ const MobileFilters = (props) => {
                         </div>
                         <button className="mob-filters__btn" onClick={() => setModal(true)}>
                             <utils.use styleClass="mob-filters__i--lg mr-5" svg="filter" />
-                            Filters
+                            {t.filters}
                         </button>
                     </div>
                 </div>
@@ -211,7 +214,7 @@ const MobileFilters = (props) => {
             </div>
             {modal && 
                 <Modal 
-                    title="Filters" 
+                    title={t.filters} 
                     click={onDiscardOverallChanges} 
                     icon="filter">
                         <div className="modal__body">
@@ -224,7 +227,7 @@ const MobileFilters = (props) => {
                             <div className="container">
                                 <div className="d-flex jc ac">
                                     <button className="modal__btn" onClick={() => onApplyOverallChanges()}>
-                                        Show results
+                                        {t.show_res}
                                     </button>
                                 </div>
                             </div>
@@ -244,7 +247,7 @@ const MobileFilters = (props) => {
                             <div className="container">
                                 <div className="d-flex ac jc">
                                     <button className="modal__btn" onClick={() => onApplyFilterChange()}>
-                                        Apply
+                                        {t.apply}
                                     </button>
                                 </div>
                             </div>

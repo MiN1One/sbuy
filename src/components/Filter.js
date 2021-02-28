@@ -43,7 +43,9 @@ class Filter extends PureComponent {
     }
 
     render() {
-        
+        // ---------- TRANSLATIONS VIA PROPS ---------
+        const t = this.props.base;
+
         const category = this.props.match.params.category;
         const subcategory = this.props.match.params.subcategory;
         
@@ -136,10 +138,10 @@ class Filter extends PureComponent {
                     <div className="container">
                         <div className="f__wrapper">
                             <div className="f__list f__list--headline">
-                                <h3 className="heading heading__3 f__heading">Filters</h3>
+                                <h3 className="heading heading__3 f__heading">{t.filters}</h3>
                                 <div className="f__group">
                                     <button className="f__btn f__btn--close btn__sub" onClick={() => this.onClearFilters()}>
-                                        Clear
+                                        {t.clear}
                                         <utils.use styleClass="f__icon ml-5" svg="x" />
                                     </button>
                                 </div>
@@ -148,7 +150,7 @@ class Filter extends PureComponent {
                                 {counters}
                                 {subCatItems}
                                 <li className="f__item">
-                                    <p className="heading__sm">Sort by</p>
+                                    <p className="heading__sm">{t.sort}</p>
                                     <div>
                                         <div className="f__input f__input--d input" tabIndex="0">
                                             {sortTitle}
@@ -184,7 +186,7 @@ class Filter extends PureComponent {
                                 </li>
                             </ul>
                             <div className="f__group f__group--breadc h-100">
-                                <Link to="/" className="f__link f__link--route">Home</Link>
+                                <Link to="/" className="f__link f__link--route">{t.home}</Link>
                                 <span className="f__link f__link--route">&bull;</span>
                                 <Link to={'/' + category} className="f__link f__link--route">{catTitle}</Link>
                                 <span className="f__link f__link--route">&bull;</span>

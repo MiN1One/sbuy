@@ -43,7 +43,7 @@ const RegionsDropdown = (props) => {
     const mobileList = props.show 
         &&  <Modal 
                 click={props.close}
-                title="Search Region"
+                title={props.base.search_region}
                 icon="map-pin">
                     <div className="modal__body">
                         <ul className="modal__list">
@@ -70,7 +70,10 @@ const mapStateToProps = (state) => ({
     lang: state.localization.lang,
     searchLocation: state.localization.searchLocation,
     regions: state.localization.translations.regionsList,
-    mobile: state.data.mediaSmall
+    mobile: state.data.mediaSmall,
+
+    // translations
+    base: state.localization.translations.base
 });
 
 export default connect(mapStateToProps)(React.memo(RegionsDropdown));

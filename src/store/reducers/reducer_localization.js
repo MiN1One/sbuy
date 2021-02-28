@@ -5,11 +5,13 @@ const systemLanguage = navigator.language.split('-')[0];
 const initialState = {
     lang: localStorage.getItem('SBUY_LANGUAGE') || systemLanguage,
     location: 'Tashkent',
+    loading: false,
     searchLocation: JSON.parse(localStorage.getItem('SBUY_SEARCH_LOCATION')) || ['all'],
     translations: {
         regionsList: null,
         categoriesList: null,
-        filtersList: {}
+        filtersList: {},
+        base: null
     }
 };
 
@@ -34,6 +36,8 @@ const reducer = (state = initialState, action) => {
                     [action.requisite]: action.list
                 }
             }
+
+        case actionTypes.ON_SET_LOADING_MAIN: return { ...state, loading: action.value }
         
         case actionTypes.ADD_SEARCH_LOCATION:
             let newArr = [action.location];

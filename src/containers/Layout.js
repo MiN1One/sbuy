@@ -37,7 +37,10 @@ const mapStateToProps = (state) => ({
     favorites: state.user.favorites,
     token: state.user.token,
     categories: state.localization.translations.categoriesList,
-    mobile: state.data.mediaSmall
+    mobile: state.data.mediaSmall,
+
+    // translations
+    base: state.localization.translations.base
 });
 
 const mapDispatchToProps = (dispatch) => ({

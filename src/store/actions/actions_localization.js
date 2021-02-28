@@ -25,3 +25,8 @@ export const addSearchLocation = (location) => ({
     type: actionTypes.ADD_SEARCH_LOCATION,
     location
 });
+
+export const setLoadingMain = (val) => ({
+    type: actionTypes.ON_SET_LOADING_MAIN,
+    value: val
+});

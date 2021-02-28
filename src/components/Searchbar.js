@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../store/actions';
@@ -7,6 +7,9 @@ import * as utils from '../utilities/utilities';
 import RegionsDropdown from './RegionsDropdown';
 
 const Searchbar = (props) => {
+    // ---------- TRANSLATIONS VIA PROPS ---------
+    const t = props.base;
+
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState('');
 
@@ -55,7 +58,7 @@ const Searchbar = (props) => {
                                     <input 
                                         className="s__input"
                                         type="text"
-                                        placeholder="Search..."
+                                        placeholder={t.search + '...'}
                                         id="search"
                                         onChange={(ev) => setSearch(ev.target.value)}
                                         value={search} />
@@ -105,7 +108,10 @@ const mapStateToProps = (state) => ({
     searchLocation: state.localization.searchLocation,
     search: state.data.search,
     regions: state.localization.translations.regionsList,
-    mobile: state.data.mediaSmall
+    mobile: state.data.mediaSmall,
+
+    // translations
+    base: state.localization.translations.base
 });
 
 const mapDispatchToProps = (dispatch) => ({

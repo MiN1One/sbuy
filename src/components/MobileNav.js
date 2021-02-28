@@ -7,6 +7,9 @@ import Logo from '../components/Logo';
 import Language from './Language';
 
 const MobileNav = (props) => {
+    // ---------- TRANSLATIONS VIA PROPS ---------
+    const t = props.base;
+
     const [sideNav, setSideNav] = useState(false);
     const [scroll, setScroll] = useState(0);
     const location = useLocation();
@@ -72,7 +75,7 @@ const MobileNav = (props) => {
                                 <Link to="/all" className="m-nav__link">
                                     <div className="d-flex ac">
                                         <utils.use styleClass="icon--7 icon--dark mr-1" svg="menu" />
-                                        Categories
+                                        {t.categories}
                                     </div>
                                     <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                 </Link>
@@ -83,18 +86,18 @@ const MobileNav = (props) => {
                                         <div className="m-nav__link">
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="user" />
-                                                My profile
+                                                {t.my_profile}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/profile" className="m-nav__link">
-                                                Main
+                                                {t.main}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/company" className="m-nav__link">
-                                                Company
+                                                {t.company}
                                             </Link>
                                         </div>
                                     </li>
@@ -102,23 +105,23 @@ const MobileNav = (props) => {
                                         <div className="m-nav__link">
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="layout" />
-                                                My ads
+                                                {t.my_ads}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/ads" className="m-nav__link">
-                                                Active
+                                                {t.active}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/ads/inactive" className="m-nav__link">
-                                                Inactive
+                                                {t.inactive}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/ads/promoted" className="m-nav__link">
-                                                Promoted
+                                                {t.promoted}
                                             </Link>
                                         </div>
                                     </li>
@@ -126,23 +129,23 @@ const MobileNav = (props) => {
                                         <div className="m-nav__link">
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="mail" />
-                                                Messages
+                                                {t.messages}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/messages" className="m-nav__link">
-                                                Inbox
+                                                {t.inbox}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/messages/sentbox" className="m-nav__link">
-                                                Sentbox
+                                                {t.sentbox}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
                                             <Link to="/user/messages/spam" className="m-nav__link">
-                                                Spam
+                                                {t.spam}
                                             </Link>
                                         </div>
                                     </li>
@@ -150,7 +153,7 @@ const MobileNav = (props) => {
                                         <Link to="/user/favorites" className="m-nav__link">
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="heart" />
-                                                Favorites
+                                                {t.favorites}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </Link>
@@ -159,7 +162,7 @@ const MobileNav = (props) => {
                                         <Link to="/user/settings" className="m-nav__link">
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="settings" />
-                                                Settings
+                                                {t.settings}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </Link>
@@ -168,7 +171,7 @@ const MobileNav = (props) => {
                                         <Link to="/user/payments" className="m-nav__link">
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="credit-card" />
-                                                Payments
+                                                {t.payments}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </Link>
@@ -177,7 +180,7 @@ const MobileNav = (props) => {
                                         <button className="m-nav__link" onClick={() => props.onLogOut()}>
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="log-out" />
-                                                Log out
+                                                {t.logout}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                         </button>
@@ -189,7 +192,7 @@ const MobileNav = (props) => {
                                 <Link to="/about#sitemap" className="m-nav__link">
                                     <div className="d-flex ac">
                                         <utils.use styleClass="icon--7 icon--dark mr-1" svg="map" />
-                                        Sitemap
+                                        {t.sitemap}
                                     </div>
                                     <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                 </Link>
@@ -198,7 +201,7 @@ const MobileNav = (props) => {
                                 <Link to="/about" className="m-nav__link">
                                     <div className="d-flex ac">
                                         <utils.use styleClass="icon--7 icon--dark mr-1" svg="book" />
-                                        About
+                                        {t.about}
                                     </div>
                                     <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
                                 </Link>
@@ -209,8 +212,8 @@ const MobileNav = (props) => {
                         <div className="container h-100">
                             <div className="d-flex ac jc h-100">
                                 {!props.token 
-                                    ? <Link to="/signin" className="modal__btn">Sign in</Link> 
-                                    : <Link to="/post-new" className="modal__btn">Advert</Link>
+                                    ? <Link to="/signin" className="modal__btn">{t.sign}</Link> 
+                                    : <Link to="/post-new" className="modal__btn">{t.advert}</Link>
                                 }
                             </div>
                         </div>
@@ -234,28 +237,28 @@ const MobileNav = (props) => {
                             {props.token 
                                 ? <Link to="/user/profile" className="m-nav__link">
                                     <utils.use styleClass="icon icon--dark" svg="user" />
-                                    My profile
+                                    {t.my_profile}
                                 </Link>
                                 : <Link to="/signin" className="m-nav__link">
                                     <utils.use styleClass="icon icon--dark" svg="log-in" />
-                                    Sign in
+                                    {t.sign}
                                 </Link>
                             }
                             <button className="m-nav__link">
                                 <utils.use styleClass="icon icon--dark" svg="search" />
-                                Search
+                                {t.search}
                             </button>
                             <Link to="/post-new" className="m-nav__link">
                                 <utils.use styleClass="icon icon--dark" svg="plus" />
-                                Advert
+                                {t.advert}
                             </Link>
                             <Link to="/user/messages" className="m-nav__link">
                                 <utils.use styleClass="icon icon--dark" svg="mail" />
-                                Messages
+                                {t.messages}
                             </Link>
                             <Link to="/user/favorites" className="m-nav__link">
                                 <utils.use styleClass="icon icon--dark" svg="folder" />
-                                Favorites
+                                {t.favorites}
                             </Link>
                         </div>
                     </div>

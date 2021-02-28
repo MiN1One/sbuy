@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper'; 
+import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import axios from 'axios';
 
@@ -9,12 +9,10 @@ import 'swiper/swiper.scss';
 import 'swiper/components/pagination/pagination.scss';
 
 import Searchbar from '../components/Searchbar';
-import Categories from '../components/Categories';
 import * as utils from '../utilities/utilities';
 import Card from '../components/Card';
 import LoadingScreen from '../UI/LoadingScreen';
 import LoadingSub from '../UI/LoadingSub';
-import * as actions from '../store/actions';
 import asyncComponent from '../hoc/asyncComponent/asyncComponent';
 
 const AsyncAdview = asyncComponent(() => import('../components/Adview'));
@@ -159,8 +157,4 @@ const mapStateToProps = state => ({
     mobile: state.data.mediaSmall
 });
 
-const mapDispatchToProps = (dispatch) => ({
-
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));
+export default connect(mapStateToProps)(withRouter(Header));

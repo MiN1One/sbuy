@@ -19,7 +19,7 @@ const AsyncPromote = asyncComponent(() => import('../components/Promote'));
 const AsyncMain = asyncComponent(() => import('../containers/Main'));
 
 function App(props) {
-  const { onImportRequisites, onMatchSmallMedia } = props;
+  const { onImportRequisites, onMatchSmallMedia, onSetLoadingMain } = props;
   const [mounted, setMounted] = useState(false);
 
   useEffect(() =>{
@@ -39,24 +39,30 @@ function App(props) {
   }
 
   useEffect(() => {
-    // --------- IMPORT REGIONS ---------
-    import(`../store/Regions/regions_${props.lang}`)
-      .then(data => {
-        onImportRequisites('regionsList', data.default);
-      })
-      .catch(er => {
+    async function fetchPrerequisites() {
+      try {
+        onSetLoadingMain(true);
+        // --------- IMPORT REGIONS ---------
+        const regions = await import(`../store/Regions/regions_${props.lang}`);
+        onImportRequisites('regionsList', regions.default);
+        // --------- IMPORT CATEGORIES ----------
+        const categories = await import(`../store/Categories/categories_${props.lang}`);
+        onImportRequisites('categoriesList', categories.default);
+        // --------- IMPORT BASE TRANSLATIONS -------
+        const base = await import(`../store/Translations/base/base_${props.lang}`);
+        onImportRequisites('base', base.default);
+        // const translations = 
+        onSetLoadingMain(false);
+      } catch(er) {
         console.error(er);
-      });
+        onSetLoadingMain(false);
+      }
+    }
+
+    fetchPrerequisites();
+    document.documentElement.lang = props.lang;
     
-    // --------- IMPORT CATEGORIES ----------
-    import(`../store/Categories/categories_${props.lang}`)
-      .then(data => {
-        onImportRequisites('categoriesList', data.default);
-      })
-      .catch(er => {
-        console.error(er);
-      });
-  }, [props.lang, onImportRequisites]);
+  }, [props.lang, onImportRequisites, onSetLoadingMain]);
 
   const header = (
     <Layout>
@@ -129,21 +135,21 @@ function App(props) {
     
   return (
     <div className="App">
-      {props.lodaingLazy && <LoadingScreen class="loadingScreen--abs" /> }
-      {routes}
+      {props.loading ? <LoadingScreen class="loadingScreen--abs" /> : routes}
     </div>
   );
 };
 
 const mapStateToProps = (state) => ({
-  loadingLazy: state.data.loadingLazy,
   token: state.user.token,
+  loading: state.localization.loading,
   lang: state.localization.lang
 });
 
 const mapDispatchToProps = (dispatch) => ({
   onImportRequisites: (req, list) => dispatch(actions.importRequisites(req, list)),
-  onMatchSmallMedia: (val) => dispatch(actions.matchSmallMedia(val)) 
+  onMatchSmallMedia: (val) => dispatch(actions.matchSmallMedia(val)),
+  onSetLoadingMain: (val) => dispatch(actions.setLoadingMain(val))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
