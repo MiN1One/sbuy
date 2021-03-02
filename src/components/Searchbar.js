@@ -1,24 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 
 import * as actions from '../store/actions';
 import Logo from '../components/Logo';
 import * as utils from '../utilities/utilities';
 import RegionsDropdown from './RegionsDropdown';
+import Backdrop from '../UI/Backdrop';
 
 const Searchbar = (props) => {
-    // ---------- TRANSLATIONS VIA PROPS ---------
+    // Translations
     const t = props.base;
+
+    const history = useHistory();
+    const location = useLocation();
+    const params = useParams();
+
+    const { onFilterByOptions } = props;
 
     const [modal, setModal] = useState(false);
     const [search, setSearch] = useState('');
+    const [dropdown, setDropdown] = useState(false);
+
+    useEffect(() => {
+        const searchParam = utils.getQueryParamValue('key');
+        if (searchParam) {
+            setSearch(searchParam);
+            onFilterByOptions('search', searchParam);
+        }
+    }, [onFilterByOptions, location.search]);
 
     const onPerformSearch = (e) => {
         if (e) e.preventDefault();
         
         // ------------------------
-        if (search !== '') props.onFilterByOptions('search', search);
+        if (search !== '') {
+            const category = params.category ? `&category=${params.category}` : '';
+            props.onFilterByOptions('search', search);
+            history.push(`/search?key=${search}${category}`);
+        }
         // ..........
+        setDropdown(false);
     };
 
     const changeSearchLocation = (location) => {
@@ -53,7 +75,9 @@ const Searchbar = (props) => {
                     <div className="s__wrapper">
                         <Logo classOver="s__logo" />
                         <div className="s__form-wrap">
-                            <form className="s__form" onSubmit={(e) => onPerformSearch(e)} tabIndex="0">
+                            <form 
+                                className={`s__form ${dropdown ? 's__form--focused' : ''}`} 
+                                onSubmit={(e) => onPerformSearch(e)}>
                                 <label className="s__label" htmlFor="search">
                                     <input 
                                         className="s__input"
@@ -63,7 +87,7 @@ const Searchbar = (props) => {
                                         onChange={(ev) => setSearch(ev.target.value)}
                                         value={search} />
                                     <button 
-                                        className="s__btn s__btn--map s__btn--clear" 
+                                        className="s__btn--clear" 
                                         type="button" 
                                         onClick={() => {
                                             setSearch('');
@@ -72,7 +96,7 @@ const Searchbar = (props) => {
                                         <utils.use styleClass="s__icon s__icon--map s__icon--clear" svg="x" />
                                     </button>
                                 </label>
-                                <div className="s__btn s__btn--map">
+                                <div className="s__btn s__btn--map" onClick={() => setDropdown(true)}>
                                     <utils.use styleClass="s__icon s__icon--map" svg="map-pin" />
                                     <span className="s__title">{regionTitle}</span>
                                 </div>
@@ -88,10 +112,14 @@ const Searchbar = (props) => {
                                 </button>
                             </form>
                             {!props.mobile && <RegionsDropdown 
-                                class="dropdown--full dropdown--close s__dropdown" 
-                                click={changeSearchLocation} 
+                                class={`dropdown--full dropdown--close s__dropdown ${dropdown ? 's__dropdown--show' : ''}`}
+                                click={(loc) => {
+                                    changeSearchLocation(loc);
+                                    setDropdown(false);
+                                }} 
                                 multi={props.onAddSearchLocation} />}
                         </div>
+                        {dropdown && <Backdrop z={1} click={() => setDropdown(false)} />}
                     </div>
                 </div>
             </div>
@@ -105,7 +133,7 @@ const Searchbar = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-    searchLocation: state.localization.searchLocation,
+    searchLocation: state.data.filters.searchLocation,
     search: state.data.search,
     regions: state.localization.translations.regionsList,
     mobile: state.data.mediaSmall,

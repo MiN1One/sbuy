@@ -72,6 +72,9 @@ class Header extends Component {
     }
 
     render() {
+        // ---------- TRANSLATIONS VIA PROPS ---------
+        const t = this.props.base;
+
         const vendorAds = this.state.vendorAds.map((el, i) => {
             return (
                 <SwiperSlide className="header__item" key={i}>
@@ -127,16 +130,16 @@ class Header extends Component {
                             <div className="header__premwrap">
                                 <div className="header__head">
                                     <div className="main__group">
-                                        <h2 className="heading heading__2 main__heading mb-5 mr-1">Premiuim ads</h2>
-                                        <Link to="/" className="filter__btn filter__btn--close main__link">See all</Link>
+                                        <h2 className="heading heading__2 main__heading mb-5 mr-1">{t.premium_ads}</h2>
+                                        <Link to="/" className="btn__sub btn__sub--active">{t.see_all}</Link>
                                     </div>
-                                    <p className="main__subhead">Found 10,364 ads</p>
+                                    <p className="main__subhead">{t.found_ads[0]} 10,364 {t.found_ads[1]}</p>
                                 </div>
 
                                 <div className="list">{this.state.loading ? <LoadingScreen /> : premium}</div>
                                 
                                 <button className="btn btn__primary btn__primary--outline main__btn" onClick={() => this.onShowMore()}>
-                                    Show more
+                                    {t.show_more}
                                     <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                 </button>
                             </div>
@@ -154,7 +157,10 @@ const mapStateToProps = state => ({
     lang: state.localization.lang,
     categories: state.localization.translations.categoriesList,
     loading: state.data.loading,
-    mobile: state.data.mediaSmall
+    mobile: state.data.mediaSmall,
+
+    // translations
+    base: state.localization.translations.base
 });
 
 export default connect(mapStateToProps)(withRouter(Header));

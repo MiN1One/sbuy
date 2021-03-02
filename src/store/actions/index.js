@@ -1,14 +1,14 @@
 export {
     changeLocation,
     changeLanguage,
-    changeSearchLoc,
     importRequisites,
-    addSearchLocation,
     setLoadingMain
 } from './actions_localization';
 
 export {
     changeSearchInput,
+    addSearchLocation,
+    changeSearchLoc,
     setLoading,
     handleError,
     filterByOptions,

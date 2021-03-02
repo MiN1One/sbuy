@@ -51,7 +51,24 @@ const base = {
     search_region: 'Регион поиска',
     found_ads: ['Найдено', 'объявлений в этой категории'],
     usual_ads: 'Обычные объявления',
-        
+
+    go_back: 'Назад',
+    not_found: '',
+    phone_number: '',
+    email: '',
+    name: '',
+    image_avatar_w: '',
+    image_post_w: '',
+    edit: '',
+    your_name: '',
+    your_email: '',
+    password: '',
+    contact_details: '',
+    company_details: '',
+    view: '',
+    activate: '',
+    deactivate: '',
+            
 };
 
 export default base;

@@ -12,6 +12,7 @@ import 'swiper/components/scrollbar/scrollbar.scss';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/components/navigation/navigation.scss';
 
+import Error from '../components/Error';
 import * as utils from '../utilities/utilities';
 import avatar from '../assets/images/32.jpg';
 import Backdrop from '../UI/Backdrop';
@@ -26,7 +27,6 @@ class Adview extends PureComponent {
         super(props);
         this.state = {
             loading: false,
-            index: null,
             rating: 4.5,
             showNum: false,
             showMessageBar: false,
@@ -44,6 +44,7 @@ class Adview extends PureComponent {
 
         this.copyNumRef = React.createRef();
         this.mesTitleRef = React.createRef();
+        this.fileRef = React.createRef();
     }
 
     fetchData = async () => {
@@ -61,11 +62,6 @@ class Adview extends PureComponent {
 
     componentDidMount() {
         this.fetchData();
-
-        const index = this.props.data.findIndex(el => el.id === this.id);
-        if (index === -1) {
-            console.log('No such ad exists');
-        } else this.setState({ index }, () => console.log('Find index by id: ' + this.state.index));
 
         const root = document.documentElement;
         root.style.setProperty('--cat-item-transition', 'none');
@@ -135,8 +131,16 @@ class Adview extends PureComponent {
     }
 
     closePopup = () => {
-        if (!this.props.match.params.category && !this.props.match.params.subcategory) this.props.history.goBack();
-        else this.props.history.replace(`/categories/${this.categoryPath}?page=${this.props.page ? this.props.page : '1'}`);
+        if (
+            !this.props.match.params.category &&
+            !this.props.match.params.subcategory
+            ) 
+        {
+            this.props.history.goBack(); 
+        }
+        else {
+            this.props.history.replace(`/categories/${this.categoryPath}?page=${this.props.page ? this.props.page : '1'}`);
+        }
     }
 
     onShowMessageBar = () => this.setState({ showMessageBar: true });
@@ -171,6 +175,7 @@ class Adview extends PureComponent {
     render() {
         const category = this.props.match.params.category;
         const subcategory = this.props.match.params.subcategory;
+        const id = this.props.match.params.id;
         const categories = this.props.categories || null;
 
         let routes = null;
@@ -194,9 +199,11 @@ class Adview extends PureComponent {
         if (this.state.swiperEnd) topGradientClass.push('adview__gradient--show');
         if (this.state.swiperBegin) bottomGradientClass.push('adview__gradient--show');
 
-        const ad = this.props.data[this.state.index];
-        if (!ad) return null;
-                
+        const index = this.props.data.findIndex(el => el.id === id);
+        const ad = index !== -1 ? this.props.data[index] : null;
+
+        if (!ad) return <Error notFound />;
+        
         const images = ad.img.map((el, i) => (
             <SwiperSlide className={`adview__figmain ${rotateDegClass}`} key={i}>
                 <LazyLoadImage 
@@ -212,7 +219,7 @@ class Adview extends PureComponent {
             <React.Fragment>
                 {this.props.data.map((el, i) => {
                     return (
-                        <Link to={`${category}/${subcategory}/${el.id}`} className="adview__card" key={i}>
+                        <Link to={`/${category}/${subcategory}/${el.id}`} className="adview__card" key={i}>
                             <figure className="adview__card-figure">
                                 <LazyLoadImage 
                                     className="adview__img adview__img--card"
@@ -459,7 +466,7 @@ class Adview extends PureComponent {
                                                                     }
                                                                 </div>
                                                                 <div className="d-flex">
-                                                                    <input className="d-none" type="file" ref={(el) => this.fileRef = el} />
+                                                                    <input className="d-none" type="file" ref={this.fileRef} />
                                                                     <button 
                                                                         type="button" 
                                                                         className="btn btn__primary btn__primary--outline mr-5 w-50"

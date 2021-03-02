@@ -15,6 +15,7 @@ const RegionsDropdown = (props) => {
         locations = regionsArr.map((el, i) => {
 
             const active = props.searchLocation.findIndex(item => el.val === item) !== -1;
+            const onlyOne = props.searchLocation.length === 1;
 
             if (el.val === 'all') return (
                 <li 
@@ -30,7 +31,10 @@ const RegionsDropdown = (props) => {
                     <div className="d-flex ac w-100">
                         {props.multi && 
                             <button className={`btn__check ${active && 'btn__check--active'} mr-1`} onClick={() => props.multi(el.val)}>
-                                <utils.use svg={active ? 'minus' : 'plus'} />
+                                {onlyOne
+                                    ? <utils.use svg={active ? 'check' : 'plus'} />
+                                    : <utils.use svg={active ? 'minus' : 'plus'} />    
+                                }
                             </button>
                         }
                         <span className="w-100" onClick={() => props.click(el.val)}>{el.title}</span>
@@ -68,7 +72,7 @@ const RegionsDropdown = (props) => {
 
 const mapStateToProps = (state) => ({
     lang: state.localization.lang,
-    searchLocation: state.localization.searchLocation,
+    searchLocation: state.data.filters.searchLocation,
     regions: state.localization.translations.regionsList,
     mobile: state.data.mediaSmall,
 

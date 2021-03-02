@@ -9,7 +9,7 @@ export const use = ({ svg, styleClass }) => (
     <svg className={styleClass}>
         <use xlinkHref={`${sprite}#${svg}`}></use>
     </svg>
-)
+);
 
 export const useCat = ({ svg, styleClass }) => (
     <svg className={styleClass}>
@@ -68,14 +68,15 @@ export const limitStrAny = (str, limitLength, space) => {
     return str;
 };
 
-export const getQueryParamValue = (name, locationObj) => {
-    let queries = window.location.search.substring(1).split('&');
-    if (locationObj) queries = locationObj.substring(1).split('&');
+export const getQueryParamValue = (name) => {
+    const queries = window.location.search.substring(1).split('&');
+    
     let value = null;
     queries.forEach(el => {
         const query = el.split('=');
         if (decodeURIComponent(query[0]) === name) value = query[1];
     });
+
     return value;
 };
 

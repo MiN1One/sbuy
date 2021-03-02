@@ -23,6 +23,7 @@ const initialState = {
         price: ['', ''],
         type: 'all',
         sort: 'date',
+        searchLocation: JSON.parse(localStorage.getItem('SBUY_SEARCH_LOCATION')) || ['all'],
         search: ''
     },
     vendorAds: [
@@ -130,13 +131,46 @@ const reducer = (state = initialState, action) => {
 
         case actionTypes.ON_SET_LOADING: return { ...state, loading: true }
 
-        case actionTypes.ON_FILTER_BY_OPTIONS: return {
-            ...state, 
-            filters: {
-                ...state.filters,
-                [action.name]: action.val
+        case actionTypes.ON_FILTER_BY_OPTIONS: 
+            return {
+                ...state, 
+                filters: {
+                    ...state.filters,
+                    [action.name]: action.val
+                }
             }
-        }
+
+        case actionTypes.CHANGE_SEARCH_LOC: 
+            localStorage.setItem('SBUY_SEARCH_LOCATION', JSON.stringify([action.location]));
+            return { 
+                ...state,
+                filters: {
+                    ...state.filters,
+                    searchLocation: [action.location]
+                }
+            };
+
+        case actionTypes.ADD_SEARCH_LOCATION:
+            let newList = [action.location];
+            const exists = state.filters.searchLocation.findIndex(el => el === action.location) !== -1;
+            
+            if (exists && state.filters.searchLocation.length > 1) {
+                newList = state.filters.searchLocation.filter(el => {
+                    if (el === action.location || el === 'all') return null;
+                    else return el;
+                });
+            } else if (state.filters.searchLocation[0] !== action.location) {
+                newList = [...state.filters.searchLocation, action.location].filter(el => el !== 'all');
+            }
+
+            localStorage.setItem('SBUY_SEARCH_LOCATION', JSON.stringify(newList));
+            return { 
+                ...state,
+                filters: {
+                    ...state.filters,
+                    searchLocation: newList 
+                }
+            };
 
         case actionTypes.ON_FILTER_BY_COUNTERS: 
             const newArr = state.filters[action.name].map((el, i) => {
@@ -152,7 +186,7 @@ const reducer = (state = initialState, action) => {
                 }
             }
         
-        case actionTypes.ON_MATCH_SMALL_MEDIA: return { ...state, mediaSmall: action.value }
+        case actionTypes.ON_MATCH_SMALL_MEDIA: return { ...state, mediaSmall: action.value };
         
         default: return state;
     }

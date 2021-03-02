@@ -27,7 +27,7 @@ const Layout = (props) => {
         <React.Fragment>
             {Nav && <Nav {...props} />}
                 {props.children}
-            {(!isHome && !props.mobile) ? <Footer /> : null}
+            {(!isHome && !props.mobile) ? <Footer base={props.base} /> : null}
         </React.Fragment>
     );
 };

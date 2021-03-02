@@ -8,10 +8,10 @@ const CategoriesFull = (props) => {
     const [activeCat, setActiveCat] = useState(null);
     const history = useHistory();
 
-    useEffect(() => {
-        document.documentElement.style.overflow = 'hidden';
-        return () => document.documentElement.style.overflow = 'auto';
-    }, []);
+    // useEffect(() => {
+    //     document.documentElement.style.overflow = 'hidden';
+    //     return () => document.documentElement.style.overflow = 'auto';
+    // }, []);
 
     const onClickMainCat = (id) => {
         if (props.clickMain) props.clickMain(id);

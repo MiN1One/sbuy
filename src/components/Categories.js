@@ -11,6 +11,9 @@ import LoadingSub from '../UI/LoadingSub';
 
 
 const Categories = (props) => {
+    // Translations
+    const t = props.base;
+
     const [activeCategory, setActiveCategory] = useState(null);
 
     let catItems = null, subItems = null;
@@ -68,8 +71,8 @@ const Categories = (props) => {
             {activeCategory && <Backdrop z={9} click={() => setActiveCategory(null)} />}
             <div className={`cat ${props.class || ''}`}>
                 <div className="cat__head">
-                    <h2 className="cat__heading">Categories</h2>
-                    <Link to="/all" className="cat__btn btn__sub">See all</Link>
+                    <h2 className="cat__heading">{t.categories}</h2>
+                    <Link to="/all" className="cat__btn btn__sub">{t.see_all}</Link>
                 </div>
                 <ul className="cat__list">{catItems}</ul>
                 {activeCategory && 

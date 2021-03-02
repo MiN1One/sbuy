@@ -79,7 +79,7 @@ const MobileCats = (props) => {
                     {!props.fixed  
                         ? <Link to="/all" className="m-cats__btn" onClick={() => {}}>
                             <utils.use styleClass="m-cats__i icon icon--dark mr-5" svg="grid" />
-                            All Categories
+                            {props.base.all_cats}
                         </Link>
                         : <div className="m-cats__head">
                             <button onClick={() => props.close()}>

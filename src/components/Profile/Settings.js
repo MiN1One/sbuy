@@ -5,7 +5,7 @@ import LoadingSub from '../../UI/LoadingSub';
 import RegionsDropdown from '../RegionsDropdown';
 
 const Settings = (props) => {
-
+    const [modal, setModal] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -95,10 +95,20 @@ const Settings = (props) => {
             <React.Fragment>
                 <span className="profile__title">Region</span>
                 <div className="pos-rel">
-                    <div className="profile__input profile__input--reg input" tabIndex="0">{regionTitle}</div>
+                    <div 
+                        className="profile__input profile__input--reg input" 
+                        tabIndex="0"
+                        onClick={() => setModal(true)}>
+                        {regionTitle}
+                    </div>
                     <RegionsDropdown 
-                        click={setRegion} 
-                        class="dropdown--full dropdown--left-fix profile__reg-dropdown dropdown--close" />
+                        click={(reg) => {
+                            setRegion(reg);
+                            setModal(false);
+                        }} 
+                        class="dropdown--full dropdown--left-fix profile__reg-dropdown dropdown--close"
+                        show={modal}
+                        close={() => setModal(false)} />
                 </div>
             </React.Fragment>
         )

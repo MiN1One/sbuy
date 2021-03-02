@@ -17,7 +17,7 @@ class Main extends PureComponent {
     state = {
         loading: false,
         data: [...this.props.data],
-        currentPage: parseInt(utils.getQueryParamValue('page', this.props.location.search)),
+        currentPage: parseInt(utils.getQueryParamValue('page')),
         numberOfPages: 41,
         pagesInterval: 5,
         filterComponent: null
@@ -27,10 +27,11 @@ class Main extends PureComponent {
         try {
             this.setState({ loading: true });
             const data = await axios(`https://jsonplaceholder.typicode.com/todos/${this.state.currentPage}`);
-            console.log(data);
+
             setTimeout(() => {
                 this.setState({ loading: false });
             }, 0);
+
             return data;
         } catch(er) {
             console.log(er);
@@ -39,13 +40,18 @@ class Main extends PureComponent {
     }
 
     setPageIfNone = () => {
-        if ((!parseInt(utils.getQueryParamValue('page')) || isNaN(this.state.currentPage)) && 
+        const page = utils.getQueryParamValue('page');
+        const search = `&key=${utils.getQueryParamValue('key')}`;
+
+        if (
+            (!page || isNaN(this.state.currentPage)) && 
             !this.props.match.params.id
            ) 
         {
-            this.setState({ page: 1 }, () => {
-                this.props.history.push('?page=1');
-            });
+            this.setState({ page: 1 }, 
+                () => {
+                    this.props.history.push(`?page=1${search || ''}`);
+                });
         }
     }
 
@@ -87,7 +93,14 @@ class Main extends PureComponent {
 
         if (isNaN(this.state.currentPage) || !this.state.currentPage) this.setState({ currentPage: 1 });
 
-        if (!utils.objectEqual(this.props.match.params, prevProps.match.params) || (this.props.lang !== prevProps.lang)) this.importFilters();
+        if (
+            !utils.objectEqual(this.props.match.params, prevProps.match.params) || 
+            (this.props.lang !== prevProps.lang)
+            ) 
+        {
+            this.importFilters();
+        }
+
         if (prevProps.mobile !== this.props.mobile) this.watchMedia();
     }
 
@@ -96,8 +109,11 @@ class Main extends PureComponent {
             document.documentElement.scrollTop = 130;
             this.setState({ currentPage: page }, async () => {
                 const data = await this.fetchData();
+
                 this.setState({ data: this.props.data });
-                this.props.history.push(`?page=${page}`);
+
+                const search = `&key=${utils.getQueryParamValue('key')}`;
+                this.props.history.push(`?page=${page}${search || ''}`);
             });
         }
     }
@@ -107,8 +123,11 @@ class Main extends PureComponent {
         this.setState(prevState => ({ currentPage: prevState.currentPage + 1 }), 
             async () => {
                 const data = await this.fetchData();
+
                 this.setState({ data: this.props.data });
-                this.props.history.push(`?page=${this.state.currentPage}`);
+
+                const search = `&key=${utils.getQueryParamValue('key')}`;
+                this.props.history.push(`?page=${this.state.currentPage}${search || ''}`);
             });
     }
 
@@ -202,11 +221,15 @@ class Main extends PureComponent {
 
         const pagesList = pagesListArr.map((el, i) => {
             if (el === '...') return <span key={i} className="main__page-item main__page-item--dots">{el}</span>
-            return <span 
-                key={i}
-                className={`main__page-item ${el === this.state.currentPage ? 'main__page-item--active' : ''}`} 
-                onClick={() => this.onGoToPage(el)}
-                tabIndex="0">{el}</span>
+            return (
+                <span 
+                    key={i}
+                    className={`main__page-item ${el === this.state.currentPage ? 'main__page-item--active' : ''}`} 
+                    onClick={() => this.onGoToPage(el)}
+                    tabIndex="0">
+                    {el}
+                </span>
+            );
         });
 
         let view = <LoadingScreen />;
@@ -225,7 +248,7 @@ class Main extends PureComponent {
                                 <div className="main__head">
                                     <div className="main__group">
                                         <h2 className="heading heading__2 main__heading mb-5 mr-1">{t.premium_ads}</h2>
-                                        <Link to="/all" className="filter__btn filter__btn--close main__link">{t.see_all}</Link>
+                                        <Link to="/all" className="btn__sub btn__sub--active">{t.see_all}</Link>
                                     </div>
                                     <span className="main__subhead">{t.found_ads[0]} 1,354 {t.found_ads[1]}</span>
                                 </div>
@@ -288,7 +311,7 @@ const mapStateToProps = (state) => ({
     filters: state.data.filters,
     favorites: state.user.favorites,
     condition: state.data.filters.condition,
-    searchLocation: state.localization.searchLocation,
+    searchLocation: state.data.filters.searchLocation,
     size: state.data.filters.size,
     price: state.data.filters.price,
     type: state.data.filters.type,

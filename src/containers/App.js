@@ -21,6 +21,7 @@ const AsyncMain = asyncComponent(() => import('../containers/Main'));
 function App(props) {
   const { onImportRequisites, onMatchSmallMedia, onSetLoadingMain } = props;
   const [mounted, setMounted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() =>{
     setMounted(true);
@@ -36,12 +37,21 @@ function App(props) {
     // --------- MATCH SMALL MEDIA ---------
     watch();
     mediaSM.onchange = watch;
-  }
+    //   reqInterceptor = axios.interceptors.request.use(req => {
+    //     setState({error: null})
+    //     return req;
+    // });
 
+    // resInterceptor = axios.interceptors.response.use(res => res, error => {
+    //     setState({error: error});
+    // });
+  }
+  
   useEffect(() => {
     async function fetchPrerequisites() {
       try {
-        onSetLoadingMain(true);
+        setLoading(true);
+
         // --------- IMPORT REGIONS ---------
         const regions = await import(`../store/Regions/regions_${props.lang}`);
         onImportRequisites('regionsList', regions.default);
@@ -51,11 +61,11 @@ function App(props) {
         // --------- IMPORT BASE TRANSLATIONS -------
         const base = await import(`../store/Translations/base/base_${props.lang}`);
         onImportRequisites('base', base.default);
-        // const translations = 
-        onSetLoadingMain(false);
+        
+        setLoading(false);
       } catch(er) {
         console.error(er);
-        onSetLoadingMain(false);
+        setLoading(false);
       }
     }
 
@@ -105,11 +115,10 @@ function App(props) {
       <Route path="/signin" exact><AsyncAuthSignin /></Route>
       <Route path="/password-reset" exact><AsyncResetPass /></Route>
       <Route path="/signup" exact><AsyncAuthSignup /></Route>
-      <Route path="/exchange" exact>{main}</Route>
-      <Route path="/giveaway" exact>{main}</Route>
       <Route path="/post-new" exact>{post}</Route>
       <Route path="/user/:section">{profile}</Route>
       <Route path="/all" exact>{allCategories}</Route>
+      <Route path="/search" exact>{main}</Route>
       <Route path="/all/:category" exact>{main}</Route>
       <Route path="/categories/:category/:subcategory">{main}</Route>
       <Route path="/" exact>{header}</Route>
@@ -123,6 +132,7 @@ function App(props) {
         <Route path="/giveaway" exact>{main}</Route>
         <Route path="/post-new" exact>{post}</Route>
         <Route path="/all" exact>{allCategories}</Route>
+        <Route path="/search" exact>{main}</Route>
         <Route path="/all/:category" exact>{main}</Route>
         <Route path="/ads/promote" exact><AsyncPromote /></Route>
         <Route path="/user/:section">{profile}</Route>
@@ -135,7 +145,7 @@ function App(props) {
     
   return (
     <div className="App">
-      {props.loading ? <LoadingScreen class="loadingScreen--abs" /> : routes}
+      {loading ? <LoadingScreen class="loadingScreen--abs" /> : routes}
     </div>
   );
 };

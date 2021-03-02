@@ -133,6 +133,9 @@ export class User extends PureComponent {
     }
     
     render() {
+        // Tranlations
+        const t = this.props.base;
+
         let view = (
             <div className="profile__details">
                 <div className="profile__text profile__text--name">

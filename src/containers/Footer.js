@@ -27,7 +27,7 @@ const Footer = props => {
                     <div className="footer__headwrap">
                         <div className="d-flex ac">
                             <utils.use styleClass="footer__icon" svg="home" />
-                            <h5 className="footer__heading">Home</h5>
+                            <h5 className="footer__heading">{props.base.home}</h5>
                         </div>
                         <Language dropClass="dropdown--close dropdown--right-fix" />
                     </div>
@@ -42,9 +42,7 @@ const Footer = props => {
                                 {navItems}
                             </ul>
                             <p className="footer__info">
-                                For all questions, you can contact us<br/> at any convenient time by phone or email<br/>
-                                +998 (71) 240-60-50 <br/>
-                                sbuy@retail.uz
+                                {props.base.contact_text}
                             </p>
                         </div>
                         <p className="footer__info">{year} SBUY&copy;</p>

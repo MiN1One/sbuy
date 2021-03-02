@@ -48,10 +48,10 @@ class Profile extends PureComponent {
     scrollToTop() { document.documentElement.scrollTop = 0; }
 
     slideSubLists() {
-        if (this.props.match.params.section === 'ads') $(this.subAdsList.current).slideDown({ duration: 300 });
+        if (this.props.match.params.section === 'my_ads') $(this.subAdsList.current).slideDown({ duration: 300 });
         else $(this.subAdsList.current).slideUp({ duration: 300 });
         
-        if (this.props.match.params.section === 'profile') $(this.subProfileList.current).slideDown({ duration: 300 });
+        if (this.props.match.params.section === 'my_profile') $(this.subProfileList.current).slideDown({ duration: 300 });
         else $(this.subProfileList.current).slideUp({ duration: 300 });
 
         if (this.props.match.params.section === 'messages') $(this.subMessagesList.current).slideDown({ duration: 300 });
@@ -59,15 +59,18 @@ class Profile extends PureComponent {
     }
     
     render() {
+        // ------- TRANSLATIONS VIA PROPS -------
+        const t = this.props.base;
+
         const notFound = (
             <div className="profile__empty profile__empty--err">
                 <div>
                     <FcMediumPriority className="profile__icon--large mb-1" />
                     Requested page is not found
                     <div className="e__bottom mt-2">
-                        <Link className="btn btn__white mr-15" to="/user/profile">
+                        <Link className="btn btn__white mr-15" to="/user/my_profile">
                             <utils.use styleClass="icon icon--dark mr-5" svg="user" />
-                            My profile
+                            {t.my_profile}
                         </Link>
                         <Link className="btn btn__white" onClick={() => this.props.history.goBack()}>
                             <utils.use styleClass="e__i e__i--sm" svg="corner-up-left" />
@@ -86,52 +89,46 @@ class Profile extends PureComponent {
             <div className="profile">
                 <div className="container">
                     <div className="profile__wrapper">
-                        <div className="profile__head">
-                            <h2 className="heading heading__2">Profile</h2>
-                            <div className="profile__nav">
-                                Profile nav
-                            </div>
-                        </div>
                         <div className="profile__main">
                             {this.props.token &&
                                 <div className="profile__group profile__panel">
-                                    <h5 className="profile__link profile__link--heading">{this.props.match.params.section}</h5>
+                                    <h5 className="profile__link profile__link--heading">{t[this.props.match.params.section]}</h5>
                                     <ul className="profile__list">
                                         <li className="profile__item">
-                                            <NavLink to="/user/profile" className="profile__link" activeClassName="profile__link--active-cursored">
+                                            <NavLink to="/user/my_profile" className="profile__link" activeClassName="profile__link--active-cursored">
                                                 <utils.use styleClass="profile__icon" svg="user" />
-                                                Profile
+                                                {t.profile}
                                             </NavLink>
                                             <div className="profile__item profile__item--sub" ref={this.subProfileList}>
-                                                <NavLink to="/user/profile" activeClassName="profile__link--sub-active" className="profile__link message-badge" exact>
+                                                <NavLink to="/user/my_profile" activeClassName="profile__link--sub-active" className="profile__link message-badge" exact>
                                                     <utils.use styleClass="profile__icon" svg="file-text" />
-                                                    Main
+                                                    {t.main}
                                                 </NavLink>
-                                                <NavLink to="/user/profile/company" activeClassName="profile__link--sub-active" className="profile__link message-badge">
+                                                <NavLink to="/user/my_profile/company" activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                     <utils.use styleClass="profile__icon" svg="briefcase" />
-                                                    Company
+                                                    {t.company}
                                                 </NavLink>
                                             </div>
                                         </li>
                                         <li className="profile__item">
-                                            <NavLink to="/user/ads" activeClassName="profile__link--active-cursored" className="profile__link">
+                                            <NavLink to="/user/my_ads" activeClassName="profile__link--active-cursored" className="profile__link">
                                                 <utils.use styleClass="profile__icon" svg="layout" />
-                                                My Ads
+                                                {t.my_ads}
                                             </NavLink>
                                             <div className="profile__item profile__item--sub" ref={this.subAdsList}>
-                                                <NavLink to="/user/ads" exact activeClassName="profile__link--sub-active" className="profile__link message-badge">
+                                                <NavLink to="/user/my_ads" exact activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                     <utils.use styleClass="profile__icon" svg="message-square" />
-                                                    Active
+                                                    {t.active}
                                                     {activeAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{activeAdsCount}</span>}
                                                 </NavLink>
-                                                <NavLink to="/user/ads/inactive" activeClassName="profile__link--sub-active" className="profile__link message-badge">
+                                                <NavLink to="/user/my_ads/inactive" activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                     <utils.use styleClass="profile__icon" svg="archive" />
-                                                    Inactive
+                                                    {t.inactive}
                                                     {inactiveAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{inactiveAdsCount}</span>}
                                                 </NavLink>
-                                                <NavLink to="/user/ads/promoted" activeClassName="profile__link--sub-active" className="profile__link message-badge">
+                                                <NavLink to="/user/my_ads/promoted" activeClassName="profile__link--sub-active" className="profile__link message-badge">
                                                     <utils.use styleClass="profile__icon" svg="trending-up" />
-                                                    Promoted
+                                                    {t.promoted}
                                                     {promotedAdsCount > 0 && <span className="message-badge__counter profile__mes-badge">{promotedAdsCount}</span>}
                                                 </NavLink>
                                             </div>
@@ -139,39 +136,39 @@ class Profile extends PureComponent {
                                         <li className="profile__item">
                                             <NavLink to="/user/messages" activeClassName="profile__link--active-cursored" className="profile__link">
                                                 <utils.use styleClass="profile__icon" svg="mail" />
-                                                Messages
+                                                {t.messages}
                                             </NavLink>
                                             <div className="profile__item profile__item--sub" ref={this.subMessagesList}>
                                                 <NavLink to="/user/messages" exact activeClassName="profile__link--sub-active" className="profile__link">
                                                     <utils.use styleClass="profile__icon" svg="inbox" />
-                                                    Inbox
+                                                    {t.inbox}
                                                 </NavLink>
                                                 <NavLink to="/user/messages/sentbox" activeClassName="profile__link--sub-active" className="profile__link">
                                                     <utils.use styleClass="profile__icon" svg="check-circle" />
-                                                    Sentbox
+                                                    {t.sentbox}
                                                 </NavLink>
                                                 <NavLink to="/user/messages/spam" activeClassName="profile__link--sub-active" className="profile__link">
                                                     <utils.use styleClass="profile__icon" svg="trash" />
-                                                    Spam
+                                                    {t.spam}
                                                 </NavLink>
                                             </div>
                                         </li>
                                         <li className="profile__item">
                                             <NavLink to="/user/favorites" activeClassName="profile__link--active-cursored" className="profile__link">
                                                 <utils.use styleClass="profile__icon" svg="heart" />
-                                                Favorites
+                                                {t.favorites}
                                             </NavLink>
                                         </li>
                                         <li className="profile__item">
                                             <NavLink to="/user/settings" activeClassName="profile__link--active" className="profile__link">
                                                 <utils.use styleClass="profile__icon" svg="settings" />
-                                                Settings
+                                                {t.settings}
                                             </NavLink>
                                         </li>
                                         <li className="profile__item">
                                             <NavLink to="/user/payments" activeClassName="profile__link--active" className="profile__link">
                                                 <utils.use styleClass="profile__icon" svg="credit-card" />
-                                                Payments
+                                                {t.payments}
                                             </NavLink>
                                         </li>
                                     </ul>
@@ -179,19 +176,19 @@ class Profile extends PureComponent {
                             }
                             <div className="profile__group profile__header">
                                 <Switch>
-                                    <Route path="/user/profile" exact>
+                                    <Route path="/user/my_profile" exact>
                                         <User {...this.props} />
                                     </Route>
-                                    <Route path="/user/profile/company" exact>
+                                    <Route path="/user/my_profile/company" exact>
                                         <Company {...this.props} />
                                     </Route>
-                                    <Route path="/user/ads" exact>
+                                    <Route path="/user/my_ads" exact>
                                         <ActiveAds {...this.props} />
                                     </Route>
-                                    <Route path="/user/ads/inactive" exact>
+                                    <Route path="/user/my_ads/inactive" exact>
                                         <InactiveAds {...this.props} />
                                     </Route>
-                                    <Route path="/user/ads/promoted" exact>
+                                    <Route path="/user/my_ads/promoted" exact>
                                         <PromotedAds {...this.props} />
                                     </Route>
                                     <Route path="/user/messages">
@@ -209,10 +206,10 @@ class Profile extends PureComponent {
                                     <Route path="/user/favorites" exact>
                                         <Favorites {...this.props} />
                                     </Route>
-                                    <Route path="/user/ads/view/:id" exact>
-                                        <AsyncAdview />
+                                    <Route path="/user/my_ads/view/:id" exact>
+                                        <AsyncAdview {...this.props} />
                                     </Route>
-                                    <Route path="/user/ads/edit/:id" exact>
+                                    <Route path="/user/my_ads/edit/:id" exact>
                                         <div className="profile__titlebar">
                                             <h2 className="heading heading__2 profile__heading">Edit your ad</h2>
                                         </div>
@@ -240,9 +237,12 @@ class Profile extends PureComponent {
 const mapStateToProps = state => ({
     data: state.data.data,
     searchLocation: state.localization.searchLocation,
-    favorites: state.data.favoriteAds,
+    favorites: state.user.favorites,
     token: state.user.token,
-    regions: state.localization.translations.regionsList
+    regions: state.localization.translations.regionsList,
+    
+    // translations
+    base: state.localization.translations.base
 });
 
 const mapDispatchToProps = dispatch => ({

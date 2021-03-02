@@ -74,13 +74,13 @@ class Navigation extends PureComponent {
                 <p className="dropdown__title">{t.profile}:</p>
                 <ul className="dropdown__list">
                     <li className="dropdown__item">
-                        <Link to="/user/profile" className="dropdown__link message-badge">
+                        <Link to="/user/my_profile" className="dropdown__link message-badge">
                             {t.my_profile}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
                     </li>
                     <li className="dropdown__item">
-                        <Link to="/user/ads" className="dropdown__link message-badge">
+                        <Link to="/user/my_ads" className="dropdown__link message-badge">
                             {t.my_ads}
                             {/* <span className="message-badge__counter"></span> */}
                         </Link>
@@ -172,7 +172,7 @@ class Navigation extends PureComponent {
                                     </Link>
                                 </div>
                                 <div className={signClass.join(' ')}>
-                                    <Link to={this.props.token ? '/user/profile' : '/signin'} className="nav__link">
+                                    <Link to={this.props.token ? '/user/my_profile' : '/signin'} className="nav__link">
                                         <utils.use styleClass="nav__icon nav__icon--arrow" svg="chevron-down" />
                                         <span className="nav__title nav__title--user">{this.props.token ? t.my_profile : t.sign}</span>
                                         <div className="nav__iconbox">

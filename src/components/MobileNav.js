@@ -91,7 +91,7 @@ const MobileNav = (props) => {
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/profile" className="m-nav__link">
+                                            <Link to="/user/my_profile" className="m-nav__link">
                                                 {t.main}
                                             </Link>
                                         </div>
@@ -110,17 +110,17 @@ const MobileNav = (props) => {
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-down" />
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/ads" className="m-nav__link">
+                                            <Link to="/user/my_ads" className="m-nav__link">
                                                 {t.active}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/ads/inactive" className="m-nav__link">
+                                            <Link to="/user/my_ads/inactive" className="m-nav__link">
                                                 {t.inactive}
                                             </Link>
                                         </div>
                                         <div className="modal__item modal__item--slide">
-                                            <Link to="/user/ads/promoted" className="m-nav__link">
+                                            <Link to="/user/my_ads/promoted" className="m-nav__link">
                                                 {t.promoted}
                                             </Link>
                                         </div>
@@ -235,7 +235,7 @@ const MobileNav = (props) => {
                     <div className="container h-100">
                         <div className="m-nav__wrapper">
                             {props.token 
-                                ? <Link to="/user/profile" className="m-nav__link">
+                                ? <Link to="/user/my_profile" className="m-nav__link">
                                     <utils.use styleClass="icon icon--dark" svg="user" />
                                     {t.my_profile}
                                 </Link>

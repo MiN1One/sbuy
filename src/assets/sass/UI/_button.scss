@@ -178,10 +178,27 @@
         border-radius: 3rem;
         background: var(--color-white-bg-secondary);
         border: 1px solid transparent;
+        align-items: center;
+        font-size: 1.4rem;
 
+        
         &:hover {
             color: var(--color-primary);
             border-color: var(--color-primary-opaque);
+            
+            svg { fill: var(--color-primary-opaque) !important; }
+        }
+        
+        &--active {
+            color: var(--color-primary);
+            border-color: var(--color-primary-opaque);
+    
+            svg { fill: var(--color-primary-opaque) !important; }
+
+            &:hover {
+                color: #fff;
+                background: var(--color-primary);
+            }
         }
     }
 
@@ -191,8 +208,8 @@
     }
 
     &__check {
-        width: 2rem;
-        height: 1.8rem;
+        width: 2.3rem;
+        height: 2.1rem;
         background: var(--color-white-bg-secondary);
         border-radius: .3rem;
         align-items: center;

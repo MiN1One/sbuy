@@ -30,3 +30,13 @@ export const matchSmallMedia = (val) => ({
     value: val
 });
 
+export const addSearchLocation = (location) => ({
+    type: actionTypes.ADD_SEARCH_LOCATION,
+    location
+});
+
+export const changeSearchLoc = (location) => ({
+    type: actionTypes.CHANGE_SEARCH_LOC,
+    location
+});
+

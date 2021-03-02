@@ -10,20 +10,10 @@ export const changeLanguage = (lang) => ({
     lang
 });
 
-export const changeSearchLoc = (location) => ({
-    type: actionTypes.CHANGE_SEARCH_LOC,
-    location
-});
-
 export const importRequisites = (requisite, list) => ({
     type: actionTypes.IMPORT_REQUISITES,
     requisite,
     list
-});
-
-export const addSearchLocation = (location) => ({
-    type: actionTypes.ADD_SEARCH_LOCATION,
-    location
 });
 
 export const setLoadingMain = (val) => ({
