@@ -1,0 +1,153 @@
+@import '../../assets/sass/abstracts/mixins';
+
+.main {
+    background: var(--color-white-bg-secondary);
+    position: relative;
+
+    &__wrapper {
+        padding: 4rem 0 7.5rem 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        @include respond(sm) { padding: 1.5rem 0 2rem 0; }
+    }
+
+    &__link {
+        font-size: 1.45rem;
+        padding: .6rem .8rem;
+    }
+
+    &__heading {
+        align-self: flex-start;
+        font-size: 3rem;
+
+        @include respond(sm) { font-size: 2.5rem; }
+        @include respond(ss) { font-size: 2rem; }
+    }
+    
+    &__head {
+        width: 100%;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+
+        @include respond(mid) { margin-bottom: 1.5rem; }
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    &__pagination {
+        background: #fff;
+        width: 100%;
+        border-radius: 1rem;
+        border: 2.5px solid rgba(#000, .095);
+        display: flex;
+        box-shadow: 0 0 1.5rem rgba(#000, .03);
+        padding: 2.5rem 3rem;
+        justify-content: space-between;
+        align-items: center;
+
+        @include respond(mid) {
+            justify-content: flex-start;
+            padding: 2rem;
+        }
+
+        @include respond(sm) {
+            padding: 1.5rem;
+            border: none;
+        }
+    }
+
+    &__page-list {
+        display: flex;
+        justify-content: center;
+        margin: 0 1rem;
+
+        @include respond(mid) { margin: 0 .5rem }
+    }
+
+    &__page-item {
+        width: 3.5rem;
+        height: 3.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.6rem;
+        border: 2px solid var(--color-primary-opaque);
+        border-radius: 50%;
+        cursor: pointer;
+        margin-bottom: 1rem;
+
+        @include respond(sm) {
+            width: 3.2rem;
+            height: 3.2rem;
+        }
+
+        &:not(:last-child) {
+            margin-right: .7rem;
+
+            @include respond(mid) { margin-right: .5rem }
+        }
+
+        &:hover:not(.main__page-item--active),
+        &:focus:not(.main__page-item--active) {
+            color: var(--color-primary);
+            outline: none;
+        }
+        
+        &--active {
+            background: var(--color-primary);
+            color: #fff;
+            cursor: default;
+        }
+
+        &--btn {
+            margin-right: 0 !important;
+            
+            &:hover,
+            &:focus {
+                background: var(--color-primary);
+
+                .icon { fill: #fff !important; }
+            }
+        }
+
+        &--dots {
+            cursor: default;
+
+            &:hover { color: initial !important; }
+        }
+    }
+    
+    &__group {
+        display: flex;
+        align-items: center;
+    }
+
+    &__btn {
+        &:hover .Main__icon, 
+        &:active .Main__icon, 
+        &:focus .Main__icon {
+            fill: #fff;
+        }
+
+        @include respond(mid) { display: none; }
+        
+        &--mobile {
+            display: none;
+            @include respond(mid) { display: flex; }
+        }
+    }
+
+    &__icon {
+        width: 1.8rem;
+        height: 1.8rem;
+        fill: var(--color-primary);
+        margin-left: .5rem;
+    }
+}

@@ -1,0 +1,118 @@
+@import '../../assets/sass/abstracts/mixins';
+
+.mob-filters {
+    border-top: 1px solid rgba(#000, .07);
+    border-bottom: 1px solid rgba(#000, .07);
+
+    &__wrapper {
+        padding: 1.5rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    &__btn {
+        display: flex;
+        align-items: center;
+        font-size: 1.35rem;
+        border-radius: 3rem;
+        padding: .5rem 1.3rem;
+        border: 1.5px solid var(--color-primary-opaque);
+        font-weight: 500;
+        text-transform: uppercase;
+        margin-left: .7rem;
+
+        &--abs {
+            display: flex;
+            position: absolute;
+            top: 1.5rem;
+            right: 1rem;
+            z-index: 1;
+        }
+    }
+
+    &__link {
+        font-size: 1.4rem;
+        color: var(--color-grey-dark);
+        
+        &:not(:last-child) { margin-right: 1rem; }
+    }
+
+    &__placeholders {
+        width: 30rem;
+        overflow-x: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    &__title {
+        font-size: 1.25rem;
+        color: var(--color-black);
+        margin-bottom: .35rem;
+        width: max-content;
+    }
+
+    &__i {
+
+        &--lg {
+            width: 1.7rem;
+            height: 1.7rem;
+            fill: vaR(--color-grey-7);
+        }
+
+        &--sm {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: var(--color-grey-dark);
+        }
+    }
+
+    &__placeholder {
+        padding: .7rem 1rem;
+        font-size: 1.35rem;
+        background: var(--color-white-bg-secondary);
+        color: var(--color-grey-dark);
+        border-radius: .7rem;
+        text-transform: capitalize;
+        display: flex;
+        justify-content: center;
+        width: max-content;
+    }
+    
+    &__group {
+        &:not(:last-child) { margin-right: 1.3rem; }
+    }
+
+    &__breadcrumbs {
+        background: var(--color-light-7);
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(#000, .07);
+    }
+
+    &__input {
+        width: 100%;
+        border-radius: .7rem;
+        padding: 1.5rem 2rem;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        &--sm { padding-right: 3rem; }
+    }
+
+    &__input:placeholder-shown + &__btn--abs {
+        display: none;
+    }
+
+    &__label {
+        position: relative;
+        width: 100%;
+    }
+
+    &__label:first-child &__input { border-radius: .7rem 0 0 .7rem; }
+    &__label:last-child &__input {
+        border-radius: 0 .7rem .7rem 0;
+        border-left: 1px solid rgba(#000, .07);
+    } 
+}

@@ -1,0 +1,109 @@
+@import '../../assets/sass/abstracts/mixins';
+
+.m-post {
+    background: #fff;
+    width: 100%;
+    
+    &__head {
+        padding: 1.5rem 0;
+        border-bottom: 1px solid rgba(#000, .07);
+        margin-bottom: 1.5rem;
+    }
+
+    &__footer {
+        padding: 1.5rem 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    &__img-group {
+        height: 11.5rem;
+        width: calc((100% - 1.5rem) / 2);
+        margin-right: 1.5rem;
+
+        position: relative;
+
+        &:nth-child(2n) { margin-right: 0; }
+
+        &:not(:last-child) { margin-bottom: 1.5rem; }
+    }
+
+    &__figure {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--color-light-5);
+        overflow: hidden;
+        border-radius: .7rem;
+        height: 100%;
+        width: 100%;
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        object-fit: contain;
+    }
+
+    &__img-btn {
+        position: absolute;
+        top: .75rem;
+        left: .75rem;
+        background: #fff;
+        border: 1px solid rgba(#000, .15);
+        border-radius: 50%;
+        width: 3.25rem;
+        height: 3.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+    }
+
+    &__item {
+        width: calc((100% - 1.5rem) / 2);
+        margin-right: 1.5rem;
+        margin-bottom: 2rem;
+
+        &:nth-child(2n) { margin-right: 0; }
+
+        @include respond(ss) {
+            width: 100%;
+            margin-right: 0 !important;
+        }
+    }
+
+    &__input {
+        background: var(--color-light-5);
+        border-radius: .7rem;
+        padding: 1.35rem 2rem;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.4rem;
+        color: var(--color-black);
+
+        &--description {
+            height: 15rem;
+        }
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        color: var(--color-grey-dark);
+        display: inline-block;
+        margin-bottom: .7rem;
+    }
+
+    &__text {
+        color: var(--color-grey-7);
+        font-size: 1.45rem;
+    }
+}

@@ -7,10 +7,11 @@ import Logo from '../components/Logo';
 import * as utils from '../utilities/utilities';
 import RegionsDropdown from './RegionsDropdown';
 import Backdrop from '../UI/Backdrop';
+import { useTranslation } from 'react-i18next';
 
 const Searchbar = (props) => {
     // Translations
-    const t = props.base;
+    const { t } = useTranslation();
 
     const history = useHistory();
     const location = useLocation();
@@ -36,8 +37,9 @@ const Searchbar = (props) => {
         // ------------------------
         if (search !== '') {
             const category = params.category ? `&category=${params.category}` : '';
+            const categoryPrev = utils.getQueryParamValue('category') ? `&category=${utils.getQueryParamValue('category')}` : '';
             props.onFilterByOptions('search', search);
-            history.push(`/search?key=${search}${category}`);
+            history.push(`/search?key=${search}${category || categoryPrev}`);
         }
         // ..........
         setDropdown(false);
@@ -82,7 +84,7 @@ const Searchbar = (props) => {
                                     <input 
                                         className="s__input"
                                         type="text"
-                                        placeholder={t.search + '...'}
+                                        placeholder={t('main.search') + '...'}
                                         id="search"
                                         onChange={(ev) => setSearch(ev.target.value)}
                                         value={search} />

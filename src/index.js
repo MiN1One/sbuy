@@ -5,12 +5,13 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import reduxThunk from 'redux-thunk';
+import i18n from './i18n';
 
 import localization from './store/reducers/reducer_localization';
 import data from './store/reducers/reducer_data';
 import user from './store/reducers/reducer_user';
 
-import App from './containers/App';
+import App from './pages/App';
 import './index.scss';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

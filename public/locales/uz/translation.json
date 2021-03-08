@@ -1,0 +1,109 @@
+{
+    "main": {
+        "cats": "Kategoriyalar",
+        "advert":"Joylashtirish",
+        "search":"Qidirish",
+        "apply":"Qo'llash",
+        "sign in":"Kirish",
+        "show results":"Natijalarni ko'rsatish",
+        "premium ads":"Premium elonlar",
+        "sort":"Saralash",
+        "filters":"Filtrlar",
+        "see all":"Hammasi",
+        "all cats":"Kategoriyalar",
+        "ads":"Elonlar",
+        "top badge":"TOP",
+        "premium badge":"premium",
+        "show more":"Ko'proq ko'rsatish",
+        "page":"Bet",
+        "clear":"Ochirish",
+        "months": [],
+        "search region":"Qidiruv hududi",
+        "home":"Bosh sahifa",
+        "usual ads":"Elonlar",
+        "found ads": {
+            "p1": "Bu kategoriyada",
+            "p2": "elonlar topildi"
+        }
+    },
+    "nav": {
+        "favorites":"Sevimlilar",
+        "my profile":"Pro'fil",
+        "language":"Til",
+        "main profile":"Asosiy",
+        "company":"Ko'mpaniya",
+        "active ads":"Faol elonlar",
+        "promoted ads":"Kuchaytirilgan",
+        "my ads":"Elonlarim",
+        "inactive ads":"O'chirilgan elonlar",
+        "spam":"Spam",
+        "inbox":"Olingan",
+        "sentbox":"Jo'natilgan",
+        "sitemap":"Sayt xaritasi",
+        "signin":"Kabinetga kirish",
+        "about":"Biz xaqimizda",
+        "messages":"Xabarlar",
+        "settings":"Sozlamalar",
+        "payments":"To'lovlar",
+        "promotions":"Kuchaytirishlar",
+        "logout":"Chiqish",
+        "profile":"Profil",
+        "favorite ads": "Sevimli elonlar",
+        "match": {
+            "my_profile": "Pro'fil",
+            "my_ads": "Elonlarim",
+            "favorites":"Sevimlilar",
+            "messages":"Xabarlar",
+            "settings":"Sozlamalar",
+            "payments":"To'lovlar"
+        }
+    },
+    "footer": {
+        "help":"Yordam",
+        "terms of use":"Foydalanish shartlari",
+        "enterprise ads":"Korporativ reklama",
+        "feedback":"Aloqa / fikrlar",
+        "map of regions":"Hududlar ro'yxati",
+        "privacy":"Maxfiylik",
+        "career":"Ish o'rinlari",
+        "contact text":"Barcha savollar bo'yicha +998 (71) 240-60-50 telefon raqami yoki sbuy@retail.uz elektron pochta manzili orqali o'zingizga qulay bo'lgan vaqtda murojaat qilishingiz mumkin",
+        "security measures":"Xavfsizlik choralari"
+    },
+    "error": {
+        "not found":{
+            "p1": "Извините, страница не найдена",
+            "p2": "Пожалуйста, убедитесь, что у вас правильный адрес"
+        },
+        "connect error":{
+            "p1": "Соединение потеряно",
+            "p2": "Пожалуйста, проверьте подключение к интернету"
+        },
+        "go back":"Назад",
+        "contact":"Cвязаться",
+        "troubleshooting":"Исправление проблем",
+        "something wrong":"Что-то пошло не так"
+    },
+    "input": {
+        "enter name": "Ismingizni kiriting",
+        "enter email": "Po'chtangizni kiriting",
+        "enter pass": "Parolingizni kiriting",
+        "enter old pass": "Parolingizni kiriting",
+        "your name": "Your name",
+        "your company": "Your company name",
+        "your number": "Your phone number",
+        "your pass": "Your password",
+        "your email": "Your email",
+        "error": {
+            "fill all": "",
+            "invalid phone": "",
+            "invalid email": "",
+            "password weak": "",
+            "enter new password": "",
+            "password match": "",
+            "user exist": "",
+            "user not exist": "",
+            "accept terms": "",
+            "password length": ""
+        }
+    }
+}

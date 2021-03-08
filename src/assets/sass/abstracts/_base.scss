@@ -4,6 +4,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  animation: fadeIn .5s ease;
+  animation-fill-mode: backwards;
 }
 
 html {
@@ -42,7 +44,7 @@ svg {
   display: flex;
   width: 2rem;
   height: 2rem;
-  fill: var(--color-light-5)
+  fill: var(--color-light-5);
 }
 
 input,

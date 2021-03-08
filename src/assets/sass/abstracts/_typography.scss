@@ -52,5 +52,15 @@ body {
         font-weight: 500;
         color: var(--color-black);
     }
+
+    &__sub {
+        font-size: 1.6rem;
+        color: var(--color-grey-7);
+
+        @include respond(sm) {
+            font-size: 1.4rem;
+            color: var(--color-grey-dark);
+        }
+    }
 }
 

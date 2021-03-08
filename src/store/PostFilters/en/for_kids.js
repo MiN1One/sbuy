@@ -1,4 +1,5 @@
 const filter = {
+    imagesAllowed: 7,
     items: {
         clothing: {
             inputs: [

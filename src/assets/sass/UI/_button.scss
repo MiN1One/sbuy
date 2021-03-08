@@ -40,7 +40,8 @@
                 background: var(--color-primary);
                 border-color: var(--color-white-opaque-5);
 
-                .icon { fill: #fff !important; }
+                .icon,
+                svg { fill: #fff !important; }
                 &:disabled {
                     background: #fff;
                     color: var(--color-grey-dark);
@@ -48,7 +49,8 @@
                 }
             }
 
-            .icon { fill: var(--color-grey-dark) !important; }
+            .icon,
+            svg { fill: var(--color-grey-dark) !important; }
         }
     }
     
@@ -71,10 +73,12 @@
                 background-color: var(--color-secondary);
                 border-color: var(--color-white-opaque-5);
 
-                .icon { fill: #fff !important; }
+                .icon,
+                svg { fill: #fff !important; }
             }
 
-            .icon { fill: var(--color-grey-dark) !important; }
+            .icon,
+            svg { fill: var(--color-grey-dark) !important; }
         }
     }
 
@@ -97,10 +101,12 @@
                 background-color: var(--color-tertiary);
                 border-color: var(--color-white-opaque-5);
                 
-                .icon { fill: #fff !important; }
+                .icon,
+                svg { fill: #fff !important; }
             }
 
-            .icon { fill: var(--color-grey-dark) !important; }
+            .icon,
+            svg { fill: var(--color-grey-dark) !important; }
         }
     }
 
@@ -149,10 +155,12 @@
                 background-color: var(--color-red);
                 border-color: var(--color-white-opaque-5);
                 
-                .icon { fill: #fff !important; }
+                .icon,
+                svg { fill: #fff !important; }
             }
 
-            .icon { fill: var(--color-grey-dark) !important; }
+            .icon,
+            svg { fill: var(--color-grey-dark) !important; }
         }
     }
 
@@ -180,12 +188,12 @@
         border: 1px solid transparent;
         align-items: center;
         font-size: 1.4rem;
-
         
         &:hover {
             color: var(--color-primary);
             border-color: var(--color-primary-opaque);
             
+            .icon,
             svg { fill: var(--color-primary-opaque) !important; }
         }
         
@@ -193,6 +201,7 @@
             color: var(--color-primary);
             border-color: var(--color-primary-opaque);
     
+            .icon,
             svg { fill: var(--color-primary-opaque) !important; }
 
             &:hover {
@@ -218,6 +227,7 @@
         &:hover {
             background: var(--color-primary);
 
+            .icon,
             svg { fill: #fff; }
         }
 
@@ -229,6 +239,8 @@
 
         &--active {
             background: var(--color-primary);
+            
+            .icon,
             svg { fill: #fff; }
         }
     }

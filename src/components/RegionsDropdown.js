@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Dropdown from './Dropdown';
+import Dropdown from '../UI/Dropdown';
 import * as utils from '../utilities/utilities';
 import Modal from './Modal';
 
