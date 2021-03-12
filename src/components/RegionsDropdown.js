@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 
 import Dropdown from '../UI/Dropdown';
@@ -6,6 +7,8 @@ import * as utils from '../utilities/utilities';
 import Modal from './Modal';
 
 const RegionsDropdown = (props) => {
+
+    const { t } = useTranslation();
 
     let locations = null;
     const itemClass = props.mobile ? 'modal__item' : 'dropdown__item dropdown__item--grid';
@@ -47,7 +50,7 @@ const RegionsDropdown = (props) => {
     const mobileList = props.show 
         &&  <Modal 
                 click={props.close}
-                title={props.base.search_region}
+                title={t('main.search region')}
                 icon="map-pin">
                     <div className="modal__body">
                         <ul className="modal__list">

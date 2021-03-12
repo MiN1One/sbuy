@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 import Dropdown from '../../UI/Dropdown';
 import * as actions from '../../store/actions';
@@ -45,7 +46,7 @@ class Filter extends PureComponent {
 
     render() {
         // ---------- TRANSLATIONS VIA PROPS ---------
-        const t = this.props.base;
+        const { t } = this.props;
 
         const category = this.props.match.params.category;
         const subcategory = this.props.match.params.subcategory;
@@ -60,7 +61,6 @@ class Filter extends PureComponent {
         const filter = this.props.filtersList[category];
         
         if (filter) {
-
             subCatItems = filter.items[subcategory].sub.map((obj, index) => {
 
                 const innerItems = obj.items.map((el, i) => {
@@ -139,10 +139,10 @@ class Filter extends PureComponent {
                     <div className="container">
                         <div className="f__wrapper">
                             <div className="f__list f__list--headline">
-                                <h3 className="heading heading__3 f__heading">{t.filters}</h3>
+                                <h3 className="heading heading__3 f__heading">{t('main.filters')}</h3>
                                 <div className="f__group">
                                     <button className="f__btn f__btn--close btn__sub" onClick={() => this.onClearFilters()}>
-                                        {t.clear}
+                                        {t('main.clear')}
                                         <utils.use styleClass="f__icon ml-5" svg="x" />
                                     </button>
                                 </div>
@@ -151,7 +151,7 @@ class Filter extends PureComponent {
                                 {counters}
                                 {subCatItems}
                                 <li className="f__item">
-                                    <p className="heading__sm">{t.sort}</p>
+                                    <p className="heading__sm">{t('main.sort')}</p>
                                     <div>
                                         <div className="f__input f__input--d input" tabIndex="0">
                                             {sortTitle}
@@ -171,23 +171,23 @@ class Filter extends PureComponent {
                         <div className="f__list f__list--headline f__list--stickline">
                             <ul className="f__group">
                                 <li className="tag tag__types f__item--tags mr-15">
-                                    <a href="#" className="f__link f__link--tags">Lalaku</a>
+                                    <Link to="/" className="f__link f__link--tags">Lalaku</Link>
                                 </li>
                                 <li className="tag tag__types f__item--tags mr-15">
-                                    <a href="#" className="f__link f__link--tags">Baby jackets</a>
+                                    <Link to="/" className="f__link f__link--tags">Baby jackets</Link>
                                 </li>
                                 <li className="tag tag__types f__item--tags f__item--active mr-15">
-                                    <a href="#" className="f__link f__link--tags">Baby Jeans</a>
+                                    <Link to="/" className="f__link f__link--tags">Baby Jeans</Link>
                                 </li>
                                 <li className="tag tag__types f__item--tags mr-15">
-                                    <a href="#" className="f__link f__link--tags">Carriages</a>
+                                    <Link to="/" className="f__link f__link--tags">Carriages</Link>
                                 </li>
                                 <li className="tag tag__types f__item--tags">
-                                    <a href="#" className="f__link f__link--tags">Toys</a>
+                                    <Link to="/" className="f__link f__link--tags">Toys</Link>
                                 </li>
                             </ul>
                             <div className="f__group f__group--breadc h-100">
-                                <Link to="/" className="f__link f__link--route">{t.home}</Link>
+                                <Link to="/" className="f__link f__link--route">{t('main.filters')}</Link>
                                 <span className="f__link f__link--route">&bull;</span>
                                 <Link to={'/' + category} className="f__link f__link--route">{catTitle}</Link>
                                 <span className="f__link f__link--route">&bull;</span>
@@ -201,4 +201,4 @@ class Filter extends PureComponent {
     };
 }
 
-export default withRouter(Filter);
+export default withRouter(withTranslation()(Filter));

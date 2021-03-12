@@ -5,6 +5,7 @@ import SwiperCore, { Navigation, Pagination } from 'swiper';
 import Rating from 'react-rating';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { useTranslation } from 'react-i18next';
 
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
@@ -25,6 +26,8 @@ const MobileAdview = (props) => {
     const history = useHistory();
     const location = useLocation();
     const params = useParams();
+
+    const { t } = useTranslation();
 
     const attachmentRef = useRef();
     const messageRef = useRef();

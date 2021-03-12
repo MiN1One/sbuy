@@ -41,12 +41,12 @@ function App(props) {
     watch();
     mediaSM.onchange = watch;
     //   reqInterceptor = axios.interceptors.request.use(req => {
-    //     setState({error: null})
+    //  
     //     return req;
     // });
 
     // resInterceptor = axios.interceptors.response.use(res => res, error => {
-    //     setState({error: error});
+    //
     // });
   }
   

@@ -183,7 +183,6 @@ const MobileNav = (props) => {
                                         <button className="m-nav__link" onClick={() => props.onLogOut()}>
                                             <div className="d-flex ac">
                                                 <utils.use styleClass="icon--7 icon--dark mr-1" svg="log-out" />
-                                                {/* {t.logout} */}
                                                 {t('nav.logout')}
                                             </div>
                                             <utils.use styleClass="icon--7 icon--dark" svg="chevron-right" />
@@ -216,8 +215,6 @@ const MobileNav = (props) => {
                         <div className="container h-100">
                             <div className="d-flex ac jc h-100">
                                 {!props.token 
-                                    // ? <Link to="/signin" className="modal__btn">{t.sign}</Link> 
-                                    // : <Link to="/post-new" className="modal__btn">{t.advert}</Link>
                                 }
                             </div>
                         </div>

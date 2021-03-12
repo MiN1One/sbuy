@@ -5,6 +5,7 @@ import SwiperCore, { Scrollbar, Mousewheel, Pagination, Navigation } from 'swipe
 import Rating from 'react-rating';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import 'swiper/swiper.scss';
@@ -174,6 +175,9 @@ class Adview extends PureComponent {
     }
 
     render() {
+        // Translations
+        const { t } = this.props;
+
         const category = this.props.match.params.category;
         const subcategory = this.props.match.params.subcategory;
         const id = this.props.match.params.id;
@@ -237,7 +241,7 @@ class Adview extends PureComponent {
                         </Link>
                     );
                 })}
-                <button className="adview__card-btn">See all</button>
+                <button className="adview__card-btn">{t('translation:main.see all')}</button>
             </React.Fragment>
         );
 
@@ -285,15 +289,15 @@ class Adview extends PureComponent {
                                         <div className="adview__group adview__group--nav">
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto afs" onClick={() => this.onClickPrev()}>
                                                 <utils.use styleClass="icon--7" svg="chevron-left" />
-                                                Previous Ad
+                                                {t('ad:prev ad')}
                                             </button>
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey adview__btn--routes DTool pos-rel wh-auto afs" onClick={() => this.onClickNext()}>
-                                                Next Ad
+                                                {t('ad:next ad')}
                                                 <utils.use styleClass="icon--7" svg="chevron-right" />
                                             </button>
                                             <button className="adview__btn adview__btn--rel adview__btn--bggrey DTool pos-rel DTool DTool--bottom no-transition" onClick={() => this.closePopup()}>
                                                 <utils.use styleClass="icon--7" svg="x" />
-                                                <Tooltip>Close</Tooltip>
+                                                <Tooltip>{t('translation:main.close')}</Tooltip>
                                             </button>
                                         </div>
                                     </div>
@@ -322,11 +326,11 @@ class Adview extends PureComponent {
                                                         <div className="adview__group adview__group--abs">
                                                             <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner mr-2 pos-rel no-transition" onClick={() => this.onRotate()}>
                                                                 <utils.use styleClass="icon--7" svg="rotate-cw" />
-                                                                <Tooltip>Rotate the photo</Tooltip>
+                                                                <Tooltip>{t('ad:rotate photo')}</Tooltip>
                                                             </button>
                                                             <button className="adview__btn DTool adview__btn--rel adview__btn--abs adview__btn--corner pos-rel no-transition" onClick={() => this.onGoFullScreen()}>
                                                                 <utils.use styleClass="icon--7" svg="maximize" />
-                                                                <Tooltip>Full Screen</Tooltip>
+                                                                <Tooltip>{t('ad:fullscreen')}</Tooltip>
                                                             </button>
                                                         </div>
                                                         <div className="swiper-pagination"></div>
@@ -337,7 +341,7 @@ class Adview extends PureComponent {
                                                             <h1 className="heading heading__1" data-premium={ad.premium}>
                                                                 {ad.title}
                                                                 <span className="badge ml-1">
-                                                                    Promoted
+                                                                    {t('translation:main.premium badge')}
                                                                 </span>
                                                             </h1>
                                                             <div className="adview__subheading mb-1">
@@ -352,7 +356,7 @@ class Adview extends PureComponent {
                                                         <div className="adview__group">
                                                             <button className="adview__btn adview__btn--rel DTool pos-rel no-transition">
                                                                 <utils.use styleClass="icon--7" svg="share" />
-                                                                <Tooltip>Share</Tooltip>
+                                                                <Tooltip>{t('ad:share')}</Tooltip>
                                                             </button>
                                                             <button 
                                                                 className="adview__btn adview__btn--rel DTool pos-rel no-transition" 
@@ -362,7 +366,7 @@ class Adview extends PureComponent {
                                                                         ? <FaHeart className="icon--7" />
                                                                         : <FaRegHeart className="icon--7" />
                                                                     }
-                                                                    <Tooltip>{!isFavorite ? 'Add to favourites' : 'Remove from favorites'}</Tooltip>
+                                                                    <Tooltip>{!isFavorite ? t('translation:main.add to fav') : t('translation:main.remove from fav')}</Tooltip>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -370,11 +374,11 @@ class Adview extends PureComponent {
                                             </div>
                                             <div className="adview__box adview__box--description">
                                                 <div className="adview__description-head">
-                                                    <h2 className="heading heading__2 d-flex">Description</h2>
-                                                    <p className="adview__title">Number of views: 153&nbsp;&nbsp;|&nbsp;&nbsp;Edited at 13:16</p>
+                                                    <h2 className="heading heading__2 d-flex">{t('ad:description')}</h2>
+                                                    <p className="adview__title">{t('ad:num views')}: 153&nbsp;&nbsp;|&nbsp;&nbsp;{t('ad:edited at')} 13:16</p>
                                                 </div>
                                                 <div className="adview__group fdc afs mb-1">
-                                                    <p className="heading heading__5 mb-1">Secifications:</p>
+                                                    <p className="heading heading__5 mb-1">{t('ad:specs')}:</p>
                                                     <ul className="adview__group adview__group--wrap">
                                                         <li className="tag tag__types mb-1">Camera: 100MP</li>
                                                         <li className="tag tag__types mb-1">CPU: Snapdragon 865</li>
@@ -386,7 +390,7 @@ class Adview extends PureComponent {
                                                     </ul>
                                                 </div>
                                                 <div className="adview__group fdc afs">
-                                                    <p className="heading heading__5 mb-1">Personalized description:</p>
+                                                    <p className="heading heading__5 mb-1">{t('ad:personalized des')}:</p>
                                                     <p className="adview__text">
                                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras viverra odio vel risus consequat feugiat. Vivamus nec lorem auctor felis suscipit ullamcorper sit amet non orci. Sed ornare justo eu arcu convallis venenatis. Sed luctus maximus viverra. Nullam sit amet urna fermentum, dignissim urna semper, auctor mi. Mauris pulvinar porta augue, sodales ultricies urna placerat vitae.
                                                     </p>
@@ -401,11 +405,11 @@ class Adview extends PureComponent {
                                                 </figure>
                                                 <Link to="/user/john_doe" className="adview__item adview__item--name anim-link pos-rel no-transition">John Doe</Link>
                                                 <span className="adview__item adview__item--titled">
-                                                    <span className="adview__title mb-5">Enterprise</span>
+                                                    <span className="adview__title mb-5">{t('ad:enterprise')}</span>
                                                     <Link to="/company" className="adview__item adview__item--lined">Intech Ltd.</Link>
                                                 </span>
                                                 <span className="adview__item adview__item--titled">
-                                                    <span className="adview__title mb-5">Reviews:</span> 
+                                                    <span className="adview__title mb-5">{t('translation:main.reviews')}:</span> 
                                                     <span className="adview__item">
                                                         <Rating 
                                                             className="adview__item--ratingbar"
@@ -419,7 +423,7 @@ class Adview extends PureComponent {
                                                 </span>
                                                 <div className="adview__item pos-rel no-transition">
                                                     <button className="adview__btn--main btn btn__primary" onClick={() => this.setState({ showNum: true })}>
-                                                        Phone number
+                                                        {t('ad:phone number')}
                                                         <utils.use styleClass="icon--7 ml-5" svg="phone-outgoing" />
                                                     </button>
                                                     {this.state.showNum && 
@@ -435,7 +439,7 @@ class Adview extends PureComponent {
                                                     }
                                                 </div>
                                                 <button className="adview__btn--main adview__item btn btn__secondary" onClick={() => this.onShowMessageBar()}>
-                                                    Write a message
+                                                    {t('translation:input.write message')}
                                                     <utils.use styleClass="icon--7 ml-5" svg="edit-2" />
                                                 </button>
                                             </div>
@@ -445,7 +449,7 @@ class Adview extends PureComponent {
                                                         ? <LoadingSub class="loader--mid" />
                                                         : <>
                                                             <div className="d-flex ac sb w-100 mb-1">
-                                                                <p className="adview__title" ref={this.mesTitleRef}>Write your message:</p>
+                                                                <p className="adview__title" ref={this.mesTitleRef}>{t('translation:input.write your message')}</p>
                                                                 <button className="adview__btn adview__btn--sm adview__btn--rel pos-rel" onClick={() => this.onHideMessageBar()}>
                                                                     <utils.use styleClass="icon--7" svg="x" />
                                                                 </button>
@@ -462,7 +466,7 @@ class Adview extends PureComponent {
                                                                         value={this.state.message} />
                                                                     {this.state.message !== '' && 
                                                                         <span className="adview__title mt-1">
-                                                                            {300 - this.state.message.length} characters left
+                                                                            {300 - this.state.message.length} {t('translation:chars left')}
                                                                         </span>
                                                                     }
                                                                 </div>
@@ -472,11 +476,11 @@ class Adview extends PureComponent {
                                                                         type="button" 
                                                                         className="btn btn__primary btn__primary--outline mr-5 w-50"
                                                                         onClick={() => this.fileRef.current.click()}>
-                                                                        Attach
+                                                                        {t('ad:attach')}
                                                                         <utils.use styleClass="icon--7 icon ml-5" svg="paperclip" />
                                                                     </button>
                                                                     <button type="submit" className="btn btn__primary btn__primary--outline w-50">
-                                                                        Send
+                                                                    {t('ad:send')}
                                                                         <utils.use styleClass="icon--7 icon ml-5" svg="send" />
                                                                     </button>
                                                                 </div>
@@ -517,4 +521,9 @@ class Adview extends PureComponent {
     }
 }
 
-export default withRouter(React.memo(Adview));
+export default 
+    withRouter(
+        React.memo(
+            withTranslation(['ad', 'translation'])(Adview)
+        )
+    );

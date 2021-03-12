@@ -2,12 +2,12 @@ import React, { PureComponent } from "react";
 import { connect } from 'react-redux';
 import imageCompression from 'browser-image-compression';
 import { withRouter } from 'react-router-dom';
+import { withTranslation } from "react-i18next";
 
 import * as utils from '../../utilities/utilities';
 import Dropdown from '../../UI/Dropdown';
 import LoadingScreen from '../../UI/LoadingScreen';
 import './Post.scss';
-import { withTranslation } from "react-i18next";
 
 class Post extends PureComponent {
     constructor(props) {
@@ -236,6 +236,8 @@ class Post extends PureComponent {
     }
 
     render() {
+        const { t } = this.props;
+
         const typesArr = [];
         for (let key in this.state.types) {
             typesArr.push({
@@ -350,8 +352,9 @@ class Post extends PureComponent {
                             <utils.use 
                                 styleClass={`post__icon ${i === 0 ? 'post__icon--main mb-1' : ''}`} 
                                 svg={i === 0 ? 'image' : 'plus'} />
-                            {i === 0 && 
-                                <span className="post__prompt">Click here to uload main photo</span>
+                            {i === 0 && (
+                                    !this.state.images[0] && <span className="post__prompt">{t('ad:click to upload')}</span>
+                                )
                             }
                     </figure>
                     {this.state.images[i] && 
@@ -373,7 +376,7 @@ class Post extends PureComponent {
                         <div className="post__wrapper">
                             {!this.props.class && 
                                 <div className="post__head">
-                                    <h2 className="heading heading__2 mb-1">Post new add</h2>
+                                    <h2 className="heading heading__2 mb-1">{t('ad:post new')}</h2>
                                     <span className="post__text">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id tellus a eros vulputate euismod in at orci. Ut felis ipsum, bibendum vitae elit viverra, consectetur tincidunt lorem. Donec lectus.
                                     </span>
@@ -382,7 +385,7 @@ class Post extends PureComponent {
                             {this.state.error && <p className="post__hint post__hint--red mb-2">{this.state.error}</p>}
                             <div className="post__main">
                                 <div className="post__group">
-                                    <p className="post__title mb-1">Add photos</p>
+                                    <p className="post__title mb-1">{t('ad:post new')}</p>
                                     <div className="post__uploadbox">
                                         {imageFields}
                                         <input 
@@ -399,7 +402,7 @@ class Post extends PureComponent {
                                     </p>
                                 </div>
                                 <div className="post__group post__group--title">
-                                    <p className="post__title mb-1">Main title</p>
+                                    <p className="post__title mb-1">{t('ad:enter title')}</p>
                                     <label className="post__label">
                                         <input
                                             type="text"
@@ -408,19 +411,19 @@ class Post extends PureComponent {
                                             onChange={(e) => this.onInputTitle(e)}
                                             value={this.state.mainTitle} 
                                             maxLength="35" />
-                                        <span className="post__counter mt-1">{35 - this.state.mainTitle.length} characters left</span>
+                                        <span className="post__counter mt-1">{35 - this.state.mainTitle.length} {t('translation:input.chars left')}</span>
                                     </label>
                                     <p className="post__hint mt-1">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam maximus nibh vel hendrerit maximus. Proin imperdiet elit ipsum, in maximus lectus faucibus in. Praesent eu nunc ut quam mattis rhoncus.
                                     </p>
                                 </div>
                                 <div className="post__group">
-                                    <p className="post__title mb-1">Category</p>
-                                    {this.props.class && <p className="post__hint post__hint--red mb-1">You cannot change category</p>}
+                                    <p className="post__title mb-1">{t('ad:category')}</p>
+                                    {this.props.class && <p className="post__hint post__hint--red mb-1">{t('ad:warn category change')}</p>}
                                     <button className="post__input post__input--cat post__input--cat-main" onClick={() => this.onOpenCatPop()}>
                                         <span className="post__val">
                                             {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.props.categories[this.state.activeAfter].icon} />}
-                                            {title ? title : 'Select category'}
+                                            {title ? title : t('ad:select category')}
                                         </span>
                                         <utils.use styleClass="post__icon icon post__icon--cat-arrow" svg="chevron-right" />
                                     </button>
@@ -473,7 +476,7 @@ class Post extends PureComponent {
                                                 </div>
                                             }
                                         </div>
-                                        <p className="post__title mb-1">Type of business</p>
+                                        <p className="post__title mb-1">{t('ad:type of business')}</p>
                                         <div className="w-100 pos-rel">
                                             <div className="post__input post__input--cat post__input--drop" tabIndex="0">
                                                 {utils.capitalize(this.state.business_type)}
@@ -481,10 +484,10 @@ class Post extends PureComponent {
                                             </div>
                                             <Dropdown class="dropdown--full dropdown--close dropdown--sm-s post__dropdown">
                                                 <div className="dropdown__item" onClick={() => this.onChangeBusinessType('individual')}>
-                                                    <div className="dropdown__link post__dropitem">Individual</div>
+                                                    <div className="dropdown__link post__dropitem">{t('ad:individual')}</div>
                                                 </div>
                                                 <div className="dropdown__item" onClick={() => this.onChangeBusinessType('business')}>
-                                                    <div className="dropdown__link post__dropitem">Business</div>
+                                                    <div className="dropdown__link post__dropitem">{t('ad:business')}</div>
                                                 </div>
                                             </Dropdown>
                                         </div>
@@ -493,7 +496,7 @@ class Post extends PureComponent {
                                     <div className="post__group">{inputItems}</div>
                                 </div>
                                 <div className="post__group post__group--description">
-                                    <p className="post__title mb-1">Personalized description</p>
+                                    <p className="post__title mb-1">{t('ad:personalized des')}</p>
                                     <label className="post__label">
                                         <textarea 
                                             className="post__input post__input--description" 
@@ -501,7 +504,7 @@ class Post extends PureComponent {
                                             value={this.state.description}
                                             onChange={(e) => this.onInputDescription(e)}
                                             maxLength="4500"></textarea>
-                                        <span className="post__counter mt-1">{4500 - this.state.description.length} characters left</span>
+                                        <span className="post__counter mt-1">{4500 - this.state.description.length} {t('translation:input.chars left')}</span>
                                     </label>
                                     <p className="post__hint mt-1">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. In id nulla porta, rutrum enim eget, luctus neque. Cras scelerisque imperdiet.
@@ -509,15 +512,17 @@ class Post extends PureComponent {
                                 </div>
                             </div>
                             <div className="post__head post__head--doubleline">
-                                <h2 className="heading heading__2 mb-1">Contact details</h2>
+                                <h2 className="heading heading__2 mb-1">{t('ad:contact details')}</h2>
                                 <span className="post__text">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mattis.
                                 </span>
                             </div>
                             <div className="post__main">
                                 <div className="post__group">
-                                    <p className="post__title mb-1">Contact numbers</p>
-                                    {this.state.numbers.length > 1 && <p className="post__text mb-1">If you do not want to add a number laeve number field empty</p>}
+                                    <p className="post__title mb-1">{t('ad:contact number')}</p>
+                                    {this.state.numbers.length > 1 && 
+                                        <p className="post__text mb-1">{t('ad:num leave empty')}</p>
+                                    }
                                     <div className="post__double-form w-100 pos-rel">
                                         <input 
                                             type="text" 
@@ -531,14 +536,14 @@ class Post extends PureComponent {
                                         </button>
                                     </div>
                                     {numbers}
-                                    <p className="post__title mb-1 mt-15">Email address</p>
+                                    <p className="post__title mb-1 mt-15">{t('ad:email')}</p>
                                     <input 
                                         type="text"
                                         placeholder="Your email address (optional)"
                                         className="post__input mb-15"
                                         value={this.state.email}
                                         onChange={(e) => this.setState({ email: e.target.value })} />
-                                    <p className="post__title mb-1">Contact Name</p>
+                                    <p className="post__title mb-1">{t('ad:name')}</p>
                                     <input 
                                         type="text"
                                         placeholder="Your contact name"
@@ -552,7 +557,7 @@ class Post extends PureComponent {
                             <div className="container">
                                 <div className="post__footwrap">
                                     <button className="btn post__btn-main btn__primary" onClick={() => this.onSubmitPost()}>
-                                        Post
+                                        {t('ad:post')}
                                         <utils.use styleClass="icon ml-5" svg="check-circle" />
                                     </button>
                                 </div>
@@ -574,4 +579,4 @@ const mapStateToProps = state => ({
     mobile: state.data.mediaSmall
 });
 
-export default connect(mapStateToProps)(withRouter(withTranslation()(Post)));
+export default connect(mapStateToProps)(withRouter(withTranslation(['ad', 'translation'])(Post)));

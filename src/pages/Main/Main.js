@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
+import { trackWindowScroll } from 'react-lazy-load-image-component';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -155,7 +156,7 @@ class Main extends PureComponent {
 
     render() {
         // --------- TRANSLATIONS VIA PROPS ---------
-        const t = this.props.base;
+        const { t } = this.props;
 
         const premiumArr = this.state.data.filter(el => el.premium === true);
         const premium = premiumArr.map((el, i) => <Card data={el} key={i} />);
@@ -249,20 +250,20 @@ class Main extends PureComponent {
                             <div className="main__wrapper">
                                 <div className="main__head">
                                     <div className="main__group">
-                                        <h2 className="heading heading__2 main__heading mb-5 mr-1">{t.premium_ads}</h2>
-                                        <Link to="/all" className="btn__sub btn__sub--active">{t.see_all}</Link>
+                                        <h2 className="heading heading__2 main__heading mb-5 mr-1">{t('main.premium ads')}</h2>
+                                        <Link to="/all" className="btn__sub btn__sub--active">{t('main.see all')}</Link>
                                     </div>
-                                    <span className="heading__sub">{t.found_ads[0]} 1,354 {t.found_ads[1]}</span>
+                                    <span className="heading__sub">{t('main.found ads.p1')} 1,354 {t('main.found ads.p2')}</span>
                                 </div>
                                 <div className="main__list">{premium}</div>
                                 <div className="main__head">
-                                    <h2 className="heading heading__2 main__heading mb-5">{t.usual_ads}</h2>
-                                    <span className="heading__sub">{t.found_ads[0]} 4,635 {t.found_ads[1]}</span>
+                                    <h2 className="heading heading__2 main__heading mb-5">{t('main.usual ads')}</h2>
+                                    <span className="heading__sub">{t('main.found ads.p1')} 4,635 {t('main.found ads.p2')}</span>
                                 </div>
                                 <div className="main__list">{usualAds}</div>
                                 <div className="main__pagination">
                                     <div>
-                                        <span className="heading__sub d-flex mb-1">{t.page}: </span>
+                                        <span className="heading__sub d-flex mb-1">{t('main.page')}: </span>
                                         <div className="d-flex ac">
                                             {this.state.currentPage !== 1 && 
                                                 <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPagePrev()}>
@@ -280,12 +281,12 @@ class Main extends PureComponent {
                                         </div>
                                     </div>
                                     <button className="btn btn__primary btn__primary--outline main__btn" onClick={() => this.onLoadMore()}>
-                                        {t.show_more}
+                                        {t('main.show more')}
                                         <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                     </button>
                                 </div>
                                 <button className="btn btn__primary btn__primary--outline main__btn main__btn--mobile mt-2" onClick={() => this.onLoadMore()}>
-                                    {t.show_more}
+                                    {t('main.show more')}
                                     <utils.use styleClass="icon ml-5" svg="chevrons-down" />
                                 </button>
                             </div>
@@ -335,4 +336,13 @@ const mapDispatchToProps = (dispatch) => ({
     onFilterByOptionsDispatch: (name, val) => dispatch(actions.filterByOptions(name, val))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(React.memo(withTranslation()(Main))));
+export default 
+    connect(mapStateToProps, mapDispatchToProps)(
+        withRouter(
+            React.memo(
+                withTranslation()
+                    (trackWindowScroll(Main)
+                )
+            )
+        )
+    );

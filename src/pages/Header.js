@@ -3,6 +3,8 @@ import { Link, Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SwiperCore, { Autoplay, Navigation, Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { withTranslation } from 'react-i18next';
+import { trackWindowScroll } from 'react-lazy-load-image-component';
 import axios from 'axios';
 
 import 'swiper/swiper.scss';
@@ -13,7 +15,6 @@ import * as utils from '../utilities/utilities';
 import Card from '../components/Card';
 import LoadingScreen from '../UI/LoadingScreen';
 import LoadingSub from '../UI/LoadingSub';
-import { withTranslation } from 'react-i18next';
 
 const AsyncAdview = React.lazy(() => import('./Adview/Adview'));
 
@@ -163,4 +164,4 @@ const mapStateToProps = state => ({
     // base: state.localization.translations.base
 });
 
-export default connect(mapStateToProps)(withRouter(withTranslation()(Header)));
+export default connect(mapStateToProps)(withRouter(withTranslation()(trackWindowScroll(Header))));

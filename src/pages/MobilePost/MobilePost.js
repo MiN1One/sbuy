@@ -372,7 +372,7 @@ const MobilePost = (props) => {
                         <button 
                             className="btn btn__primary btn__primary--outline"
                             onClick={() => console.log(data.images)}>
-                            Post
+                            {t('ad:post')}
                             <utils.use styleClass="ml-5 icon--dark icon--7" svg="check" />
                         </button>
                     </div>
