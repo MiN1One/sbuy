@@ -14,10 +14,11 @@ import { Inbox, Sentbox, Spam } from './Messages';
 import * as actions from '../../store/actions';
 import './Profile.scss';
 import { withTranslation } from 'react-i18next';
-import MobilePost from '../MobilePost/MobilePost';
 
 const AsyncAdview = React.lazy(() => import('../Adview/Adview')); 
 const AsyncPost = React.lazy(() => import('../Post/Post'));
+const AsyncMobilePost = React.lazy(() => import('../MobilePost/MobilePost'));
+const AsyncMobileAdview = React.lazy(() => import('../MobileAdview/MobileAdview'));
 
 class Profile extends PureComponent {
     constructor(props) {
@@ -208,14 +209,19 @@ class Profile extends PureComponent {
                                         <Favorites {...this.props} />
                                     </Route>
                                     <Route path="/user/my_ads/view/:id" exact>
-                                        <AsyncAdview {...this.props} />
+                                        {this.props.mobile
+                                            ? <AsyncMobileAdview {...this.props} />
+                                            : <AsyncAdview {...this.props} />
+                                        }
                                     </Route>
                                     <Route path="/user/my_ads/edit/:id" exact>
-                                        <div className="profile__titlebar">
+                                        <div className="profile__titlebar mb-2">
                                             <h2 className="heading heading__2 profile__heading">{t('ad:edit ad')}</h2>
                                         </div>
-                                        {/* <AsyncPost class="post--edit" /> */}
-                                        <MobilePost />
+                                        {this.props.mobile
+                                            ? <AsyncMobilePost edit />
+                                            : <AsyncPost edit />
+                                        }
                                     </Route>
                                     <Route path="/user/settings" exact>
                                         <Settings {...this.props} />
@@ -242,9 +248,7 @@ const mapStateToProps = state => ({
     favorites: state.user.favorites,
     token: state.user.token,
     regions: state.localization.translations.regionsList,
-    
-    // translations
-    base: state.localization.translations.base
+    mobile: state.data.mediaSmall,
 });
 
 const mapDispatchToProps = dispatch => ({

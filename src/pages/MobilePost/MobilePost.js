@@ -254,13 +254,15 @@ const MobilePost = (props) => {
         <>
             {loading && <LoadingScreen class="loadingScreen--abs" />}
             <div className="m-post">
-                <div className="container">
-                    <div className="m-post__head">
-                        <h2 className="heading heading__2">{t('ad:post ad')}</h2>
-                        <p className="m-post__text">
-                            {t('ad:post warning')}
-                        </p>
-                    </div>
+                <div className={`container ${props.edit ? 'w-auto p-0' : ''}`}>
+                    {!props.edit &&
+                        <div className="m-post__head">
+                            <h2 className="heading heading__2">{t('ad:post ad')}</h2>
+                            <p className="m-post__text">
+                                {t('ad:post warning')}
+                            </p>
+                        </div>
+                    }
                     <div className="list w-100">
                         <div className="m-post__item">
                             <span className="m-post__title">{t('ad:enter title')}</span>

@@ -10,13 +10,11 @@
         background: #fff;
 
         .container {
-            padding: 0!important;
+            padding: 0 !important;
             width: auto !important;
         }
 
-        .post__figure {
-            background: var(--color-white-bg-secondary);
-        }
+        .post__figure { background: var(--color-white-bg-secondary); }
         
         .post__input {
             background: var(--color-white-bg-secondary);
@@ -24,14 +22,7 @@
             &:focus { box-shadow: none; }
         }
 
-        .post__main {
-            padding-top: 2rem;
-        }
-
-        .post__wrapper {
-            padding: 0 4rem;
-            padding-top: 3rem;
-        }
+        .post__wrapper { padding: 0 4rem; }
 
         .post__group {
             width: calc((100% - 3rem) / 2);
@@ -127,7 +118,7 @@
         display: flex;
         flex-wrap: wrap;
         overflow: hidden;
-    } 
+    }
 
     &__group {
         display: flex;

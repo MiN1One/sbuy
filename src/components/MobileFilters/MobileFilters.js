@@ -8,7 +8,7 @@ import './MobileFilters.scss';
 
 const MobileFilters = (props) => {
     // ---------- TRANSLATIONS VIA PROPS ---------
-    const t = useTranslation();
+    const { t } = useTranslation();
 
     const [modal, setModal] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);

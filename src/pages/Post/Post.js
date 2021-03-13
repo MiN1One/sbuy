@@ -59,7 +59,7 @@ class Post extends PureComponent {
     }
 
     watchMedia = () => {
-        if (this.props.mobile && !this.props.class) this.setState({ categoriesComponent: React.lazy(() => import('../../components/MobileCats/MobileCats')) });
+        if (this.props.mobile && !this.props.edit) this.setState({ categoriesComponent: React.lazy(() => import('../../components/MobileCats/MobileCats')) });
         else if (!this.props.mobile) this.setState({ categoriesComponent: React.lazy(() => import('../../components/CategoriesFull/CategoriesFull')) });
     }
 
@@ -120,7 +120,7 @@ class Post extends PureComponent {
     onChangeAdType = (type) => this.setState({ adType: type });
 
     onOpenCatPop = () => {
-        if (!this.props.class) this.setState({ showCat: true });
+        if (!this.props.edit) this.setState({ showCat: true });
     }
     onCloseCatPop = () => this.setState({ showCat: false });
 
@@ -326,7 +326,7 @@ class Post extends PureComponent {
 
         const Categories = this.state.categoriesComponent && this.state.categoriesComponent;
         let categories = null;
-        if (!this.props.class && Categories) {
+        if (!this.props.edit && Categories) {
             categories = <Categories 
                 clickMain={this.setActiveCat}
                 clickSub={this.onSelectSubCat} 
@@ -371,10 +371,10 @@ class Post extends PureComponent {
         return (
             <React.Fragment>
                 {this.state.loading && <LoadingScreen class="loadingScreen--abs" />}
-                <section className={`post ${this.props.class || ''}`}>
+                <section className={`post ${this.props.edit ? 'post--edit' : ''}`}>
                     <div className="container">
                         <div className="post__wrapper">
-                            {!this.props.class && 
+                            {!this.props.edit && 
                                 <div className="post__head">
                                     <h2 className="heading heading__2 mb-1">{t('ad:post new')}</h2>
                                     <span className="post__text">
@@ -419,7 +419,9 @@ class Post extends PureComponent {
                                 </div>
                                 <div className="post__group">
                                     <p className="post__title mb-1">{t('ad:category')}</p>
-                                    {this.props.class && <p className="post__hint post__hint--red mb-1">{t('ad:warn category change')}</p>}
+                                    {this.props.edit && 
+                                        <p className="post__hint post__hint--red mb-1">{t('ad:warn category change')}</p>
+                                    }
                                     <button className="post__input post__input--cat post__input--cat-main" onClick={() => this.onOpenCatPop()}>
                                         <span className="post__val">
                                             {this.state.activeAfter && <utils.useCat styleClass="post__icon post__icon--cat icon__dark mr-1" svg={this.props.categories[this.state.activeAfter].icon} />}
@@ -566,7 +568,7 @@ class Post extends PureComponent {
                     </div>
                 </section>
 
-                {(this.state.showCat && !this.props.class) && categories}
+                {(this.state.showCat && !this.props.edit) && categories}
             </React.Fragment>
         );
     }

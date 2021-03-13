@@ -6,8 +6,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 import * as utils from '../../utilities/utilities';
 import LoadingScreen from '../../UI/LoadingScreen';
+import Placeholder from './Placeholder';
 
-export const Conversation = () => {
+export const Conversation = ({ t }) => {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
 
@@ -49,7 +50,7 @@ export const Conversation = () => {
                     onChange={(e) => setMessage(e.target.value)} 
                     value={message} />
                 <button className="btn btn__secondary btn__secondary--outline profile__btn-send">
-                    Send
+                    {t('ad:send')}
                     <utils.use styleClass="icon--7 icon--dark ml-5" svg="send" />
                 </button>
             </div>
@@ -58,7 +59,7 @@ export const Conversation = () => {
     );
 };
 
-export const Inbox = (props) => {
+export const Inbox = ({ t }) => {
 
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
@@ -79,21 +80,11 @@ export const Inbox = (props) => {
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     let view = null;
-    if (false) {
-        view = (
-            <div className="profile__empty">
-                <div>
-                    <FcFeedback className="profile__icon--large mb-1" />
-                    Nothing here to display
-                </div>
-            </div>
-        );
-    }
 
     return (
         <React.Fragment>
             <div className="profile__titlebar">
-                <h2 className="heading heading__2 profile__heading">Inbox</h2>
+                <h2 className="heading heading__2 profile__heading">{t('translation:nav.inbox')}</h2>
             </div>
             {view}
             <ul className="profile__messages-list">
@@ -108,11 +99,11 @@ export const Inbox = (props) => {
                     <div className="profile__messages-btn">
                         <button className="profile__btn profile__btn--control">
                             <utils.use styleClass="profile__icon profile__icon--small" svg="trash-2" />
-                            <span className="profile__btn-title">Add to spam</span>
+                            <span className="profile__btn-title">{t('ad:add spam')}</span>
                         </button>
                         <button className="profile__btn profile__btn--control">
                             <utils.use styleClass="profile__icon profile__icon--small" svg="edit" />
-                            <span className="profile__btn-title">Reply</span>
+                            <span className="profile__btn-title">{t('ad:spam')}</span>
                         </button>
                     </div>
                 </li>
@@ -121,7 +112,7 @@ export const Inbox = (props) => {
     );
 };
 
-export const Sentbox = (props) => {
+export const Sentbox = ({ t }) => {
 
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
@@ -157,7 +148,7 @@ export const Sentbox = (props) => {
     return (
         <React.Fragment>
             <div className="profile__titlebar">
-                <h2 className="heading heading__2 profile__heading">Sentbox</h2>
+                <h2 className="heading heading__2 profile__heading">{t('translation:nav.sentbox')}</h2>
             </div>
             <div className="profile__content">
                 {view}
@@ -166,7 +157,7 @@ export const Sentbox = (props) => {
     );
 };
 
-export const Spam = (props) => {
+export const Spam = ({ t }) => {
 
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState(null);
@@ -188,21 +179,12 @@ export const Spam = (props) => {
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     let view = null;
-    if (true) {
-        view = (
-            <div className="profile__empty">
-                <div>
-                    <FcEmptyTrash className="profile__icon--large mb-1" />
-                    Nothing here to display
-                </div>
-            </div>
-        );
-    }
+    if (true) return <Placeholder />
 
     return (
         <React.Fragment>
             <div className="profile__titlebar">
-                <h2 className="heading heading__2 profile__heading">Spam</h2>
+                <h2 className="heading heading__2 profile__heading">{t('tranlsation:nav.spam')}</h2>
             </div>
             <div className="profile__content">
                 {view}
