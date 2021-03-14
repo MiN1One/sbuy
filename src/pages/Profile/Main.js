@@ -26,7 +26,8 @@ export class User extends PureComponent {
 
         this.figureRef = React.createRef();
         this.imgRef = React.createRef();
-        this.source = axios.CancelToken.source();
+
+        this._isMounted = false;
     }
 
     onInputData = (val, name) => {
@@ -40,25 +41,29 @@ export class User extends PureComponent {
 
     fetchData = () => {
         this.setState({ loading: true });
-        axios.get('https://jsonplaceholder.typicode.com/todos', { cancelToken: this.source.token })
+        axios('https://jsonplaceholder.typicode.com/todos')
             .then(res => {
-                setTimeout(() => {
+                if (this._isMounted) {
                     console.log(res.data);
                     this.setState({ loading: false });
-                }, 2000);
+                }
             })
             .catch(er => {
-                if (axios.isCancel(er)) console.log("axios request cancelled", er.message);
-                this.setState({ loading: false });
+                if (this._isMounted) {
+                    console.error(er.message);
+                    this.setState({ loading: false });
+                }
             });
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.fetchData();
     }
 
     componentWillUnmount() {
-        this.source.cancel("Canceled");
+        this._isMounted = false;
+        // source.cancel("Canceled");
     }
 
     onToggleEditMode = () => this.setState(prevState => {
@@ -271,6 +276,7 @@ export class Company extends PureComponent {
 
         this.figureRef = React.createRef();
         this.imgRef = React.createRef();
+        this._isMounted = false;
     }
 
     onInputData = (val, name) => {
@@ -287,8 +293,9 @@ export class Company extends PureComponent {
         axios('https://jsonplaceholder.typicode.com/todos')
             .then(res => {
                 setTimeout(() => {
-                    
-                    this.setState({ loading: false });
+                    if (this._isMounted) {
+                        this.setState({ loading: false });
+                    }
                 }, 2000);
             })
             .catch(er => {
@@ -298,7 +305,12 @@ export class Company extends PureComponent {
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.fetchData();
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     onToggleEditMode = () => this.setState(prevState => {

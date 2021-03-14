@@ -34,6 +34,7 @@ const MobileAdview = (props) => {
     const modalRef = useRef();
 
     const [swiper, setSwiper] = useState(null);
+    const [adsSwiper, setAdsSwiper] = useState(null);
 
     const [activeImageIndex, setActiveImageIndex] = useState(0);
     const [fullscreen, setFullscreen] = useState(false);
@@ -57,6 +58,7 @@ const MobileAdview = (props) => {
 
     useEffect(() => {
         if (swiper) swiper.update();
+        if (adsSwiper) adsSwiper.update();
     });
 
     const onCloseModal = () => {
@@ -274,7 +276,8 @@ const MobileAdview = (props) => {
                                     className="m-adview__cards mb-2"
                                     navigation={{ prevEl: '.m-adview__card-btn--left', nextEl: '.m-adview__card-btn--right' }}
                                     slidesPerView={2}
-                                    breakpoints={{ 600: { slidesPerView: 3 } }}>
+                                    breakpoints={{ 600: { slidesPerView: 3 } }}
+                                    onSwiper={(sw) => setAdsSwiper(sw)}>
                                         {adsFrom}
                                         <button className="m-adview__card-btn m-adview__card-btn--left">
                                             <utils.use styleClass="icon--7" svg="chevron-left" />

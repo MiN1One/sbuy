@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
 import { trackWindowScroll } from 'react-lazy-load-image-component';
 import { connect } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import axios from 'axios';
 
 import Card from '../../components/Card';
@@ -10,7 +11,6 @@ import * as utils from '../../utilities/utilities';
 import LoadingScreen from '../../UI/LoadingScreen';
 import * as actions from '../../store/actions';
 import './Main.scss';
-import { withTranslation } from 'react-i18next';
 
 const AsyncAdview = React.lazy(() => import('../Adview/Adview'));
 const AsyncMobileAdview = React.lazy(() => import('../MobileAdview/MobileAdview'));
@@ -22,23 +22,29 @@ class Main extends PureComponent {
         currentPage: parseInt(utils.getQueryParamValue('page')),
         numberOfPages: 41,
         pagesInterval: 5,
-        filterComponent: null
+        filterComponent: null,
+
+        isSearch: (utils.getQueryParamValue('key') && this.props.location.pathname.includes('/search')) ? true : false
     }
-        
+
+    _isMounted = false;
+
     fetchData = async () => {
-        try {
-            this.setState({ loading: true });
-            const data = await axios(`https://jsonplaceholder.typicode.com/todos/${this.state.currentPage}`);
-
-            setTimeout(() => {
+        if (this._isMounted) {
+            try {
+                this.setState({ loading: true });
+                const data = await axios(`https://jsonplaceholder.typicode.com/todos/${this.state.currentPage}`);
+    
+                setTimeout(() => {
+                    this.setState({ loading: false });
+                }, 0);
+    
+                return data;
+            } catch(er) {
+                console.log(er);
                 this.setState({ loading: false });
-            }, 0);
-
-            return data;
-        } catch(er) {
-            console.log(er);
-            this.setState({ loading: false });
-        }
+            }
+        } else return null;
     }
 
     setPageIfNone = () => {
@@ -79,18 +85,18 @@ class Main extends PureComponent {
     }
 
     async componentDidMount() {
+        this._isMounted = true;
         this.importFilters();
         this.setPageIfNone();
         const data = await this.fetchData();
 
         this.watchMedia();
-        console.log(this.state.currentPage);
+        console.log(this.props.location.pathname);
     }
 
     async componentDidUpdate(prevProps, prevState) {
         if (!utils.objectEqual(prevProps.filters, this.props.filters)) {
             const data = await this.fetchData();
-            // this.setState({ data });
         }
 
         if (isNaN(this.state.currentPage) || !this.state.currentPage) this.setState({ currentPage: 1 });
@@ -104,6 +110,12 @@ class Main extends PureComponent {
         }
 
         if (prevProps.mobile !== this.props.mobile) this.watchMedia();
+
+        console.log(this.state.isSearch);
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     onGoToPage = (page) => {
@@ -115,8 +127,8 @@ class Main extends PureComponent {
 
                     this.setState({ data: this.props.data });
 
-                    const search = `&key=${utils.getQueryParamValue('key')}`;
-                    this.props.history.push(`?page=${page}${search || ''}`);
+                    const search = utils.getQueryParamValue('key') ? `&key=${utils.getQueryParamValue('key')}` : '';
+                    this.props.history.push(`?page=${page}${search}`);
                 });
         }
     }
@@ -129,8 +141,8 @@ class Main extends PureComponent {
 
                 this.setState({ data: this.props.data });
 
-                const search = `&key=${utils.getQueryParamValue('key')}`;
-                this.props.history.push(`?page=${this.state.currentPage}${search || ''}`);
+                const search = utils.getQueryParamValue('key') ? `&key=${utils.getQueryParamValue('key')}` : '';
+                this.props.history.push(`?page=${this.state.currentPage}${search}`);
             });
     }
 
@@ -140,8 +152,11 @@ class Main extends PureComponent {
             this.setState(prevState => ({ currentPage: prevState.currentPage - 1 }),
                 async () => {
                     const data = await this.fetchData();
+
                     this.setState({ data: this.props.data });
-                    this.props.history.push(`?page=${this.state.currentPage}`);
+
+                    const search = utils.getQueryParamValue('key') ? `&key=${utils.getQueryParamValue('key')}` : '';
+                    this.props.history.push(`?page=${this.state.currentPage}${search}`);
                 });
     }
 
@@ -256,11 +271,13 @@ class Main extends PureComponent {
                                     <span className="heading__sub">{t('main.found ads.p1')} 1,354 {t('main.found ads.p2')}</span>
                                 </div>
                                 <div className="main__list">{premium}</div>
+
                                 <div className="main__head">
                                     <h2 className="heading heading__2 main__heading mb-5">{t('main.usual ads')}</h2>
                                     <span className="heading__sub">{t('main.found ads.p1')} 4,635 {t('main.found ads.p2')}</span>
                                 </div>
                                 <div className="main__list">{usualAds}</div>
+
                                 <div className="main__pagination">
                                     <div>
                                         <span className="heading__sub d-flex mb-1">{t('main.page')}: </span>
@@ -270,9 +287,7 @@ class Main extends PureComponent {
                                                     <utils.use styleClass="icon icon--dark" svg="chevrons-left" />
                                                 </button>
                                             }
-                                            <div className="main__page-list">
-                                                {pagesList}
-                                            </div>
+                                            <div className="main__page-list">{pagesList}</div>
                                             {this.state.currentPage !== this.state.numberOfPages && 
                                                 <button className="main__page-item main__page-item--btn" onClick={() => this.onClickPageNext()}>
                                                     <utils.use styleClass="icon icon--dark" svg="chevrons-right" />

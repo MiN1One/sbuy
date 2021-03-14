@@ -152,8 +152,8 @@ function App(props) {
   return (
     <Suspense fallback={(<LoadingScreen class="loadingScreen--abs" />)}>
       <div className="App">
-        {loading ? <LoadingScreen class="loadingScreen--abs" /> : routes}
-        {/* {routes} */}
+        {/* {loading ? <LoadingScreen class="loadingScreen--abs" /> : routes} */}
+        {routes}
       </div>
     </Suspense>
   );

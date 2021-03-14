@@ -12,14 +12,14 @@ const MobileFilters = (props) => {
 
     const [modal, setModal] = useState(false);
     const [activeFilter, setActiveFilter] = useState(null);
-    const [tempFilterMain, setTempFilterMain] = useState({});
-    const [tempFilter, setTempFilter] = useState({});
+    const [tempFilter, setTempFilter] = useState({ ...props.filters });
+    const [tempFilterMain, setTempFilterMain] = useState({ ...props.filters });
     const [fromPlaceholder, setFromPlaceholder] = useState(false);
 
     useEffect(() => {
         setTempFilter({ ...props.filters });
         setTempFilterMain({ ...props.filters });
-    }, []);
+    }, [props.filters]);
 
     const onFilterByOptions = (param, val) => {
         if (props[param] !== val) props.onFilterByOptionsDispatch(param, val);
@@ -57,7 +57,10 @@ const MobileFilters = (props) => {
     };
     
     const onApplyOverallChanges = () => {
-        for (let key in tempFilterMain) onFilterByOptions(key, tempFilter[key]);
+        for (let key in tempFilterMain) {
+            onFilterByOptions(key, tempFilterMain[key]);
+            console.log(tempFilterMain[key])
+        }
         setModal(false);
     };
 
@@ -79,8 +82,25 @@ const MobileFilters = (props) => {
     const category = props.match.params.category;
     const subcategory = props.match.params.subcategory;
     const filter = props.filtersList[category];
+
+    if (props.regions) {
+        if (props.searchLocation.length === 1) 
+            regionTitle = props.regions.find(el => el.val === props.searchLocation[0]).title;
+        else {
+            regionTitle = [];
+            props.searchLocation.forEach(item => {
+                const itemTitle = props.regions.find(el => el.val === item).title;
+                regionTitle = [...regionTitle, itemTitle];
+            });
+            regionTitle = utils.limitStrAny(regionTitle.filter(el => {
+                return el && el;
+            }).join(', '), 15, false);
+        }
+    }
     
     if (filter) {
+        
+
         options = filter.items[subcategory].sub.map((obj, index) => {
     
             const defaultTitle = tempFilterMain[obj.val] && obj.items.find(el => el.val === tempFilterMain[obj.val]).title;
@@ -98,21 +118,6 @@ const MobileFilters = (props) => {
             );
 
         });
-
-        if (props.regions) {
-            if (props.searchLocation.length > 1) 
-                regionTitle = props.regions.find(el => el.val === props.searchLocation[0]).title;
-            else {
-                regionTitle = [];
-                props.searchLocation.forEach(item => {
-                    const itemTitle = props.regions.find(el => el.val === item).title;
-                    regionTitle = [...regionTitle, itemTitle];
-                });
-                regionTitle = regionTitle.filter(el => {
-                    return el && el;
-                }).join(', ');
-            }
-        } 
 
         counters = filter.items[subcategory].counters.map((el, i) => {
             return (
@@ -207,11 +212,13 @@ const MobileFilters = (props) => {
             </div>
             <div className="mob-filters__breadcrumbs">
                 <div className="container">
-                    <div className="d-flex h-100 tc">
-                        <Link to={'/' + category} className="mob-filters__link">{catTitle}</Link>
-                        <span className="mob-filters__link">&bull;</span>
-                        <span className="mob-filters__link">{subCatTitle}</span>
-                    </div>
+                    {filter &&
+                        <div className="d-flex h-100 tc">
+                            <Link to={'/' + category} className="mob-filters__link">{catTitle}</Link>
+                            <span className="mob-filters__link">&bull;</span>
+                            <span className="mob-filters__link">{subCatTitle}</span>
+                        </div>
+                    }
                 </div>
             </div>
             {modal && 

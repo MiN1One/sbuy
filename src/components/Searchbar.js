@@ -94,6 +94,7 @@ const Searchbar = (props) => {
                                         onClick={() => {
                                             setSearch('');
                                             props.onFilterByOptions('search', '');
+                                            history.goBack();
                                             }}>
                                         <utils.use styleClass="s__icon s__icon--map s__icon--clear" svg="x" />
                                     </button>

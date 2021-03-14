@@ -34,7 +34,10 @@ class Profile extends PureComponent {
         if (
             !this.props.token && 
             (this.props.match.params.section !== 'favorites')
-            ) this.props.history.push('/signin');
+            ) 
+        { 
+            this.props.history.push('/signin');
+        }
     }
     
     componentDidMount() {

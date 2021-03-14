@@ -179,7 +179,7 @@ export const Spam = ({ t }) => {
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     let view = null;
-    if (true) return <Placeholder />
+    if (true) return <Placeholder />;
 
     return (
         <React.Fragment>

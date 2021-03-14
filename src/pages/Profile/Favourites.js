@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import { FcOpenedFolder } from 'react-icons/fc';
 
+import Placeholder from './Placeholder';
 import { AdFull } from "./Ads/AdCard";
 import LoadingScreen from "../../UI/LoadingScreen";
 
@@ -11,17 +11,23 @@ const Favorites = (props) => {
     const { t } = props;
 
     useEffect(() => {
+        let isMounted = true;
         setLoading(true);
         axios('https://jsonplaceholder.typicode.com/todos')
             .then(res => {
-                setTimeout(() => {
-                    setLoading(false);
-                }, 2000);
+                if (isMounted) {
+                    setTimeout(() => {
+                        setLoading(false);
+                    }, 2000);
+                }
             })
             .catch(er => {
-                
-                setLoading(false);
+                if (isMounted) {
+                    setLoading(false);
+                    console.error(er);
+                }
             });
+        return () => isMounted = false;
     }, []);
 
     const ads = props.data.filter(el => el.favorite === true).map(el => <AdFull el={el} />);
@@ -29,16 +35,7 @@ const Favorites = (props) => {
     if (loading) return <LoadingScreen class="loadingScreen--profile" />;
 
     let view = ads;
-    if (true) {
-        view = (
-            <div className="profile__empty">
-                <div>
-                    <FcOpenedFolder className="profile__icon--large" />
-                    Nothing here to display
-                </div>
-            </div>
-        );
-    }
+    if (true) return <Placeholder t={t} />
 
     return (
         <React.Fragment>

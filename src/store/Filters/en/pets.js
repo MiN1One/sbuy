@@ -1,6 +1,5 @@
 const filter = {
     pets: {
-
         title: 'Pets',
         items: {
             cats: {
