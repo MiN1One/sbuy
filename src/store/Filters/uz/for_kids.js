@@ -25,7 +25,7 @@ const filter = {
                         items: [
                             { val: 'used', title: 'Ishlatilgan' }, 
                             { val: 'new', title: 'Yangi' }, 
-                            { val: 'all', title: 'Hammasi' }
+                            { val: 'all', title: 'All' }
                         ],
                     }
                 ]

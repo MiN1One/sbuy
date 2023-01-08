@@ -14,7 +14,6 @@ export const getRequest = (url, cToken) => {
             console.error(er);
             if (axios.isCancel(er)) {
                 console.error(er);
-                alert('hehe');
             }
         });
 };
